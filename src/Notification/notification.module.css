@@ -1,0 +1,33 @@
+body {
+    font-family: "Courier New";
+    background-color: paleturquoise;
+}
+
+h1 {
+    color:black;
+    display: inline-block; /* Ensures the h1 aligns properly with the floated image */
+    margin-left: 5px; /* Adds some spacing between the image and the text */
+}
+
+img{
+    width:60px;
+    float: left;
+    padding-left: 30px;
+}
+
+ul {
+    list-style-type: none;
+    clear: both;
+}
+
+li{
+    text-align: left;
+    background-color: white;
+    
+    /*Border*/
+    border: 2px solid;
+    border-radius: 5px;
+    margin: 10px 5px 10px;
+    padding: 10px;
+    
+}
