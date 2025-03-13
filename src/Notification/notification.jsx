@@ -4,8 +4,9 @@ import pepper from './img/pepper.png';
 
 
 function Notification () {
+    const num= 0;
    const [notis, setNotis] = useState([]);
-   const randomNotisList = ["Sunny day", "Rainy day", "Snowy day", "Darkies day"];
+   const randomNotisList = ["Sunny day", "Rainy day", "Snowy day", "Darkies day", "Return accepted", "Return denied"];
 
    const handleClick = () => {
     // choose a random notis from randomNotisList
@@ -14,6 +15,8 @@ function Notification () {
 
     // Update notis-array with new notis
     setNotis(prevNotis => [...prevNotis, newNotis]);
+
+   
    };
 
    // remove li item when clicked
@@ -27,7 +30,9 @@ function Notification () {
             <img src={pepper} alt ="pepper" onClick={handleClick} />
         <ul>
             {notis.map((noti, index) => (
-            <li key={index} onClick={()=> removeNotis(index)}>Case {index}: {noti}</li>))
+            <li key={index} onClick={()=> removeNotis(index)}>
+                Case {index}: {noti}
+            </li>))
             }
         </ul>
         </>
