@@ -1,8 +1,11 @@
-import Notification from './Notification/notification.jsx'
+import NotificationBell from './Notification/NotificationBell.jsx';
 
 function App(){
     return(
-        <Notification />
+        <div>
+        <NotificationBell/>
+        </div>
+        
     );
     
 }
