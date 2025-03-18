@@ -1,28 +1,24 @@
-import './header_styles.css';
+import styles from './header.module.css';
 import React from 'react';
-
 
 function Header() {
   return (
-
-<nav class="navbar">
-    <div class="navbar-left">
-        <a href="#" class="navbar-logo">
-            <span class="logo">LOGO</span>
+    <nav className={styles.header}>
+      <div className={styles.headerLeft}>
+        <a href="#" className={styles.headerLogo}>
+          <span className={styles.logo}>LOGO</span>
         </a>
-        <ul class="nav-links">
-            <li><a href="#">Hjem</a></li>
-            <li><a href="#">Ny Sak</a></li>
-            <li><a href="#">Profil</a></li>
+        <ul className={styles.navLinks}>
+          <li><a href="#">Hjem</a></li>
+          <li><a href="#">Ny Sak</a></li>
+          <li><a href="#">Profil</a></li>
         </ul>
-    </div>
-  <div className="navbar-right">
-    <button className="logoutButton">Logg ut</button>
-  </div>
-</nav>
-);
-};
-
-
+      </div>
+      <div className={styles.headerRight}>
+        <button className={styles.logoutButton}>Logg ut</button>
+      </div>
+    </nav>
+  );
+}
 
 export default Header;
