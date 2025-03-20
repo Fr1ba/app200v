@@ -1,5 +1,6 @@
 import styles from './header.module.css';
 import React from 'react';
+import NotificationBell from '../Notification/NotificationBell';
 
 function Header() {
   return (
@@ -14,7 +15,9 @@ function Header() {
           <li><a href="#">Profil</a></li>
         </ul>
       </div>
+      
       <div className={styles.headerRight}>
+        <NotificationBell/>
         <button className={styles.logoutButton}>Logg ut</button>
       </div>
     </nav>
