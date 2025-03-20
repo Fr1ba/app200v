@@ -9,7 +9,7 @@ import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 export default function ProfilePage() {
   return (
     <>
-      <h1>Profil</h1>
+      <h1 className={styles.title}>Profil</h1>
       <div className={styles.wrapper}>
         <form>
           <label className={styles.inputlabel}>
