@@ -1,39 +1,45 @@
 import React from "react";
-import "./ProfilePage.css";
+import styles from "./ProfilePage.module.css";
 import { CiMail } from "react-icons/ci";
 import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 /*<LuPhone /> 
 <CiMail />
 */
 
-export default function ProfilePage() {
+function ProfilePage() {
   return (
     <>
-      <h1>Profil</h1>
-      <div className="wrapper">
+      <h1 className={styles.title}>Profil</h1>
+      <div className={styles.wrapper}>
         <form>
-          <label className="inputLabel">
+          <label className={styles.inputlabel}>
             Epost
-            <div className="inputField">
+            <div className={styles.inputField}>
               <input type="text" placeholder="gbergheyghre@mail.com" />
-              <CiMail className="icon" />
+              <CiMail className={styles.icon} />
             </div>
           </label>
-          <label className="inputLabel">
+          <label className={styles.inputLabel}>
             Mobil
-            <div className="inputField">
+            <div className={styles.inputField}>
               <input type="text" placeholder="+47 93145789" />
-              <LuPhone className="icon" />
+              <LuPhone className={styles.icon} />
             </div>
           </label>
           <input
             type="submit"
-            className="buttons"
+            className={styles.buttons}
             value="Lagre endringer"
           ></input>
-          <input type="button" className="buttons" value="Logg ut"></input>
+          <input
+            type="button"
+            className={styles.buttons}
+            value="Logg ut"
+          ></input>
         </form>
       </div>
     </>
   );
 }
+
+export default ProfilePage();
