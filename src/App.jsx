@@ -5,9 +5,8 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import NotificationBell from './Notification/NotificationBell.jsx';
 
 function App(){
-    return( 
-      <>
-      </
+    return(
+    <CaseList/>
     );
 }
 
