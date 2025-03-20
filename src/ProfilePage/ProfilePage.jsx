@@ -6,7 +6,7 @@ import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 <CiMail />
 */
 
-export default function ProfilePage() {
+function ProfilePage() {
   return (
     <>
       <h1 className={styles.title}>Profil</h1>
@@ -41,3 +41,5 @@ export default function ProfilePage() {
     </>
   );
 }
+
+export default ProfilePage();
