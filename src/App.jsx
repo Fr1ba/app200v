@@ -1,6 +1,11 @@
-//import ...komponent from login
+import Login from './Login/Login.jsx/';
 
 function App(){
-    //return *komponent 
+    return(
+        <div>
+            <Login />
+        </div>
+    )
+};
 
 export default App;
