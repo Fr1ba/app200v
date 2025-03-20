@@ -1,13 +1,11 @@
+import ProfilePage from "./ProfilePage/ProfilePage";
 import NotificationBell from './Notification/NotificationBell.jsx';
 
 function App(){
-    return(
-        <div>
-        <NotificationBell/>
-        </div>
-        
+    return( 
+      <>
+      </
     );
-    
 }
 
 export default App;
