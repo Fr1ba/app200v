@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
+  /*text-align: center;
+  margin: 0px auto;
+  display: block;*/
+}
+.inputField {
+  position: relative; /* This ensures the absolute position of the icon is relative to this container */
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+}
+
+.inputField input {
+  width: 100%; /* Make it take full width */
+  height: 40px;
+  background: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  border: 1px solid rgba(92, 83, 83, 0.468);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #353131;
+  padding: 10px 40px 10px 15px; /* Adjust padding for icon */
+}
+
+.inputField .icon {
+  position: absolute;
+  right: 15px; /* Adjust position inside the input */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: gray;
+}
+
+.buttons {
+  width: 40%;
+  height: 40px;
+  background: #fff;
+  border: none;
+  outline: none;
+  margin: 20px;
+  border-radius: 10px; /*rounded edges */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+}
