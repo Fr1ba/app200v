@@ -9,14 +9,14 @@
 
 
 /* Flex container for subject and Category */
-.form-row {
+.formRow {
     display: flex;
     gap: 20px;
     margin-bottom: 16px;
 }
 
 /* Each form section stacked vertically */
-.form-group {
+.formGroup {
     display: flex;
     flex-direction: column;
 }

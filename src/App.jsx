@@ -7,7 +7,10 @@ import NotificationBell from './Notification/NotificationBell.jsx';
 function App(){
     return( 
       <>
-      </
+        
+        <CreateCase />
+        
+      </>
     );
 }
 
