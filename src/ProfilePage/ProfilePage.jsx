@@ -1,7 +1,7 @@
 import React from "react";
 import "./ProfilePage.css";
 import { CiMail } from "react-icons/ci";
-import { LuPhone } from "react-icons/lu";
+import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 /*<LuPhone /> 
 <CiMail />
 */
