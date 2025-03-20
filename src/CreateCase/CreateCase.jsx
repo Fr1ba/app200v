@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import './createCase.css';
+import styles from './createCase.module.css';
 
 function CreateCase() {
   const [inputs, setInputs] = useState({
@@ -21,12 +21,12 @@ function CreateCase() {
   };
 
   return (
-    <div id="mainContainer">
+    <div id={styles.mainContainer}>
       <h1>Opprett en ny sak</h1>
 
       <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="form-group">
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
             <label id="emneLabel">Emne:</label>
             <input 
               type="text" 
@@ -38,7 +38,7 @@ function CreateCase() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label id="kategoriLabel">Kategori:</label>
             <select 
               id="kategoriInput" 
@@ -54,7 +54,7 @@ function CreateCase() {
           </div>
         </div>
 
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label id="detaljerLabel">Detaljer:</label>
           <textarea
             id="detaljerInput"
@@ -65,13 +65,12 @@ function CreateCase() {
               />
         </div>
 
-        <input type="submit" value="Opprett sak" id="oprettKnapp" />
+        <input type="submit" value="Opprett sak" id={styles.oprettKnapp} />
       </form>
     </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<CreateCase />);
+
 
 export default CreateCase;
