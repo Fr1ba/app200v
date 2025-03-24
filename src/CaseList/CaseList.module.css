@@ -1,0 +1,16 @@
+﻿.filter{
+    margin-top: 100px;
+    margin-left: 45px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    border-radius: 8px;
+}
+
+/*
+.line{
+    border-left: 6px solid gray;
+    height: 500px;
+    margin-left: 600px;
+    display: inline-block;
+    justify-content: space-between;
+}*/
