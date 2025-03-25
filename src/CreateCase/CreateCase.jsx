@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import styles from './createCase.module.css';
+import styles from './CreateCase.module.css';
 
 function CreateCase() {
   const [inputs, setInputs] = useState({
-    emne: '',
-    kategori: '',
-    detaljer: ''
+    subject: '',
+    category: '',
+    details: ''
   });
 
   const handleChange = (event) => {
@@ -17,60 +16,58 @@ function CreateCase() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(JSON.stringify(inputs));
+    alert(`A new ${inputs.category.toLowerCase()} "${inputs.subject}" is opened and is pending.`);
   };
 
   return (
     <div id={styles.mainContainer}>
-      <h1>Opprett en ny sak</h1>
-
+      <h1>Create a New Case</h1>
       <form onSubmit={handleSubmit}>
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label id="emneLabel">Emne:</label>
-            <input 
-              type="text" 
-              id="emneInput"
-              name="emne" 
-              value={inputs.emne} 
+            <label id={styles.subjectLabel}>Subject:</label>
+            <input
+              type="text"
+              id={styles.subjectInput}
+              name="subject"
+              value={inputs.subject}
               onChange={handleChange}
               required
             />
           </div>
-
           <div className={styles.formGroup}>
-            <label id="kategoriLabel">Kategori:</label>
-            <select 
-              id="kategoriInput" 
-              name="kategori" 
-              value={inputs.kategori} 
+            <label id={styles.categoryLabel}>Category:</label>
+            <select
+              id={styles.categoryInput}
+              name="category"
+              value={inputs.category}
               onChange={handleChange}
               required
             >
-              <option value="" disabled hidden>Velg en kategori...</option>
-              <option value="Retur">Retur</option>
-              <option value="Reklamasjon">Reklamasjon</option>
+              <option value="" disabled hidden>Select a category...</option>
+              <option value="Return">Return</option>
+              <option value="Claim">Claim</option>
             </select>
           </div>
         </div>
-
         <div className={styles.formGroup}>
-          <label id="detaljerLabel">Detaljer:</label>
+          <label id={styles.detailsLabel}>Details:</label>
           <textarea
-            id="detaljerInput"
-            name="detaljer"
-            value={inputs.detaljer}
+            id={styles.detailsInput}
+            name="details"
+            value={inputs.details}
             onChange={handleChange}
             required
-              />
+          />
         </div>
-
-        <input type="submit" value="Opprett sak" id={styles.oprettKnapp} />
+        <input 
+          type="submit" 
+          value="Create Case" 
+          id={styles.createButton} 
+        />
       </form>
     </div>
   );
 }
-
-
 
 export default CreateCase;
