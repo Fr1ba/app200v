@@ -1,0 +1,33 @@
+﻿.circle{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    float: right;
+    margin-right: 15px;
+    margin-top: 25px;
+}
+
+.case{
+    border: 2px solid gray;
+    border-radius: 25px;
+    margin-top: 20px;
+    width:35%;
+}
+
+.header{
+    margin-left: 10px;
+    font-size: 20px;
+    font-family: Tahoma;
+}
+
+.category{
+    margin-left: 10px;
+    font-size: 15px;
+    font-family: Tahoma;
+}
+
+.line{
+    border-left: 6px solid green;
+    height: 500px;
+
+}
