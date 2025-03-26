@@ -5,7 +5,6 @@ import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import NotificationBell from "./Notification/NotificationBell.jsx";
 
-
 function App() {
   return (
     <>
