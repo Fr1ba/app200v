@@ -12,7 +12,7 @@ function NotificationBell() {
   const handleOpen = () => setOpen(!open);
   
   return (
-    <div >
+    <div>
        <Bell className={styles.bell} onClick={handleOpen} />
        {open ? (<div>{notisArray()}</div>): null}
     </div>

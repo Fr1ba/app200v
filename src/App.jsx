@@ -1,17 +1,22 @@
-// import Login from "./Login/Login.jsx/";
-// import Header from "./Header/header.jsx";
-import CaseList from "./CaseList/CaseList.jsx";
-// import CreateCase from "./CreateCase/CreateCase.jsx";
-// import ProfilePage from "./ProfilePage/ProfilePage";
-// import NotificationBell from "./Notification/NotificationBell.jsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+//port Login from './Login/Login.jsx/';
+import Header from "./Header/header.jsx";
+import CaseList from './CaseList/CaseList.jsx';
+import CreateCase from './CreateCase/CreateCase.jsx';
+import ProfilePage from "./ProfilePage/ProfilePage";
+import NotificationBell from './Notification/NotificationBell.jsx';
 
-function App() {
-  return (
-    <>
-      <Login/>
-    </>
-  );
-
+function App(){
+    return( 
+      <Router>
+        <Header />  
+        <Routes>  
+          <Route path="/CaseList" element={<CaseList />} />
+          <Route path="/CreateCase" element={<CreateCase />} />
+          <Route path="/ProfilePage" element={<ProfilePage />} />
+        </Routes>
+      </Router>
+    );
 }
 
 export default App;
