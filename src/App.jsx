@@ -6,7 +6,12 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import NotificationBell from "./Notification/NotificationBell.jsx";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Login/>
+    </>
+  );
+
 }
 
 export default App;
