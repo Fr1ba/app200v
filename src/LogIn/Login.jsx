@@ -13,7 +13,7 @@ function Login() {
             </div>
             <div className={styles.wrapper}>
                 <form action = "">
-                    <h1>Logg in</h1>
+                    <h1>Logg inn</h1>
                     <div className={styles.inputBox}>
                         <input type="text" placeholder='Brukernavn' required />
                         <FaUser className={styles.icon}/>
