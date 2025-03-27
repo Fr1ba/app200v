@@ -5,7 +5,6 @@ import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 /*<LuPhone /> 
 <CiMail />
 */
-
 function ProfilePage() {
   return (
     <>

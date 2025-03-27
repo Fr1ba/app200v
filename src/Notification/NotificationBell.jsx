@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Bell } from "lucide-react";
 import styles from './bell.module.css';
 
-export default function NotificationBell() {
+function NotificationBell() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   
@@ -23,9 +23,9 @@ export default function NotificationBell() {
 function notisArray(){
   const notisList = ["New message", "Case updated", "Case closed"];
   return (
-    <ul>
+    <ul className={styles.notifiactionBox}>
       {notisList.map((noti, index) => (
-      <li key={index}>
+      <li className={styles.notifications} key={index}>
           Case {index}: {noti}
       </li>))
       }
@@ -33,3 +33,5 @@ function notisArray(){
   )
  
 }
+
+export default NotificationBell;
