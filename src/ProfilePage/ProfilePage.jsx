@@ -12,14 +12,13 @@ function ProfilePage() {
   /*rest/itxems/entity)*/
   const [email, setEmail] = useState("");
   console.log(`${endpoint}/rest/itxems/entity`);
-
+  console.log("hihi");
   const fetchData = async () => {
     try {
       const response = await fetch(`${endpoint}/rest/itxems/entity`, {
         method: "GET",
         credentials: "include",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -37,6 +36,10 @@ function ProfilePage() {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <h1 className={styles.title}>Profil</h1>
@@ -45,7 +48,7 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input type="text" placeholder={email} readOnly />
+              <input type="text" placeholder={email} />
               <CiMail className={styles.icon} />
             </div>
           </label>
