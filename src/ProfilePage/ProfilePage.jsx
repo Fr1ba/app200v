@@ -45,7 +45,7 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input type="text" placeholder={email} readOnly /> />
+              <input type="text" placeholder={email} readOnly />
               <CiMail className={styles.icon} />
             </div>
           </label>
