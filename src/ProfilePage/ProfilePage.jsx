@@ -9,6 +9,7 @@ import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
 const endpoint = "https://app06.itxnorge.no";
 
 function ProfilePage() {
+  /*rest/itxems/entity)*/
   const [email, setEmail] = useState("");
   console.log(`${endpoint}/rest/itxems/entity`);
 
@@ -44,7 +45,7 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input type="text" placeholder={email} readOnly />
+              <input type="text" placeholder={email} readOnly /> />
               <CiMail className={styles.icon} />
             </div>
           </label>
