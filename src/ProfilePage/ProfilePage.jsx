@@ -11,8 +11,9 @@ const endpoint = "https://app06.itxnorge.no";
 function ProfilePage() {
   /*rest/itxems/entity)*/
   const [email, setEmail] = useState("");
+  const [phonePrefix, setPhonePrefix] = useState("");
+
   console.log(`${endpoint}/rest/itxems/entity`);
-  console.log("hihi");
   const fetchData = async () => {
     try {
       const response = await fetch(`${endpoint}/rest/itxems/entity`, {
@@ -30,6 +31,13 @@ function ProfilePage() {
         setEmail(data.emails[0].email); // Update state with email
       } else {
         console.log("No email found in response");
+        return null;
+      }
+
+      if (data.corporation && data.corporation.phoneNumberPrefix) {
+        setPhonePrefix(data.corporation.phoneNumberPrefix);
+      } else {
+        console.log("No phone number found in response");
         return null;
       }
     } catch (error) {
@@ -55,7 +63,7 @@ function ProfilePage() {
           <label className={styles.inputLabel}>
             Mobil
             <div className={styles.inputField}>
-              <input type="text" placeholder="+47 93145789" />
+              <input type="text" placeholder={phonePrefix} />
               <LuPhone className={styles.icon} />
             </div>
           </label>
