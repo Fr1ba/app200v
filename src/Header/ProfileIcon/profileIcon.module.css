@@ -1,0 +1,36 @@
+.profileIcon {
+    color: var(--headerTextColor);
+    stroke-width: 1.5;
+    height: 45px;
+    width: 45px;
+  }
+
+  .profileIcon {
+    color: var(--headerTextColor);
+    stroke-width: 1.5;
+    height: 45px;
+    width: 45px;
+}
+
+.dropDown {
+    list-style-type: none;
+    padding: 5px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: var(--brandColor);
+    clear: right;
+    float: right;
+    position: absolute;
+    right: 0px;
+    color: var(--headerTextColor)
+}
+
+.dropDownItems{
+  margin-top: 10px;
+  padding:10px;
+  border-top: 1px solid white;
+}
+.dropDownItems a{
+  text-decoration: none;
+  color: inherit;
+}

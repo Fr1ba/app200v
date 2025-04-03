@@ -39,12 +39,3 @@
   float: right;
   align-items: center;
 }
-
-.logoutButton {
-  text-decoration: none;
-  margin-left: 1rem;
-  position: relative;
-  padding: 0 1rem;
-  height: 2rem;
-  font-family: var(--font);
-}
