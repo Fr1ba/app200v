@@ -1,23 +1,52 @@
 ﻿import Case from './Case';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./CaseList.module.css";
-
+const endpoint = "https://app06.itxnorge.no"
 
 function CaseList() {
 
+    const [list, setList] = useState([]);
     const [caseList, setCaseList] = useState()
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
-        CreateCases(list)
+        const fetchData = async () => {
+            return await fetch(`${endpoint}/rest/itxems/message/search`,
+                {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        getConversations: false,
+                        getContent: true,
+                        // conversationEactId: "3414941"
+                    })
+                }
+            );
+        }
+
+    const data = fetchData().then((response) => response.json());
+
+    data.then(responseData => {
+        console.log(responseData);
+        setList(responseData)
+        CreateCases(responseData)
+        }).catch(error => {
+            console.error("Error fetching data:", error);
+    });
+
+
     }, []);
 
-    const list = [{caseTitle: "Headphones", caseCategory: "Return", caseStatus: true},
-        {caseTitle: "Telephone", caseCategory: "Return", caseStatus: false}];
+    // const list = [{caseTitle: "Headphones", caseCategory: "Return", caseStatus: true},
+    //     {caseTitle: "Telephone", caseCategory: "Return", caseStatus: false}];
 
     function CreateCases(someList) {
         setCaseList(someList.map((caseItem) =>
-            <Case key={caseItem.caseTitle} caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory}
-                  caseStatus={caseItem.caseStatus}/>))
+            <Case key={caseItem.eactId} caseTitle={caseItem.subject} caseCategory={caseItem.isDraft}
+                  caseStatus={caseItem.eactId}/>))
 
     }
 
@@ -44,9 +73,17 @@ function CaseList() {
         // let filteredList = list.filter(caseItem => caseItem.caseStatus === state)
         // CreateCases(filteredList);
     }
-
     function handleFilterChange(event) {
         Filter(event.target.value)
+
+    }
+
+    function handleSearch(event) {
+        setSearch(event.target.value);
+        if (search === "") {
+            CreateCases(list);
+        }
+        CreateCases(list.filter((item) => item.subject.toLowerCase().includes(search.toLowerCase())))
     }
 
     return (
@@ -58,10 +95,12 @@ function CaseList() {
                 <option value="3">Passive</option>
             </select>
 
+            <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
             <ul>
                 {caseList}
             </ul>
-            {/*<div className={styles.line}></div>*/}
+
+            <button className={styles.button}>New thread</button>
         </div>
     );
 
