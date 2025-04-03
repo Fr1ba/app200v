@@ -1,0 +1,18 @@
+/* 
+TODO Make variable for main color
+TODO Make variable for standard font
+TODO Make website responsive
+TODO Create global CSS
+*/
+
+/* Creates variables */
+:root{
+    --brandColor: #6385b5;
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --textColor: #212121;
+}
+
+body {
+    font-family: var(--font);
+    margin:0;
+}
