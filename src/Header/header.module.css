@@ -1,12 +1,8 @@
 .header {
   display: flex;
   justify-content: space-between;
-  background-color: #6385b5;
-  color: #232222;
+  background-color: var(--brandColor);
   padding: 1rem;
-  margin-top: -20px;
-  margin-left: -20px;
-  margin-right: -20px;
 }
 
 .headerLeft {
@@ -14,47 +10,40 @@
   align-items: center; 
 } 
 
-.headerLogo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: 1rem;
-  color: #101011;
-}
-
 .logo {
   width: 120px;
   height: 40px;
-  padding-top: 20px;
-  padding-bottom: 20px;
   padding-left: 20px;
 
 }
 
 .navLinks {
-  list-style-type: none;
   display: flex;
+  align-items: center;
+  list-style-type: none;
   margin-left: 1rem;
-  padding: 0;
 }
 
 .navLinks li {
-  margin-right: 1rem;
+  margin-right: 2rem;
 }
 
 .navLinks a {
-  color: #212121;
+  color: var(--textColor);
   text-decoration: none;
 }
 
 .headerRight {
   display: flex;
-  align-items: right;
+  float: right;
+  align-items: center;
 }
 
 .logoutButton {
-  color: #171717;
   text-decoration: none;
   margin-left: 1rem;
   position: relative;
-  padding: 1rem;
+  padding: 0 1rem;
+  height: 2rem;
+  font-family: var(--font);
 }
