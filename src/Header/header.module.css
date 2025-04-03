@@ -22,6 +22,7 @@
   align-items: center;
   list-style-type: none;
   margin-left: 1rem;
+  
 }
 
 .navLinks li {
@@ -29,7 +30,7 @@
 }
 
 .navLinks a {
-  color: var(--textColor);
+  color: var(--headerTextColor);
   text-decoration: none;
 }
 
