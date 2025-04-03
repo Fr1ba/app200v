@@ -20,7 +20,7 @@ function App() {
   //     <></>
   // );
 
-  return <APITest />;
+  return <CaseList/>;
 }
 
 export default App;
