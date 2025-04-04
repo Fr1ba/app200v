@@ -5,13 +5,6 @@
     width: 45px;
   }
 
-  .profileIcon {
-    color: var(--headerTextColor);
-    stroke-width: 1.5;
-    height: 45px;
-    width: 45px;
-}
-
 .dropDown {
     list-style-type: none;
     padding: 5px;
