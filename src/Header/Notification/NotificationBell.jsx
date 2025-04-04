@@ -1,7 +1,4 @@
-
-// TODO Add a number on the bell with how many unread notifications is there. If more than five display "5+".
 // TODO When you click on the notif you will be directed to the related case and the notif will be gone from the bell. 
-
 
 import { useState } from "react";
 import { Bell } from "lucide-react";

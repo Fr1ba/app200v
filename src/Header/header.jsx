@@ -14,7 +14,7 @@ function Header() {
         </Link>
         <ul className={styles.navLinks}>
           <li><Link to="/CaseList">Hjem</Link></li>
-          <li><Link to="/CreateCase">Ny Sak</Link></li>
+          <li><Link to="/CreateCase">Opprett ny Sak</Link></li>
         </ul>
       </div>
       
