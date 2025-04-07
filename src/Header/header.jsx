@@ -16,7 +16,7 @@ function Header() {
   return (
     <nav className={styles.header}>
       <div className={styles.headerLeft}>
-        <Link to="/CaseList" className={styles.headerLogo}>
+        <Link to="/" className={styles.headerLogo}>
           <img src={logo} alt="Logo" className={styles.logo}></img>
         </Link>
         
@@ -27,7 +27,7 @@ function Header() {
         
         {/* Navigasjonslenker som endrer visning basert på skjermstørrelse */}
         <ul className={`${styles.navLinks} ${menuOpen ? styles.navLinksActive : ''}`}>
-          <li><Link to="/CaseList" onClick={toggleMenu}>Hjem</Link></li>
+          <li><Link to="/" onClick={toggleMenu}>Hjem</Link></li>
           <li><Link to="/CreateCase" onClick={toggleMenu}>Opprett ny Sak</Link></li>
         </ul>
       </div>

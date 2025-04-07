@@ -29,14 +29,13 @@ function Login() {
                  });
              };
         
-             const data = fetchData().then(res => res.json()); //turning the response into JSON
+             const data = fetchData();
         
-             data.then(responseData => {    //responseData is the parsed JSON returned by the server (response from API)
-                 console.log(responseData);  //logs the response including status
-                 console.log(responseData.status);
-             }).catch(error => {
-                 console.error("Error fetching data:", error);
-             });
+             data.then(response => {
+                 if (response.ok) {
+                     window.location.href = '/';
+                 }
+             })
         };
 
     return(
