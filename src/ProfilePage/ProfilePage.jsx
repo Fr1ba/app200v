@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
-import { FaHome, FaPhone } from "react-icons/fa"; // kjør npm install react-icons
+import { FaHome, FaPhone, FaUser } from "react-icons/fa"; // kjør npm install react-icons
 import { IoMdMail } from "react-icons/io";
 
 const endpoint = "https://app06.itxnorge.no";
@@ -10,6 +10,7 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
+  const [name, setName] = useState("");
 
   console.log(`${endpoint}/rest/itxems/entity`);
   const fetchData = async () => {
@@ -24,6 +25,14 @@ function ProfilePage() {
 
       const data = await response.json();
 
+      // Extract the name
+      if (data.name1) {
+        setName(data.name1); // Update state with name
+      } else {
+        setName(null); // if no name is found, the value of name is set to null so a placeholder is shown
+        console.log("No name found in response");
+        return null;
+      }
       // Extract the email
       if (data.emails && data.emails.length > 0) {
         setEmail(data.emails[0].email); // Update state with email
@@ -64,6 +73,13 @@ function ProfilePage() {
       <h1 className={styles.title}>Profil</h1>
       <div className={styles.wrapper}>
         <form>
+          <label className={styles.inputlabel}>
+            Navn
+            <div className={styles.inputField}>
+              <input type="text" placeholder={name ? name : "Kari Nordmann"} />
+              <FaUser className={styles.icon} />
+            </div>
+          </label>
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
