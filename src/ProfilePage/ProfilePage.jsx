@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
-import { CiMail } from "react-icons/ci";
-import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
-import {FaHome} from "react-icons/fa";
-/*<LuPhone /> 
-<CiMail />
-*/
+import { FaHome, FaPhone } from "react-icons/fa"; // kjør npm install react-icons
+import { IoMdMail } from "react-icons/io";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -75,7 +71,7 @@ function ProfilePage() {
                 type="text"
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
-              <CiMail className={styles.icon} />
+              <IoMdMail className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
@@ -85,7 +81,7 @@ function ProfilePage() {
                 type="text"
                 placeholder={phonePrefix ? phonePrefix : "22334455"}
               />
-              <LuPhone className={styles.icon} />
+              <FaPhone className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
