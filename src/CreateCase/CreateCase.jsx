@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import styles from './CreateCase.module.css';
 
+const endpoint = "https://app06.itxnorge.no";
+
 function CreateCase() {
   const [inputs, setInputs] = useState({
     subject: '',
     category: '',
     details: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -14,18 +19,70 @@ function CreateCase() {
     setInputs(values => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(`A new ${inputs.category.toLowerCase()} "${inputs.subject}" is opened and is pending.`);
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(false);
+    
+    try {
+      
+      const formData = new FormData();
+      
+
+      const messageData = {
+        direction: 2,
+        subject: inputs.subject,
+        body: inputs.details, 
+        createCase: true 
+      };
+      
+     
+      formData.append('data', JSON.stringify(messageData));
+      
+      
+      const response = await fetch(`${endpoint}/rest/itxems/message`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+        
+        },
+        body: formData
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API-forespørselen mislyktes med status ${response.status}`);
+      }
+      
+      const responseData = await response.json();
+      console.log("Sak opprettet:", responseData);
+      
+      
+      setInputs({
+        subject: '',
+        category: '',
+        details: ''
+      });
+      
+      setSuccess(true);
+    } catch (error) {
+      console.error("Feil ved opprettelse av sak:", error);
+      setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div id={styles.mainContainer}>
-      <h1>Create a New Case</h1>
+      <h1>Opprett ny sak</h1>
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      {success && <div className={styles.successMessage}>Saken din er opprettet!</div>}
+      
       <form onSubmit={handleSubmit}>
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label id={styles.subjectLabel}>Subject:</label>
+            <label id={styles.subjectLabel}>Emne:</label>
             <input
               type="text"
               id={styles.subjectInput}
@@ -36,7 +93,7 @@ function CreateCase() {
             />
           </div>
           <div className={styles.formGroup}>
-            <label id={styles.categoryLabel}>Category:</label>
+            <label id={styles.categoryLabel}>Kategori:</label>
             <select
               id={styles.categoryInput}
               name="category"
@@ -44,14 +101,14 @@ function CreateCase() {
               onChange={handleChange}
               required
             >
-              <option value="" disabled hidden>Select a category...</option>
-              <option value="Return">Return</option>
-              <option value="Claim">Claim</option>
+              <option value="" disabled hidden>Velg kategori...</option>
+              <option value="Return">Retur</option>
+              <option value="Claim">Reklamasjon</option>
             </select>
           </div>
         </div>
         <div className={styles.formGroup}>
-          <label id={styles.detailsLabel}>Details:</label>
+          <label id={styles.detailsLabel}>Detaljer:</label>
           <textarea
             id={styles.detailsInput}
             name="details"
@@ -60,10 +117,11 @@ function CreateCase() {
             required
           />
         </div>
-        <input 
-          type="submit" 
-          value="Create Case" 
-          id={styles.createButton} 
+        <input
+          type="submit"
+          value={isSubmitting ? "Oppretter..." : "Opprett sak"}
+          id={styles.createButton}
+          disabled={isSubmitting}
         />
       </form>
     </div>
