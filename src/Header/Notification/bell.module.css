@@ -1,0 +1,52 @@
+.bell {
+    color: var(--headerTextColor);
+    width:40px;
+    height:40px;
+    margin: 20px;
+    float: right;
+}
+
+.bellWithCount {
+    position: relative;
+    float: right;
+}
+
+.notificationCount {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background-color: white;
+    color: black;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 3px;
+    box-shadow: 0px 1px 20px 0px ;
+}
+
+.notifiactionBox {
+    list-style-type: none;
+    margin: 70px;
+    padding: 5px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: var(--brandColor);
+    clear: right;
+    float: right;
+    position: absolute;
+    right: 0px;
+    box-shadow: 0px 2px 20px 0px ;
+}
+
+.notifications{
+    border: 1px solid black;
+    border-radius: 0px 10px 10px 10px;
+    margin: 20px;
+    padding: 10px;
+    background-color: white;
+}

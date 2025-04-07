@@ -1,8 +1,16 @@
 /* 
+
+Stine:
+LogIn 
+Profile
+
+
 TODO Make variable for main color
 TODO Make variable for standard font
 TODO Make website responsive
 TODO Create global CSS
+
+OBS! skriv ny css i kommentar før du pusher på denne siden!
 */
 
 /* Creates variables */
@@ -10,9 +18,16 @@ TODO Create global CSS
     --brandColor: #6385b5;
     --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --textColor: #212121;
+    --headerTextColor: white;
 }
 
 body {
     font-family: var(--font);
     margin:0;
 }
+
+/*
+button {
+
+}
+*/
