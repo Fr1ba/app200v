@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { CiMail } from "react-icons/ci";
 import { LuPhone } from "react-icons/lu"; // kjør npm install react-icons
+import {FaHome} from "react-icons/fa";
 /*<LuPhone /> 
 <CiMail />
 */
@@ -94,6 +95,7 @@ function ProfilePage() {
                 type="text"
                 placeholder={address ? address : "gatenavn 1"}
               />
+              <FaHome className={styles.icon} />
             </div>
           </label>
           <input
