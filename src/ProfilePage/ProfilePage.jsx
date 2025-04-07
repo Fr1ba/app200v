@@ -12,6 +12,7 @@ function ProfilePage() {
   /*rest/itxems/entity)*/
   const [email, setEmail] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("");
+  const [address, setAddress] = useState("");
 
   console.log(`${endpoint}/rest/itxems/entity`);
   const fetchData = async () => {
@@ -39,6 +40,16 @@ function ProfilePage() {
         setPhonePrefix(data.corporation.phoneNumberPrefix);
       } else {
         console.log("No phone number found in response");
+        return null;
+      }
+      // Extract the address
+      if (data.addresses) {
+        setAddress(
+          data.addresses[0].street + " " + data.addresses[0].streetNumber
+        );
+        console.log(address);
+      } else {
+        console.log("No address found in response");
         return null;
       }
     } catch (error) {
@@ -69,6 +80,12 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input type="text" placeholder={phonePrefix} />
               <LuPhone className={styles.icon} />
+            </div>
+          </label>
+          <label className={styles.inputLabel}>
+            Adresse
+            <div className={styles.inputField}>
+              <input type="text" placeholder={address} />
             </div>
           </label>
           <input
