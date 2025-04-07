@@ -30,6 +30,7 @@ function ProfilePage() {
       if (data.emails && data.emails.length > 0) {
         setEmail(data.emails[0].email); // Update state with email
       } else {
+        setEmail(null);
         console.log("No email found in response");
         return null;
       }
@@ -56,7 +57,10 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input type="text" placeholder={email} />
+              <input
+                type="text"
+                placeholder={email ? email : "eksempel@eksempel.no"}
+              />
               <CiMail className={styles.icon} />
             </div>
           </label>
