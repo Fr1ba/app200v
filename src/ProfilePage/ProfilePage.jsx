@@ -39,6 +39,7 @@ function ProfilePage() {
       if (data.corporation && data.corporation.phoneNumberPrefix) {
         setPhonePrefix(data.corporation.phoneNumberPrefix);
       } else {
+        setPhonePrefix(null);
         console.log("No phone number found in response");
         return null;
       }
@@ -49,6 +50,7 @@ function ProfilePage() {
         );
         console.log(address);
       } else {
+        setAddress(null);
         console.log("No address found in response");
         return null;
       }
@@ -78,14 +80,20 @@ function ProfilePage() {
           <label className={styles.inputLabel}>
             Mobil
             <div className={styles.inputField}>
-              <input type="text" placeholder={phonePrefix} />
+              <input
+                type="text"
+                placeholder={phonePrefix ? phonePrefix : "22334455"}
+              />
               <LuPhone className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
             Adresse
             <div className={styles.inputField}>
-              <input type="text" placeholder={address} />
+              <input
+                type="text"
+                placeholder={address ? address : "gatenavn 1"}
+              />
             </div>
           </label>
           <input
