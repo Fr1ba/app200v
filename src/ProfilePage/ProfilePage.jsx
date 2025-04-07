@@ -30,7 +30,7 @@ function ProfilePage() {
       if (data.emails && data.emails.length > 0) {
         setEmail(data.emails[0].email); // Update state with email
       } else {
-        setEmail(null);
+        setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
         console.log("No email found in response");
         return null;
       }
