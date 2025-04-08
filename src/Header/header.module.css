@@ -14,14 +14,15 @@
 }
 
 .logo {
-  width: 120px;
-  height: 40px;
+  width: 100px;
+  height: auto;
   padding-left: 10px;
+  z-index: 100;
 }
 
-/* Hamburger meny knapp - vises kun på små skjermer */
+/* Hamburger menu button - shown by default on mobile */
 .menuButton {
-  display: none;
+  display: block;
   background: none;
   border: none;
   color: var(--headerTextColor);
@@ -29,70 +30,73 @@
   cursor: pointer;
   margin-left: auto;
   padding: 0.5rem;
+  z-index: 100;
 }
 
+/* Navigation links - mobile styling by default */
 .navLinks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  background-color: var(--brandColor);
+  margin: 0;
+  padding: 0;
+  z-index: 90;
   list-style-type: none;
-  margin-left: 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navLinksActive {
+  transform: translateX(0);
 }
 
 .navLinks li {
-  margin-right: 2rem;
+  margin: 1.5rem 0;
 }
 
 .navLinks a {
   color: var(--headerTextColor);
   text-decoration: none;
+  font-size: 1.25rem;
 }
 
 .headerRight {
   display: flex;
   align-items: center;
+  z-index: 100; /* Keep notifications and profile above the hamburger menu */
 }
 
-/* Mobile enheter (under 768px) */
-@media only screen and (max-width: 767px) {
+/* Desktop styles (min-width: 768px) */
+@media only screen and (min-width: 768px) {
   .menuButton {
-    display: block;
-    margin-left: auto;
-    z-index: 100;
-  }
-  
-  .navLinks {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--brandColor);
-    margin: 0;
-    padding: 0;
-    z-index: 90;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .navLinksActive {
-    transform: translateX(0);
-  }
-  
-  .navLinks li {
-    margin: 1.5rem 0;
-  }
-  
-  .headerRight {
-    z-index: 100; /* Holder notifikasjoner og profil over hamburgermenyen */
+    display: none; /* Hide hamburger on desktop */
   }
   
   .logo {
-    width: 25%;
-    height: 25%;
-    padding-left: 10px;
-    z-index: 100;
+    width: 120px;
+    height: 40px;
+  }
+  
+  .navLinks {
+    position: static; /* Reset position */
+    flex-direction: row;
+    transform: none; /* Reset transform */
+    background-color: transparent;
+    margin-left: 1rem;
+  }
+  
+  .navLinks li {
+    margin: 0 2rem 0 0;
+  }
+  
+  .navLinks a {
+    font-size: 1rem;
   }
 }
