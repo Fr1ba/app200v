@@ -4,10 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: #fff;
     box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
+    
 }
 
 .logoContainer {
@@ -24,8 +22,6 @@
 
 .wrapper { /*Log in box*/
     width: 420px;
-    background: lightgray;
-    color: rgb(58, 68, 76); 
     border-radius: 10px;
     padding: 30px 40px;
     box-sizing: border-box;
@@ -46,17 +42,13 @@
 .inputBox input { 
     width: 100%;
     height: 100%;
-    background: rgb(238, 236, 236);
-    border: 2px solid rgba(92, 83, 83, 0.468);
-    border-radius: 10px;
+    background:#F2F2F2;
+    border: #F2F2F2;
+    border-radius: 60px;
     font-size: 16px;
-    color: #353131;
+    
     padding: 15px 40px 15px;
     box-sizing: border-box;
-}
-
-.inputBox input::placeholder { /*placeholder text for username and password*/
-    color: #745050b4;
 }
 
 .inputBox .icon { /*icons for username and password*/
@@ -75,7 +67,7 @@
 }
 
 .rememberForgot label input { /*remember me checkbox*/
-    accent-color: #c00f0f;
+    accent-color: var(--brandColor);
     margin-right: 5px;
     margin-left: 8px;
 }
@@ -92,13 +84,11 @@
 .wrapper button { /*login button*/
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: var(--brandColor);
     border: none;
-    outline: none;
-    border-radius: 10px; /*rounded edges */
+    border-radius: 60px; /*rounded edges */
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #ffffff;
     font-weight: 700;
 }
