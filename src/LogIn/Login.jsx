@@ -11,6 +11,7 @@ function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [type, setType] = useState('password');
 
     const handleSubmit = (event) => {
         event.preventDefault(); //prevents page from refreshing  
@@ -37,6 +38,7 @@ function Login() {
                  }
              })
         };
+        
 
     return(
      <div className={styles.container}> 
@@ -52,13 +54,14 @@ function Login() {
                         <FaUser className={styles.icon}/>
                 </div>
                 <div className={styles.inputBox}>
-                    <input type="password" placeholder='Passord' value ={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type={type} placeholder='Passord' value ={password} onChange={(e) => setPassword(e.target.value)} required />
                     <FaLock className={styles.icon}/>
                 </div>
                 <div className={styles.rememberForgot}>
                     <label> 
                         <input type='checkbox' />Husk meg
                     </label>
+                    <input type="checkbox" onChange={showPassword} />Vis passord
                     <a href='#'> Glemt passord? </a>
                 </div>
                 <button type='submit' className={styles.button}>Logg inn</button>
@@ -67,6 +70,16 @@ function Login() {
        </div>
     </div>
    );
+
+   function showPassword() {
+    if (type === 'password') {
+        setType('text')
+    } else {
+        setType('password')
+    }
+  }
 };
+
+
 
 export default Login;
