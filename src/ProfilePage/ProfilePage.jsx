@@ -11,6 +11,10 @@ function ProfilePage() {
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  let newName = "";
+
+  let entity = undefined;
 
   console.log(`${endpoint}/rest/itxems/entity`);
   const fetchData = async () => {
@@ -23,36 +27,36 @@ function ProfilePage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
+      entity = await response.json();
 
       // Extract the name
-      if (data.name1) {
-        setName(data.name1); // Update state with name
+      if (entity.name1) {
+        setName(entity.name1); // Update state with name
       } else {
         setName(null); // if no name is found, the value of name is set to null so a placeholder is shown
         console.log("No name found in response");
         return null;
       }
       // Extract the email
-      if (data.emails && data.emails.length > 0) {
-        setEmail(data.emails[0].email); // Update state with email
+      if (entity.emails && entity.emails.length > 0) {
+        setEmail(entity.emails[0].email); // Update state with email
       } else {
         setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
         console.log("No email found in response");
         return null;
       }
 
-      if (data.corporation && data.corporation.phoneNumberPrefix) {
-        setPhonePrefix(data.corporation.phoneNumberPrefix);
+      if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+        setPhonePrefix(entity.corporation.phoneNumberPrefix);
       } else {
         setPhonePrefix(null);
         console.log("No phone number found in response");
         return null;
       }
       // Extract the address
-      if (data.addresses) {
+      if (entity.addresses) {
         setAddress(
-          data.addresses[0].street + " " + data.addresses[0].streetNumber
+          entity.addresses[0].street + " " + entity.addresses[0].streetNumber
         );
         console.log(address);
       } else {
@@ -65,9 +69,68 @@ function ProfilePage() {
     }
   };
 
+
   useEffect(() => {
     fetchData();
   }, []);
+
+//UPDATING PROFILE
+function handleNameChange(event) {
+  entity.name = event.target.value;
+}
+function getEntity() {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      entity = await response.json();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  return entity;
+}
+
+async function updateProfile(entity) {
+      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify(entity),
+      });
+
+      return response.json()
+}
+
+async function onSave() {
+  let entity=getEntity();
+  let changes = false
+
+  const parameters = {}
+
+  if (entity.emails[0].email !== newEmail) {
+    entity.emails[0].email = newEmail;
+    parameters.emailChanged = true;
+    changes = true;
+    }
+    try{
+      if(!changes)return;
+
+      const result = await updateProfile(entity);
+      console.log(result);
+      entity = result;
+      return true;
+    }
+    catch(error){
+      console.log(error);
+    }
+}
+
   return (
     <>
       <h1 className={styles.title}>Profil</h1>
@@ -76,7 +139,7 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input type="text" placeholder={name ? name : "Kari Nordmann"} />
+              <input type="text" value = {newName} placeholder={name ? name : "Kari Nordmann"} />
               <FaUser className={styles.icon} />
             </div>
           </label>
@@ -84,7 +147,8 @@ function ProfilePage() {
             Epost
             <div className={styles.inputField}>
               <input
-                type="text"
+                type="text" value = {newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
               <IoMdMail className={styles.icon} />
@@ -111,14 +175,9 @@ function ProfilePage() {
             </div>
           </label>
           <input
-            type="submit"
+            type="submit" onClick = {onSave}
             className={styles.buttons}
             value="Lagre endringer"
-          ></input>
-          <input
-            type="button"
-            className={styles.buttons}
-            value="Logg ut"
           ></input>
         </form>
       </div>
