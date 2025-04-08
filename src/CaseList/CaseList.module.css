@@ -1,5 +1,5 @@
 ﻿.filter{
-    margin-top: 100px;
+    margin-top: 40px;
     margin-left: 45px;
     margin-bottom: 10px;
     font-size: 20px;
@@ -20,7 +20,18 @@
     display: inline-block;
     justify-content: space-between;
 }*/
-
+.div{
+    width: 60%;
+}
+.list{
+    width: 40%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px;
+    float: left;
+    position: absolute;
+}
 .button {
     background-color: #80B6EA; /* Light blue */
     color: white;

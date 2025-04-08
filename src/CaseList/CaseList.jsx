@@ -88,21 +88,24 @@ function CaseList() {
 
     return (
 
-        <div>
-            <select onChange={handleFilterChange} className={styles.filter}>
-                <option value="1">Filter</option>
+        <div className={styles.div}>
+
+                 <select onChange={handleFilterChange} className={styles.filter}>
+                <option hidden>Filter</option>
+                <option value="1">Show All</option>
                 <option value="2">Active</option>
-                <option value="3">Passive</option>
+                <option value="3">Closed</option>
             </select>
 
-            <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
-            <ul>
-                {caseList}
-            </ul>
 
-            <button className={styles.button}>New thread</button>
+                <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
+                <ul className={styles.list}>
+                    {caseList}
+                </ul>
+
+                <button className={styles.button}>New thread</button>
         </div>
-    );
+);
 
 }
 
