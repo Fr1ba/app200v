@@ -69,67 +69,65 @@ function ProfilePage() {
     }
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
 
-//UPDATING PROFILE
-function handleNameChange(event) {
-  entity.name = event.target.value;
-}
-function getEntity() {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-        method: "GET",
-        credentials: "include",
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+  //UPDATING PROFILE
+  function handleNameChange(event) {
+    entity.name = event.target.value;
+  }
+  function getEntity() {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${endpoint}/rest/itxems/entity`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        entity = await response.json();
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
+    };
+    return entity;
+  }
 
-      entity = await response.json();
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  async function updateProfile(entity) {
+    const response = await fetch(`${endpoint}/rest/itxems/entity`, {
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify(entity),
+    });
+
+    return response.json();
+  }
+
+  async function onSave() {
+    let entity = getEntity();
+    let changes = false;
+
+    const parameters = {};
+
+    if (entity.emails[0].email !== newEmail) {
+      entity.emails[0].email = newEmail;
+      parameters.emailChanged = true;
+      changes = true;
     }
-  };
-  return entity;
-}
-
-async function updateProfile(entity) {
-      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-        credentials: 'include',
-        method: 'POST',
-        body: JSON.stringify(entity),
-      });
-
-      return response.json()
-}
-
-async function onSave() {
-  let entity=getEntity();
-  let changes = false
-
-  const parameters = {}
-
-  if (entity.emails[0].email !== newEmail) {
-    entity.emails[0].email = newEmail;
-    parameters.emailChanged = true;
-    changes = true;
-    }
-    try{
-      if(!changes)return;
+    try {
+      if (!changes) return;
 
       const result = await updateProfile(entity);
       console.log(result);
       entity = result;
       return true;
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
-}
+  }
 
   return (
     <>
@@ -139,7 +137,11 @@ async function onSave() {
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input type="text" value = {newName} placeholder={name ? name : "Kari Nordmann"} />
+              <input
+                type="text"
+                value={newName}
+                placeholder={name ? name : "Kari Nordmann"}
+              />
               <FaUser className={styles.icon} />
             </div>
           </label>
@@ -147,7 +149,8 @@ async function onSave() {
             Epost
             <div className={styles.inputField}>
               <input
-                type="text" value = {newEmail}
+                type="text"
+                value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
@@ -175,7 +178,8 @@ async function onSave() {
             </div>
           </label>
           <input
-            type="submit" onClick = {onSave}
+            type="submit"
+            onClick={onSave}
             className={styles.buttons}
             value="Lagre endringer"
           ></input>
