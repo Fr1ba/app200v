@@ -23,8 +23,8 @@ function Login() {
                      credentials: 'include',
                      body: JSON.stringify({
                          username,
-                         password
-                         // rememberMe: true
+                         password,
+                         rememberMe: true
                      })
                  });
              };
