@@ -15,7 +15,7 @@ OBS! skriv ny css i kommentar før du pusher på denne siden!
 
 /* Creates variables */
 :root{
-    --brandColor: #6385b5;
+    --brandColor: #5FA4E5;
     --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --textColor: #212121;
     --headerTextColor: white;
