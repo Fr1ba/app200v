@@ -9,7 +9,6 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [name, setName] = useState("");
-  const [newName, setNewName] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
 
@@ -24,7 +23,8 @@ function ProfilePage() {
         credentials: "include",
       });
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
 
       const entity = await response.json();
 
@@ -96,11 +96,6 @@ function ProfilePage() {
         changes = true;
       }
 
-      if (newName !== entity.name1) {
-        entity.name1 = newName;
-        changes = true;
-      }
-
       if (!changes) return;
 
       const result = await updateProfile(entity);
@@ -115,20 +110,14 @@ function ProfilePage() {
     <>
       <h1 className={styles.title}>Profil</h1>
       <div className={styles.wrapper}>
-        <form onSubmit={onSave}>
+        <form>
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder={name || "Kari Nordmann"}
-              />
+              <input type="text" placeholder={name ? name : "Kari Nordmann"} />
               <FaUser className={styles.icon} />
             </div>
           </label>
-
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
@@ -136,33 +125,40 @@ function ProfilePage() {
                 type="text"
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
-                placeholder={email || "eksempel@eksempel.no"}
+                placeholder={email ? email : "eksempel@eksempel.no"}
               />
               <IoMdMail className={styles.icon} />
             </div>
           </label>
-
           <label className={styles.inputLabel}>
             Mobil
             <div className={styles.inputField}>
-              <input type="text" placeholder={phonePrefix || "22334455"} readOnly />
+              <input
+                type="text"
+                placeholder={phonePrefix ? phonePrefix : "22334455"}
+              />
               <FaPhone className={styles.icon} />
             </div>
           </label>
-
           <label className={styles.inputLabel}>
             Adresse
             <div className={styles.inputField}>
-              <input type="text" placeholder={address || "gatenavn 1"} readOnly />
+              <input
+                type="text"
+                placeholder={address ? address : "gatenavn 1"}
+              />
               <FaHome className={styles.icon} />
             </div>
           </label>
-
-          <input type="submit" className={styles.buttons} value="Lagre endringer" />
+          <input
+            type="submit"
+            onClick={onSave}
+            className={styles.buttons}
+            value="Lagre endringer"
+          ></input>
         </form>
       </div>
     </>
   );
 }
-
 export default ProfilePage;
