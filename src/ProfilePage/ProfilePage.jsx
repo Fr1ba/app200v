@@ -28,24 +28,40 @@ function ProfilePage() {
 
       const entity = await response.json();
 
-      setName(entity.name1 || null);
-      setNewName(entity.name1 || "");
-
-      if (entity.emails && entity.emails.length > 0) {
-        setEmail(entity.emails[0].email);
-        setNewEmail(entity.emails[0].email);
+      // Extract the name
+      if (entity.name1) {
+        setName(entity.name1); // Update state with name
       } else {
-        setEmail(null);
-        setNewEmail("");
+        setName(null); // if no name is found, the value of name is set to null so a placeholder is shown
+        console.log("No name found in response");
+        return null;
+      }
+      // Extract the email
+      if (entity.emails && entity.emails.length > 0) {
+        setEmail(entity.emails[0].email); // Update state with email
+      } else {
+        setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
+        console.log("No email found in response");
+        return null;
       }
 
-      setPhonePrefix(entity.corporation?.phoneNumberPrefix || null);
-
-      if (entity.addresses && entity.addresses[0]) {
-        const addr = `${entity.addresses[0].street} ${entity.addresses[0].streetNumber}`;
-        setAddress(addr);
+      if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+        setPhonePrefix(entity.corporation.phoneNumberPrefix);
+      } else {
+        setPhonePrefix(null);
+        console.log("No phone number found in response");
+        return null;
+      }
+      // Extract the address
+      if (entity.addresses) {
+        setAddress(
+          entity.addresses[0].street + " " + entity.addresses[0].streetNumber
+        );
+        console.log(address);
       } else {
         setAddress(null);
+        console.log("No address found in response");
+        return null;
       }
     } catch (error) {
       console.error("Error fetching data:", error);
