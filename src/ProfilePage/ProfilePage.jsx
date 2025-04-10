@@ -9,9 +9,11 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [name, setName] = useState("");
-  const [phonePrefix, setPhonePrefix] = useState("");
+//  const [phonePrefix, setPhonePrefix] = useState("");
+  const [number, setNumber] = useState("");
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
     fetchEntity();
@@ -46,13 +48,23 @@ function ProfilePage() {
         return null;
       }
 
-      if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+     /* if (entity.corporation && entity.corporation.phoneNumberPrefix) {
         setPhonePrefix(entity.corporation.phoneNumberPrefix);
       } else {
         setPhonePrefix(null);
         console.log("No phone number found in response");
         return null;
+      }*/
+
+      //Extract the number
+       if (entity.numbers) {
+        setNumber(entity.numbers[0].number);
+      } else {
+        setNumber(null);
+        console.log("No phone number found in response");
+        return null;
       }
+
       // Extract the address
       if (entity.addresses) {
         setAddress(
@@ -105,6 +117,18 @@ function ProfilePage() {
         changes = true;
       }
 
+      if (newNumber !== entity.numbers[0].number) {
+        entity.numbers[0].number = newNumber;
+        changes = true;
+      }else if(!number){
+        entity.numbers = [... number, {
+          numberType: 10,
+          number: {newNumber},
+          description: "",
+          seqNo: 1
+        }];
+      }
+
       if (!changes) return;
 
       const result = await updateProfile(entity);
@@ -143,7 +167,7 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
-                placeholder={phonePrefix ? phonePrefix : "22334455"}
+                placeholder={number ? number: "22334455"}
               />
               <FaPhone className={styles.icon} />
             </div>
