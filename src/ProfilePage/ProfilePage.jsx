@@ -11,6 +11,7 @@ function ProfilePage() {
   const [name, setName] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
+  const [newAddress, setNewAddress] = useState("");
 
   useEffect(() => {
     fetchEntity();
@@ -22,7 +23,7 @@ function ProfilePage() {
         method: "GET",
         credentials: "include",
       });
-
+      console.log(`${endpoint}/rest/itxems/entity`);
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -96,6 +97,14 @@ function ProfilePage() {
         changes = true;
       }
 
+      
+      if (newAddress !== entity.address) {
+        let splitAdress = newAddress.split(" ");
+        entity.addresses[0].street = splitAdress[0];
+        entity.addresses[0].streetNumber = splitAdress[1];
+        changes = true;
+      }
+
       if (!changes) return;
 
       const result = await updateProfile(entity);
@@ -123,7 +132,6 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
-                value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
@@ -145,6 +153,7 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
+                onChange={(e) => setNewAddress(e.target.value)}
                 placeholder={address ? address : "gatenavn 1"}
               />
               <FaHome className={styles.icon} />
