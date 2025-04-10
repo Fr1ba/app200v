@@ -47,14 +47,13 @@ function ProfilePage() {
         return null;
       }
 
-     if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+      if (entity.corporation && entity.corporation.phoneNumberPrefix) {
         setPhonePrefix(entity.corporation.phoneNumberPrefix);
       } else {
         setPhonePrefix(null);
         console.log("No phone number found in response");
         return null;
       }
-
 
       // Extract the address
       if (entity.addresses) {
@@ -100,18 +99,49 @@ function ProfilePage() {
       const entity = await response.json();
       let changes = false;
 
-    
       if (newEmail && newEmail !== entity.emails[0].email) {
         entity.emails[0].email = newEmail;
         changes = true;
       }
 
-      
       if (newAddress && newAddress !== entity.address) {
         let splitAdress = newAddress.split(" ");
-        entity.addresses[0].street = splitAdress[0];
-        entity.addresses[0].streetNumber = splitAdress[1];
-        changes = true;
+        if (splitAdress.length == 2) {
+          entity.addresses[0].street = splitAdress[0];
+          entity.addresses[0].streetNumber = splitAdress[1];
+          changes = true;
+        } else if (splitAdress.length < 2) {
+          entity.addresses[0].street = newAddress;
+          entity.addresses[0].streetNumber = "";
+          changes = true;
+        } else if (splitAdress.length > 2) {
+          /*let streetName = "";
+          for (let i = 0; i < splitAdress.length - 1; i++) {
+            streetName += splitAdress[i] + " ";
+          }
+          let streetNumber = splitAdress[splitAdress.length - 1];
+          if (streetNumber.isInteger) {
+            entity.addresses[0].streetNumber =
+              splitAdress[splitAdress.length - 1];
+          } else {
+            streetName += splitAdress[splitAdress.length - 1];
+            entity.addresses[0].streetNumber = "";
+          }
+          entity.addresses[0].street = streetName;*/
+          let streetName = splitAdress.slice(0, -1).join(" ");
+          let streetNumber = splitAdress[splitAdress.length - 1];
+
+          if (!isNaN(streetNumber)) {
+            entity.addresses[0].street = streetName;
+            entity.addresses[0].streetNumber = streetNumber;
+          } else {
+            // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
+            entity.addresses[0].street = streetName + " " + streetNumber;
+            entity.addresses[0].streetNumber = "";
+          }
+
+          changes = true;
+        }
       }
 
       if (!changes) {
@@ -142,16 +172,19 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input type="text" 
-              readOnly={true}
-              placeholder={name ? name : "Kari Nordmann"} />
+              <input
+                type="text"
+                readOnly={true}
+                placeholder={name ? name : "Kari Nordmann"}
+              />
               <FaUser className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input type="email" 
+              <input
+                type="email"
                 readOnly={!isEditable}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
@@ -165,7 +198,7 @@ function ProfilePage() {
               <input
                 type="text"
                 readOnly={!isEditable}
-                placeholder={phonePrefix ? phonePrefix: "22334455"}
+                placeholder={phonePrefix ? phonePrefix : "22334455"}
               />
               <FaPhone className={styles.icon} />
             </div>
@@ -182,14 +215,14 @@ function ProfilePage() {
               <FaHome className={styles.icon} />
             </div>
           </label>
-          <button type="submit"  onClick={onSave} className="editButton">
+          <button type="submit" onClick={onSave} className="editButton">
             {isEditable ? "Lagre endringer" : "Rediger"}
           </button>
           {isEditable && (
             <button type="button" onClick={onCancel} className="cancelButton">
-             Avbryt
+              Avbryt
             </button>
-      )}
+          )}
         </form>
       </div>
     </>
