@@ -9,11 +9,9 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [name, setName] = useState("");
-//  const [phonePrefix, setPhonePrefix] = useState("");
-  const [number, setNumber] = useState("");
+  const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
-  const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
     fetchEntity();
@@ -48,27 +46,19 @@ function ProfilePage() {
         return null;
       }
 
-     /* if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+     if (entity.corporation && entity.corporation.phoneNumberPrefix) {
         setPhonePrefix(entity.corporation.phoneNumberPrefix);
       } else {
         setPhonePrefix(null);
         console.log("No phone number found in response");
         return null;
-      }*/
-
-      //Extract the number
-       if (entity.numbers) {
-        setNumber(entity.numbers[0].number);
-      } else {
-        setNumber(null);
-        console.log("No phone number found in response");
-        return null;
       }
+
 
       // Extract the address
       if (entity.addresses) {
         setAddress(
-          entity.addresses[0].street + " " + entity.addresses[0].streetNumber
+          entity.addresses[1].street + " " + entity.addresses[1].streetNumber
         );
         console.log(address);
       } else {
@@ -104,29 +94,17 @@ function ProfilePage() {
       const entity = await response.json();
       let changes = false;
 
-      if (newEmail !== entity.emails[0].email) {
+      if (newEmail && newEmail !== entity.emails[0].email) {
         entity.emails[0].email = newEmail;
         changes = true;
       }
 
       
-      if (newAddress !== entity.address) {
+      if (newAddress && newAddress !== entity.address) {
         let splitAdress = newAddress.split(" ");
-        entity.addresses[0].street = splitAdress[0];
-        entity.addresses[0].streetNumber = splitAdress[1];
+        entity.addresses[1].street = splitAdress[0];
+        entity.addresses[1].streetNumber = splitAdress[1];
         changes = true;
-      }
-
-      if (newNumber !== entity.numbers[0].number) {
-        entity.numbers[0].number = newNumber;
-        changes = true;
-      }else if(!number){
-        entity.numbers = [... number, {
-          numberType: 10,
-          number: {newNumber},
-          description: "",
-          seqNo: 1
-        }];
       }
 
       if (!changes) return;
@@ -167,7 +145,7 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
-                placeholder={number ? number: "22334455"}
+                placeholder={phonePrefix ? phonePrefix: "22334455"}
               />
               <FaPhone className={styles.icon} />
             </div>
