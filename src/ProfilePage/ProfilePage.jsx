@@ -12,6 +12,7 @@ function ProfilePage() {
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     fetchEntity();
@@ -58,7 +59,7 @@ function ProfilePage() {
       // Extract the address
       if (entity.addresses) {
         setAddress(
-          entity.addresses[1].street + " " + entity.addresses[1].streetNumber
+          entity.addresses[0].street + " " + entity.addresses[0].streetNumber
         );
         console.log(address);
       } else {
@@ -85,6 +86,11 @@ function ProfilePage() {
   const onSave = async (e) => {
     e.preventDefault();
 
+    if (!isEditable) {
+      setIsEditable(true);
+      return;
+    }
+
     try {
       const response = await fetch(`${endpoint}/rest/itxems/entity`, {
         method: "GET",
@@ -94,6 +100,7 @@ function ProfilePage() {
       const entity = await response.json();
       let changes = false;
 
+    
       if (newEmail && newEmail !== entity.emails[0].email) {
         entity.emails[0].email = newEmail;
         changes = true;
@@ -102,19 +109,29 @@ function ProfilePage() {
       
       if (newAddress && newAddress !== entity.address) {
         let splitAdress = newAddress.split(" ");
-        entity.addresses[1].street = splitAdress[0];
-        entity.addresses[1].streetNumber = splitAdress[1];
+        entity.addresses[0].street = splitAdress[0];
+        entity.addresses[0].streetNumber = splitAdress[1];
         changes = true;
       }
 
-      if (!changes) return;
+      if (!changes) {
+        setIsEditable(false);
+        return;
+      }
 
       const result = await updateProfile(entity);
       console.log("Updated:", result);
       fetchEntity();
+      setIsEditable(false);
     } catch (error) {
       console.error("Error saving profile:", error);
     }
+  };
+
+  const onCancel = () => {
+    setNewEmail(email);
+    setNewAddress(address);
+    setIsEditable(false);
   };
 
   return (
@@ -125,15 +142,17 @@ function ProfilePage() {
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input type="text" placeholder={name ? name : "Kari Nordmann"} />
+              <input type="text" 
+              readOnly={true}
+              placeholder={name ? name : "Kari Nordmann"} />
               <FaUser className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input
-                type="text"
+              <input type="email" 
+                readOnly={!isEditable}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
@@ -145,6 +164,7 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
+                readOnly={!isEditable}
                 placeholder={phonePrefix ? phonePrefix: "22334455"}
               />
               <FaPhone className={styles.icon} />
@@ -155,18 +175,21 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
+                readOnly={!isEditable}
                 onChange={(e) => setNewAddress(e.target.value)}
                 placeholder={address ? address : "gatenavn 1"}
               />
               <FaHome className={styles.icon} />
             </div>
           </label>
-          <input
-            type="submit"
-            onClick={onSave}
-            className={styles.buttons}
-            value="Lagre endringer"
-          ></input>
+          <button type="submit"  onClick={onSave} className="editButton">
+            {isEditable ? "Lagre endringer" : "Rediger"}
+          </button>
+          {isEditable && (
+            <button type="button" onClick={onCancel} className="cancelButton">
+             Avbryt
+            </button>
+      )}
         </form>
       </div>
     </>
