@@ -135,7 +135,7 @@ function ProfilePage() {
             entity.addresses[0].street = streetName;
             entity.addresses[0].streetNumber = streetNumber;
           } else {
-            // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
+           // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
             entity.addresses[0].street = streetName + " " + streetNumber;
             entity.addresses[0].streetNumber = "";
           }
@@ -197,7 +197,7 @@ function ProfilePage() {
             <div className={styles.inputField}>
               <input
                 type="text"
-                readOnly={!isEditable}
+                readOnly={true}
                 placeholder={phonePrefix ? phonePrefix : "22334455"}
               />
               <FaPhone className={styles.icon} />
