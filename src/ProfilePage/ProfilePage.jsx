@@ -86,6 +86,8 @@ function ProfilePage() {
     e.preventDefault();
 
     if (!isEditable) {
+      setNewEmail(email);
+      setNewAddress(address);
       setIsEditable(true);
       return;
     }
@@ -187,6 +189,7 @@ function ProfilePage() {
                 type="email"
                 readOnly={!isEditable}
                 onChange={(e) => setNewEmail(e.target.value)}
+                value={newEmail}
                 placeholder={email ? email : "eksempel@eksempel.no"}
               />
               <IoMdMail className={styles.icon} />
@@ -210,6 +213,7 @@ function ProfilePage() {
                 type="text"
                 readOnly={!isEditable}
                 onChange={(e) => setNewAddress(e.target.value)}
+                value={newAddress}
                 placeholder={address ? address : "gatenavn 1"}
               />
               <FaHome className={styles.icon} />
