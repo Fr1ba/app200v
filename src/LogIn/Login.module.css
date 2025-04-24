@@ -1,53 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-.container {  
+.container { /* Container -  centers all content both vertically and horizontally */
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    padding: 20px;  
     
 }
 
-.logoContainer {
+.logoContainer { /* container - centers the logo */
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
-    height: 20vh;
+    margin-top: 50px;
 }
 
-.logoContainer .logo {
-    height: 70px;
-    width: auto;
+.logo { /* logo image */
+    width: 100px;
+    height: 100px;
 }
 
-.wrapper { /*Log in box*/
+
+.wrapper { /* Main login box */
     width: 420px;
     border-radius: 10px;
     padding: 30px 40px;
     box-sizing: border-box;
+   
 }
-
-.wrapper h1 { /*log in title*/  /*selector works because it’s a descendant selector of .wrapper*/
-    font-size: 36px;
+.wrapper h1 { /* "Velkommen" heading inside the wrapper */
+    font: var(--font);
+    font-size: 30px;
+    color: var(--textColor);
     text-align: center;
+    margin-top: 10px;  
+    margin-bottom: 50px;
 }
 
-.wrapper .inputBox { /*username and password boxes*/
+.wrapper .inputBox { /* Container for username and password imputboxes */
     position: relative;
-    width: 100%;
-    height: 50px;
-    margin: 30px 0;
+    width: 90%;
+    height: 35px;
+    margin: 30px auto;
+    
 }
 
-.inputBox input { 
+.inputBox:first-of-type { /* Extra spacing after the first input box (username) */
+    margin-bottom: 50px;
+  }
+  
+.inputBox input { /* Styling for the input elements */
     width: 100%;
     height: 100%;
     background:#F2F2F2;
     border: #F2F2F2;
     border-radius: 60px;
     font-size: 16px;
-    
-    padding: 15px 40px 15px;
+    padding: 15px 50px 15px 20px;
     box-sizing: border-box;
 }
 
@@ -59,36 +68,77 @@
     font-size: 17px;
 }
 
-.wrapper .rememberForgot { /*Remember me & Forgot password?*/
+.passwordToggle { /* Password visibility toggle icon */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  .wrapper .rememberForgot { /* Container for "remember me" and "forgot password?" */
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 30px;
+    padding-top: 15px;
     font-size: 14.5px;
     margin: -15px 0 15px;
-}
-
-.rememberForgot label input { /*remember me checkbox*/
+    gap: 10px; 
+  }
+  
+  .rememberForgot label { /* "Remember me" label and checkbox */
+    display: flex;
+    align-items: center; 
+    line-height: 1;    
+  }
+  
+  .rememberForgot label input { /* Checkbox styling */
     accent-color: var(--brandColor);
     margin-right: 5px;
     margin-left: 8px;
-}
+  }
 
-.rememberForgot a { /*forgot password?*/
+.rememberForgot a { /* "Forgot password?" link */
     color: #221919;
     text-decoration: none; /* not underlining all the time*/
 }
 
-.rememberForgot a:hover {
+.rememberForgot a:hover { /* hover "Forgot password?" link */
     text-decoration: underline; /*underline when hovering*/
 }
 
-.wrapper button { /*login button*/
-    width: 100%;
-    height: 45px;
+.buttonContainer { /* container for login button to center it */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.wrapper button { /* Login button styling */
+    margin-top: 40px; 
+    width: 80%;
+    height: 35px;
     background: var(--brandColor);
     border: none;
-    border-radius: 60px; /*rounded edges */
+    border-radius: 60px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     font-size: 16px;
-    color: #ffffff;
+    color: var(--accentTextColor);
     font-weight: 700;
-}
+    
+  }
+  
+  .wrapper button:hover { /* Login button Hover effect) */
+    background-color: #4e93d4; 
+    cursor: pointer;
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+  }
+
+  .wrapper button:active { /* Active state when the Login button is being clicked */
+    transform: scale(0.98); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  }
+  
