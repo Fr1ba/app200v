@@ -53,7 +53,7 @@ function App() {
                         <Route path="/" element={
                                         <>
                                             <CaseList />
-                                            <SendMessage/>
+                                            <Message/>
                                         </>
                                     }
                                 />
