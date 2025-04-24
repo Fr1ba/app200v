@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const endpoint = "https://app06.itxnorge.no";
 
-function SendMessage() {
+function Message() {
   const [message, setMessage] = useState("");
   const [caseEactId, setCaseEactId] = useState("");
   const [replyToEactId, setReplyToEactId] = useState("");
