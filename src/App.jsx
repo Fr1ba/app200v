@@ -7,7 +7,7 @@ import CaseList from "./CaseList/CaseList.jsx";
 import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
 import APITest from "./APITest.jsx";
-import SendMessage from "./Message/Message.jsx";
+import Message from "./Message/Message.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
