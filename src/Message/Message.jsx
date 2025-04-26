@@ -54,7 +54,7 @@ function Message() {
 
   // Read messages
   useEffect(() => {
-    setCaseEactId(3453451); // Set it here
+    setCaseEactId(3453451); // OBS: DUMMY! Eventually we will use the selected case
   }, []);
   
   useEffect(() => {
