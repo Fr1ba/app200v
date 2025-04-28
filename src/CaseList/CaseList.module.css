@@ -1,9 +1,15 @@
-﻿.filter{
-    margin-top: 40px;
-    margin-left: 45px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    border-radius: 8px;
+﻿.div{
+    width: 60%;
+}
+.list{
+    width: 40%;
+    height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px;
+    float: left;
+    position: absolute;
+    scroll-behavior: smooth;
 }
 
 .search{
@@ -12,26 +18,59 @@
     border-radius: 8px;
     border-width: 1px;
 }
-/*
-.line{
-    border-left: 6px solid gray;
-    height: 500px;
-    margin-left: 600px;
+
+/* Dropdown Buttons (Filter & Sort) */
+.dropbtnFilter, .dropbtnSort {
+    background-color: #80B6EA;
+    color: white;
+    padding: 16px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.dropbtnFilter:hover, .dropbtnFilter:focus,
+.dropbtnSort:hover, .dropbtnSort:focus {
+    background-color: #6aa6dc;
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
     display: inline-block;
-    justify-content: space-between;
-}*/
-.div{
-    width: 60%;
 }
-.list{
-    width: 40%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    padding: 10px;
-    float: left;
+
+/* Dropdown content (Filter & Sort) */
+.dropdown_contentFilter, .dropdown_contentSort {
+    display: none;
     position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
+
+/* Links inside dropdown */
+.dropdown_contentFilter a, .dropdown_contentSort a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Hover effect on links */
+.dropdown_contentFilter a:hover, .dropdown_contentSort a:hover {
+    background-color: #ddd;
+}
+
+/* Show dropdown when .show is added */
+.show {
+    display: block;
+}
+
 .button {
     background-color: #80B6EA; /* Light blue */
     color: white;
@@ -43,13 +82,16 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: 250px;
+    text-align: center;      /* center text */
+    text-decoration: none;   /* remove underline */
+    display: inline-block;
 
     position: fixed;
     bottom: 20px;
     left:275px;
     transform: translateX(-50%);
+    z-index: -1;
 }
-
 .button:hover {
     background-color: #6aa6dc; /* Slightly darker on hover */
 }
