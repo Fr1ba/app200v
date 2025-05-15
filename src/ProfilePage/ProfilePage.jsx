@@ -69,60 +69,77 @@ function ProfilePage() {
     fetchData();
   }, []);
   return (
-    <>
-      <h1 className={styles.title}>Profil</h1>
+    <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
+      <h1 className={styles.title}>Profil</h1>
         <form>
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input type="text" placeholder={name ? name : "Kari Nordmann"} />
+            <input
+              type="text"
+              placeholder={name ? name : "Kari Nordmann"}
+              value={name}
+              disabled
+              className={styles["disabled-input"]}
+            />  
+
               <FaUser className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input
-                type="text"
-                placeholder={email ? email : "eksempel@eksempel.no"}
-              />
+            <input
+              type="text"
+              placeholder="eksempel@eksempel.no"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles["editable-input"]}
+            />
+
               <IoMdMail className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
             Mobil
             <div className={styles.inputField}>
-              <input
-                type="text"
-                placeholder={phonePrefix ? phonePrefix : "22334455"}
-              />
+            <input
+              type="text"
+              placeholder={phonePrefix ? phonePrefix : "22334455"}
+              value={phonePrefix}
+              disabled
+              className={styles["disabled-input"]}
+            />
+
               <FaPhone className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
             Adresse
             <div className={styles.inputField}>
-              <input
-                type="text"
-                placeholder={address ? address : "gatenavn 1"}
-              />
+            <input
+              type="text"
+              placeholder="gatenavn 1"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className={styles["editable-input"]}
+            />
+
               <FaHome className={styles.icon} />
             </div>
           </label>
+          <div className={styles.buttonContainer}>
           <input
             type="submit"
-            className={styles.buttons}
+            className={styles.savechangesbuttons}
             value="Lagre endringer"
           ></input>
-          <input
-            type="button"
-            className={styles.buttons}
-            value="Logg ut"
-          ></input>
+          
+          </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
