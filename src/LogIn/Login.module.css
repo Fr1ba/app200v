@@ -142,3 +142,43 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   }
   
+  @media (max-width: 600px) {
+    .wrapper {
+      width: 100%;
+      padding: 20px;
+      border-radius: 0;
+    }
+  
+    .wrapper h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+  
+    .wrapper .inputBox {
+      width: 100%;
+      margin: 20px auto;
+    }
+  
+    .wrapper button {
+      width: 100%;
+      margin-top: 30px;
+    }
+  
+    .rememberForgot {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 15px;
+      padding-right: 15px;
+      gap: 5px;
+    }
+  
+    .logo {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .logoContainer {
+      margin-top: 30px;
+    }
+  }
+  
