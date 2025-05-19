@@ -167,42 +167,25 @@ function ProfilePage() {
   };
 
   return (
-    <>
-      <h1 className={styles.title}>Profil</h1>
+    <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
+      <h1 className={styles.title}>Profil</h1>
         <form>
           <label className={styles.inputlabel}>
             Navn
             <div className={styles.inputField}>
-              <input
-                type="text"
-                readOnly={true}
-                placeholder={name ? name : "Kari Nordmann"}
-              />
               <FaUser className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputlabel}>
             Epost
             <div className={styles.inputField}>
-              <input
-                type="email"
-                readOnly={!isEditable}
-                onChange={(e) => setNewEmail(e.target.value)}
-                value={newEmail}
-                placeholder={email ? email : "eksempel@eksempel.no"}
-              />
               <IoMdMail className={styles.icon} />
             </div>
           </label>
           <label className={styles.inputLabel}>
             Mobil
             <div className={styles.inputField}>
-              <input
-                type="text"
-                readOnly={true}
-                placeholder={phonePrefix ? phonePrefix : "22334455"}
-              />
               <FaPhone className={styles.icon} />
             </div>
           </label>
@@ -229,7 +212,7 @@ function ProfilePage() {
           )}
         </form>
       </div>
-    </>
+    </div>
   );
 }
 export default ProfilePage;
