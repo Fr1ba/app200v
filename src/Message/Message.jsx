@@ -1,9 +1,13 @@
 // SendMessage.jsx
 import React, { useEffect, useState } from "react";
 import styles from "./Message.module.css";
+import TextEditor from "../TextEditor/TextEditor.jsx";
 
 const endpoint = "https://app06.itxnorge.no";
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+/*******  f4d5f7cb-bd77-48aa-a882-6913195b38a6  *******/
 function Message() {
   const [message, setMessage] = useState("");
   const [caseEactId, setCaseEactId] = useState("");
@@ -117,7 +121,8 @@ function Message() {
         <form onSubmit={handleSubmit} className={styles.messageForm}>
           <label>
             Skriv inn din melding her
-            <textarea
+            <TextEditor
+              className={styles.textEditor}
               value={message}
               onChange={(e) => setMessage(e.target.value)} />
           </label>
