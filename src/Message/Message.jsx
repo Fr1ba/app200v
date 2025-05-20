@@ -88,30 +88,44 @@ function Message() {
     fetchMessages();
   }, [caseEactId]);
 
-  return (
-    <div className={styles.rightContainer}>
-      <h3>Meldinger {caseEactId}</h3>
-      <ul>
-        {messages.map((msg) => (
-          <li key={msg.eactId}>
-            <strong>{msg.subject || "(uten tittel)"}</strong><br />
-            <div dangerouslySetInnerHTML={{ __html: msg.body }} />
-          </li>
+return (
+  <div className={styles.rightContainer}>
+    <h3>Meldinger {caseEactId}</h3>
 
-        ))}
-      </ul>
+    {/* Gruppér meldinger etter subject */}
+    {Object.entries(
+      messages.reduce((acc, msg) => {
+        const subject = msg.subject || "(uten tittel)";
+        if (!acc[subject]) acc[subject] = [];
+        acc[subject].push(msg);
+        return acc;
+      }, {})
+    ).map(([subject, msgs]) => (
+      <div key={subject} className={styles.messageGroup}>
+        <h4>{subject}</h4>
+        <ul>
+          {msgs.map((msg) => (
+            <li key={msg.eactId}>
+              <div dangerouslySetInnerHTML={{ __html: msg.body }} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
 
-      <form onSubmit={handleSubmit} className={styles.messageForm}>
-        <p>Skriv inn din melding her</p>
-        <TextEditor
-          className={styles.textEditor}
-          value={message}
-          onChange={setMessage} />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Send</button>
-      </form>
-    </div>
-  );
+    <form onSubmit={handleSubmit} className={styles.messageForm}>
+      <p>Skriv inn din melding her</p>
+      <TextEditor
+        className={styles.textEditor}
+        value={message}
+        onChange={setMessage}
+      />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button type="submit">Send</button>
+    </form>
+  </div>
+);
+
 }
 
 export default Message;
