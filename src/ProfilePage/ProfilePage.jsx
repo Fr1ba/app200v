@@ -5,6 +5,13 @@ import { IoMdMail } from "react-icons/io";
 
 const endpoint = "https://app06.itxnorge.no";
 
+/**
+ * Component for the profile page where users can view or update their account information.
+ * @component
+ * @returns The profilepage component
+ * @author Vendela
+ * @author Trudy
+ */
 function ProfilePage() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -18,6 +25,11 @@ function ProfilePage() {
     fetchEntity();
   }, []);
 
+  /**
+   * Fetches the entity data from the API and saves the relevant data in the state.
+   * @function
+   * @author Vendela
+   */
   const fetchEntity = async () => {
     try {
       const response = await fetch(`${endpoint}/rest/itxems/entity`, {
@@ -71,6 +83,14 @@ function ProfilePage() {
     }
   };
 
+  /**
+   * Sends the updated entity data to the backend.
+   * @function
+   * @param entity - the entity object with changes made by the user
+   * @returns the response from the API
+   * @author Vendela
+   * @author Trudy
+   */
   const updateProfile = async (entity) => {
     const response = await fetch(`${endpoint}/rest/itxems/entity`, {
       method: "POST",
@@ -82,6 +102,13 @@ function ProfilePage() {
     return response.json();
   };
 
+  /**
+   * Handles the save button click. If changes have been made, the entity is updated with the changes.
+   * @function
+   * @param e - when the form is submitted
+   * @author Vendela
+   * @author Trudy
+   */
   const onSave = async (e) => {
     e.preventDefault();
 
@@ -137,7 +164,7 @@ function ProfilePage() {
             entity.addresses[0].street = streetName;
             entity.addresses[0].streetNumber = streetNumber;
           } else {
-           // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
+            // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
             entity.addresses[0].street = streetName + " " + streetNumber;
             entity.addresses[0].streetNumber = "";
           }
@@ -160,6 +187,11 @@ function ProfilePage() {
     }
   };
 
+  /**
+   * Cancels edit mode and resets form fields to current values.
+   * @function
+   * @author Trudy
+   */
   const onCancel = () => {
     setNewEmail(email);
     setNewAddress(address);
@@ -167,22 +199,20 @@ function ProfilePage() {
   };
 
   return (
-    <div className={styles.pageContainer}> 
+    <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
         <div className={styles.contentContainer}>
-        <h1 className={styles.title}>Profil</h1>
+          <h1 className={styles.title}>Profil</h1>
           <form>
             <label className={styles.inputLabel}>
               Navn
               <div className={styles.inputField}>
-              <input
-                type="text"
-                readOnly={true}
-                placeholder={name ? name : "Kari Nordmann"}
-                className={styles["disabled-input"]}
-              />
-
-
+                <input
+                  type="text"
+                  readOnly={true}
+                  placeholder={name ? name : "Kari Nordmann"}
+                  className={styles["disabled-input"]}
+                />
 
                 <FaUser className={styles.icon} />
               </div>
@@ -190,14 +220,18 @@ function ProfilePage() {
             <label className={styles.inputLabel}>
               Epost
               <div className={styles.inputField}>
-              <input
-                type="email"
-                readOnly={!isEditable}
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                placeholder={email ? email : "eksempel@eksempel.no"}
-                className={isEditable ? styles["editable-input"] : styles["disabled-input"]}
-              />
+                <input
+                  type="email"
+                  readOnly={!isEditable}
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder={email ? email : "eksempel@eksempel.no"}
+                  className={
+                    isEditable
+                      ? styles["editable-input"]
+                      : styles["disabled-input"]
+                  }
+                />
 
                 <IoMdMail className={styles.icon} />
               </div>
@@ -205,13 +239,12 @@ function ProfilePage() {
             <label className={styles.inputLabel}>
               Mobil
               <div className={styles.inputField}>
-              <input
-                type="text"
-                readOnly={true}
-                placeholder={phonePrefix ? phonePrefix : "22334455"}
-                className={styles["disabled-input"]}
-              />
-
+                <input
+                  type="text"
+                  readOnly={true}
+                  placeholder={phonePrefix ? phonePrefix : "22334455"}
+                  className={styles["disabled-input"]}
+                />
 
                 <FaPhone className={styles.icon} />
               </div>
@@ -225,22 +258,33 @@ function ProfilePage() {
                   value={newAddress}
                   onChange={(e) => setNewAddress(e.target.value)}
                   placeholder={address ? address : "gatenavn 1"}
-                  className={isEditable ? styles["editable-input"] : styles["disabled-input"]}
+                  className={
+                    isEditable
+                      ? styles["editable-input"]
+                      : styles["disabled-input"]
+                  }
                 />
 
                 <FaHome className={styles.icon} />
               </div>
-              
             </label>
             <div className={styles.buttonContainer}>
-            <button type="submit" onClick={onSave} className={styles.editButton}>
-              {isEditable ? "Lagre endringer" : "Rediger"}
-            </button>
-            {isEditable && (
-              <button type="button" onClick={onCancel} className={styles.cancelButton}>
-                Avbryt
+              <button
+                type="submit"
+                onClick={onSave}
+                className={styles.editButton}
+              >
+                {isEditable ? "Lagre endringer" : "Rediger"}
               </button>
-            )}
+              {isEditable && (
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  className={styles.cancelButton}
+                >
+                  Avbryt
+                </button>
+              )}
             </div>
           </form>
         </div>
