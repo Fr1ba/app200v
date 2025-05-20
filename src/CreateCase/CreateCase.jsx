@@ -74,56 +74,67 @@ function CreateCase() {
   };
 
   return (
-    <div id={styles.mainContainer}>
-      <h1>Opprett ny sak</h1>
-      {error && <div className={styles.errorMessage}>{error}</div>}
-      {success && <div className={styles.successMessage}>Saken din er opprettet!</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label id={styles.subjectLabel}>Emne:</label>
-            <input
-              type="text"
-              id={styles.subjectInput}
-              name="subject"
-              value={inputs.subject}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label id={styles.categoryLabel}>Kategori:</label>
-            <select
-              id={styles.categoryInput}
-              name="category"
-              value={inputs.category}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled hidden>Velg kategori...</option>
-              <option value="Return">Retur</option>
-              <option value="Claim">Reklamasjon</option>
-            </select>
-          </div>
+    <div className={styles.pageContainer}>
+      <div className={styles.wrapper}>
+        <div className={styles.title}>
+          <h1>Opprett ny sak</h1>
         </div>
-        <div className={styles.formGroup}>
-          <label id={styles.detailsLabel}>Detaljer:</label>
-          <textarea
-            id={styles.detailsInput}
-            name="details"
-            value={inputs.details}
-            onChange={handleChange}
-            required
-          />
+        
+        {error && <div className={styles.errorMessage}>{error}</div>}
+        {success && <div className={styles.successMessage}>Saken din er opprettet!</div>}
+        
+        <div className={styles.contentContainer}>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formRow}>
+              <div className={styles.inputField}>
+                <label className={styles.inputLabel}>Emne:</label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={inputs.subject}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <div className={styles.inputField}>
+                <label className={styles.inputLabel}>Kategori:</label>
+                <select
+                  name="category"
+                  value={inputs.category}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled hidden>Velg kategori...</option>
+                  <option value="Return">Retur</option>
+                  <option value="Claim">Reklamasjon</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className={styles.inputField}>
+              <label className={styles.inputLabel}>Detaljer:</label>
+              <textarea
+                name="details"
+                value={inputs.details}
+                onChange={handleChange}
+                required
+                className={styles.textareaField}
+              />
+            </div>
+            
+            <div className={styles.buttonContainer}>
+              <button
+                type="submit"
+                className={styles.SubmitButton}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Oppretter..." : "Opprett sak"}
+              </button>
+            </div>
+          </form>
         </div>
-        <input
-          type="submit"
-          value={isSubmitting ? "Oppretter..." : "Opprett sak"}
-          id={styles.createButton}
-          disabled={isSubmitting}
-        />
-      </form>
+      </div>
     </div>
   );
 }
