@@ -24,6 +24,7 @@ OBS! skriv ny css i kommentar før du pusher på denne siden!
 body {
     font-family: var(--font);
     margin:0;
+    overflow: hidden;
 }
 
 /*
