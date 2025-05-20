@@ -167,69 +167,85 @@ function ProfilePage() {
   };
 
   return (
-    <>
-      <h1 className={styles.title}>Profil</h1>
+    <div className={styles.pageContainer}> 
       <div className={styles.wrapper}>
-        <form>
-          <label className={styles.inputlabel}>
-            Navn
-            <div className={styles.inputField}>
+        <div className={styles.contentContainer}>
+        <h1 className={styles.title}>Profil</h1>
+          <form>
+            <label className={styles.inputLabel}>
+              Navn
+              <div className={styles.inputField}>
               <input
                 type="text"
                 readOnly={true}
                 placeholder={name ? name : "Kari Nordmann"}
+                className={styles["disabled-input"]}
               />
-              <FaUser className={styles.icon} />
-            </div>
-          </label>
-          <label className={styles.inputlabel}>
-            Epost
-            <div className={styles.inputField}>
+
+
+
+                <FaUser className={styles.icon} />
+              </div>
+            </label>
+            <label className={styles.inputLabel}>
+              Epost
+              <div className={styles.inputField}>
               <input
                 type="email"
                 readOnly={!isEditable}
-                onChange={(e) => setNewEmail(e.target.value)}
                 value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
                 placeholder={email ? email : "eksempel@eksempel.no"}
+                className={isEditable ? styles["editable-input"] : styles["disabled-input"]}
               />
-              <IoMdMail className={styles.icon} />
-            </div>
-          </label>
-          <label className={styles.inputLabel}>
-            Mobil
-            <div className={styles.inputField}>
+
+                <IoMdMail className={styles.icon} />
+              </div>
+            </label>
+            <label className={styles.inputLabel}>
+              Mobil
+              <div className={styles.inputField}>
               <input
                 type="text"
                 readOnly={true}
                 placeholder={phonePrefix ? phonePrefix : "22334455"}
+                className={styles["disabled-input"]}
               />
-              <FaPhone className={styles.icon} />
-            </div>
-          </label>
-          <label className={styles.inputLabel}>
-            Adresse
-            <div className={styles.inputField}>
-              <input
-                type="text"
-                readOnly={!isEditable}
-                onChange={(e) => setNewAddress(e.target.value)}
-                value={newAddress}
-                placeholder={address ? address : "gatenavn 1"}
-              />
-              <FaHome className={styles.icon} />
-            </div>
-          </label>
-          <button type="submit" onClick={onSave} className="editButton">
-            {isEditable ? "Lagre endringer" : "Rediger"}
-          </button>
-          {isEditable && (
-            <button type="button" onClick={onCancel} className="cancelButton">
-              Avbryt
+
+
+                <FaPhone className={styles.icon} />
+              </div>
+            </label>
+            <label className={styles.inputLabel}>
+              Adresse
+              <div className={styles.inputField}>
+                <input
+                  type="text"
+                  readOnly={!isEditable}
+                  value={newAddress}
+                  onChange={(e) => setNewAddress(e.target.value)}
+                  placeholder={address ? address : "gatenavn 1"}
+                  className={isEditable ? styles["editable-input"] : styles["disabled-input"]}
+                />
+
+                <FaHome className={styles.icon} />
+              </div>
+              
+            </label>
+            <div className={styles.buttonContainer}>
+            <button type="submit" onClick={onSave} className={styles.editButton}>
+              {isEditable ? "Lagre endringer" : "Rediger"}
             </button>
-          )}
-        </form>
+            {isEditable && (
+              <button type="button" onClick={onCancel} className={styles.cancelButton}>
+                Avbryt
+              </button>
+            )}
+            </div>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 export default ProfilePage;
