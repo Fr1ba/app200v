@@ -1,11 +1,13 @@
 
 .container { /* Container -  centers all content both vertically and horizontally */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    padding: 20px;  
-    
+    height: 100vh;
+    padding: 20px; 
+
 }
 
 .logoContainer { /* container - centers the logo */
@@ -58,6 +60,15 @@
     font-size: 16px;
     padding: 15px 50px 15px 20px;
     box-sizing: border-box;
+}
+
+
+.inputBox input:focus {
+  border: 1px solid var(--brandColor); /* eller bruk f.eks. #4e93d4 direkte */
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* subtil blå glød */
+  transition: all 0.2s ease;
 }
 
 .inputBox .icon { /*icons for username and password*/
@@ -143,10 +154,16 @@
   }
   
   @media (max-width: 600px) {
-    .wrapper {
+
+    .wrapper .inputBox {
       width: 100%;
-      padding: 20px;
-      border-radius: 0;
+      margin: 20px auto;
+      height: auto;
+    }
+    
+    .inputBox input {
+      font-size: 15px; /* litt mindre font for mobil */
+
     }
   
     .wrapper h1 {
@@ -162,6 +179,8 @@
     .wrapper button {
       width: 100%;
       margin-top: 30px;
+      height: 45px;
+
     }
   
     .rememberForgot {
