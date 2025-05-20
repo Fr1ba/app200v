@@ -216,7 +216,7 @@ function ProfilePage() {
                 <FaPhone className={styles.icon} />
               </div>
             </label>
-            <label className={styles.inputLabel}>
+            <label className={styles.inputlabel}>
               Adresse
               <div className={styles.inputField}>
                 <input
