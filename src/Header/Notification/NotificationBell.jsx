@@ -31,7 +31,7 @@ function NotificationBell() {
 function notisArray(){
   const notisList = ["New message", "Case updated", "Case closed"];
   return (
-    <ul className={styles.notifiactionBox}>
+    <ul className={styles.notificationBox}>
       {notisList.map((noti, index) => (
       <li className={styles.notifications} key={index}>
           <strong>Case {index}:</strong> {noti}
