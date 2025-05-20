@@ -1,5 +1,5 @@
 .bell {
-    color: var(--headerTextColor);
+    color: var(--accentTextColor);
     width:40px;
     height:40px;
     margin: 20px;
@@ -40,7 +40,7 @@
     float: right;
     position: absolute;
     right: 0px;
-    z-index: 1;
+    z-index: 10;
 }
 
 .notifications{
