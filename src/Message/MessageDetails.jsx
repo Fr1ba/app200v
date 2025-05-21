@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./MessageDetails.module.css";
 
 function MessageDetails() {
   const [caseDetails, setCaseDetails] = useState(null);
