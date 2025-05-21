@@ -116,7 +116,7 @@
 }
 
 .desktopNavLinks a {
-  color: var(--headerTextColor);
+  color: var(--accentTextColor);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
