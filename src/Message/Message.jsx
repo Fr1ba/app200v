@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
+import MessageDetails from "./MessageDetails.jsx";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -66,20 +67,20 @@ function Message() {
         const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
           method: "POST",
           credentials: "include",
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             getConversations: false,
             getContent: true,
             draft: false,
-            conversationEactId: 3453453
-          })
+            conversationEactId: 3453453,
+          }),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
         setMessages(data.length ? data : []);
-
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -88,44 +89,44 @@ function Message() {
     fetchMessages();
   }, [caseEactId]);
 
-return (
-  <div className={styles.rightContainer}>
-    <h3>Meldinger {caseEactId}</h3>
+  return (
+    <div className={styles.rightContainer}>
+      <MessageDetails />
+      <h3>Meldinger {caseEactId}</h3>
 
-    {/* Gruppér meldinger etter subject */}
-    {Object.entries(
-      messages.reduce((acc, msg) => {
-        const subject = msg.subject || "(uten tittel)";
-        if (!acc[subject]) acc[subject] = [];
-        acc[subject].push(msg);
-        return acc;
-      }, {})
-    ).map(([subject, msgs]) => (
-      <div key={subject} className={styles.messageGroup}>
-        <h4>{subject}</h4>
-        <ul>
-          {msgs.map((msg) => (
-            <li key={msg.eactId}>
-              <div dangerouslySetInnerHTML={{ __html: msg.body }} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+      {/* Gruppér meldinger etter subject */}
+      {Object.entries(
+        messages.reduce((acc, msg) => {
+          const subject = msg.subject || "(uten tittel)";
+          if (!acc[subject]) acc[subject] = [];
+          acc[subject].push(msg);
+          return acc;
+        }, {})
+      ).map(([subject, msgs]) => (
+        <div key={subject} className={styles.messageGroup}>
+          <h4>{subject}</h4>
+          <ul>
+            {msgs.map((msg) => (
+              <li key={msg.eactId}>
+                <div dangerouslySetInnerHTML={{ __html: msg.body }} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
 
-    <form onSubmit={handleSubmit} className={styles.messageForm}>
-      <p>Skriv inn din melding her</p>
-      <TextEditor
-        className={styles.textEditor}
-        value={message}
-        onChange={setMessage}
-      />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button type="submit">Send</button>
-    </form>
-  </div>
-);
-
+      <form onSubmit={handleSubmit} className={styles.messageForm}>
+        <p>Skriv inn din melding her</p>
+        <TextEditor
+          className={styles.textEditor}
+          value={message}
+          onChange={setMessage}
+        />
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  );
 }
 
 export default Message;
