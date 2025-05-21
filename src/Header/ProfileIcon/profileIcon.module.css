@@ -1,5 +1,5 @@
 .profileIcon {
-    color: var(--headerTextColor);
+    color: var(--accentTextColor);
     stroke-width: 1.5;
     height: 45px;
     width: 45px;
@@ -15,7 +15,8 @@
     float: right;
     position: absolute;
     right: 0px;
-    color: var(--headerTextColor)
+    color: var(--accentTextColor);
+    z-index: 10;
 }
 
 .dropDownItems{

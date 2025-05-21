@@ -89,43 +89,45 @@ function Message() {
     fetchMessages();
   }, [caseEactId]);
 
-  return (
-    <div className={styles.rightContainer}>
-      <MessageDetails />
-      <h3>Meldinger {caseEactId}</h3>
+ return (
 
-      {/* Gruppér meldinger etter subject */}
-      {Object.entries(
-        messages.reduce((acc, msg) => {
-          const subject = msg.subject || "(uten tittel)";
-          if (!acc[subject]) acc[subject] = [];
-          acc[subject].push(msg);
-          return acc;
-        }, {})
-      ).map(([subject, msgs]) => (
-        <div key={subject} className={styles.messageGroup}>
-          <h4>{subject}</h4>
-          <ul>
-            {msgs.map((msg) => (
-              <li key={msg.eactId}>
-                <div dangerouslySetInnerHTML={{ __html: msg.body }} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <div className={styles.chatContainer}>
+        
+        {/* Gruppér meldinger etter subject */}
+        {Object.entries(
+          messages.reduce((acc, msg) => {
+            const subject = msg.subject || "(uten tittel)";
+            if (!acc[subject]) acc[subject] = [];
+            acc[subject].push(msg);
+            return acc;
+          }, {})
+        ).map(([subject, msgs]) => (
+          <div key={subject} className={styles.messageGroup}>
 
-      <form onSubmit={handleSubmit} className={styles.messageForm}>
-        <p>Skriv inn din melding her</p>
-        <TextEditor
-          className={styles.textEditor}
-          value={message}
-          onChange={setMessage}
-        />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Send</button>
-      </form>
-    </div>
+            <h3 className={styles.subjectline}>{subject}</h3>
+      
+            <ul className={styles.messageList}>
+              {msgs.map((msg) => (
+                <li
+                  key={msg.eactId}
+                  className={`${styles.messageBubble} ${ // checks if it is an incoming or outgoing message
+                    msg.direction === 2 ? styles.outgoing : styles.incoming
+                  }`}
+                >
+                  <div dangerouslySetInnerHTML={{ __html: msg.body }} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        <form onSubmit={handleSubmit} className={styles.messageForm}>
+          <TextEditor value={message} onChange={setMessage}/> 
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button type="submit">Send</button>
+        </form>
+
+      </div>
   );
 }
 
