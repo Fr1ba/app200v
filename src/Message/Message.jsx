@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
+import MessageDetails from "./MessageDetails.jsx";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -66,20 +67,20 @@ function Message() {
         const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
           method: "POST",
           credentials: "include",
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             getConversations: false,
             getContent: true,
             draft: false,
-            conversationEactId: 3453453
-          })
+            conversationEactId: 3453453,
+          }),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
         setMessages(data.length ? data : []);
-
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
