@@ -51,6 +51,7 @@ function Message() {
       console.log("Sent:", responseData);
       setMessage(""); // clear editor after send
       setError("");
+      await fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -60,8 +61,7 @@ function Message() {
     setCaseEactId(3453451);
   }, []);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
+  const fetchMessages = async () => {
       if (!caseEactId) return;
       try {
         const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
@@ -87,6 +87,7 @@ function Message() {
       }
     };
 
+  useEffect(() => {
     fetchMessages();
   }, [caseEactId]);
 
