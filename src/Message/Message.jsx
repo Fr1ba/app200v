@@ -81,6 +81,7 @@ function Message() {
 
         const data = await response.json();
         setMessages(data.length ? data : []);
+        data.reverse();
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
