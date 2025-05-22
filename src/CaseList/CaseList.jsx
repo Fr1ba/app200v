@@ -1,13 +1,20 @@
 ﻿import Case from './Case';
 import React, {useEffect, useState} from "react";
 import styles from "./CaseList.module.css";
-const endpoint = "https://app06.itxnorge.no"
+import { Link } from 'react-router-dom';
+
+
+const endpoint = "https://app06.itxnorge.no";
 
 function CaseList() {
 
+    const [filter, setFilter] = useState("all");
+    const [search, setSearch] = useState("");
+    const [sort, setSort] = useState("new");
+
     const [list, setList] = useState([]);
-    const [caseList, setCaseList] = useState()
-    const [search, setSearch] = useState("")
+    const [caseList, setCaseList] = useState();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,21 +34,18 @@ function CaseList() {
             );
         }
 
-    const data = fetchData().then((response) => response.json());
+        const data = fetchData().then((response) => response.json());
 
-    data.then(responseData => {
-        console.log(responseData);
-        setList(responseData)
-        CreateCases(responseData)
+        data.then(responseData => {
+            console.log(responseData);
+            setList(responseData)
+            CreateCases(responseData)
         }).catch(error => {
             console.error("Error fetching data:", error);
-    });
+        });
 
 
     }, []);
-
-    // const list = [{caseTitle: "Headphones", caseCategory: "Return", caseStatus: true},
-    //     {caseTitle: "Telephone", caseCategory: "Return", caseStatus: false}];
 
     function CreateCases(someList) {
         setCaseList(someList.map((caseItem) =>
@@ -50,57 +54,95 @@ function CaseList() {
 
     }
 
+    useEffect(() => {
+        var tempList = list;
 
-    //let filterState = true;
-    /* useEffect(() => {
-         caseList = Filter(filterState);
-     }, filterState);
- */
-    function Filter(state) {
-
-        switch (state) {
-            case "1":
-                CreateCases(list);
+        switch (filter) {
+            case "all":
                 break;
-            case "2":
-                CreateCases(list.filter(item => item.caseStatus === true));
+            case "active":
+                tempList = tempList.filter(item => item.caseStatus === true);
                 break;
-            case "3":
-                CreateCases(list.filter(item => item.caseStatus === false));
+            case "closed":
+                tempList = tempList.filter(item => item.caseStatus === false)
                 break;
         }
 
-        // let filteredList = list.filter(caseItem => caseItem.caseStatus === state)
-        // CreateCases(filteredList);
-    }
-    function handleFilterChange(event) {
-        Filter(event.target.value)
+        if (search !== "")
+            tempList = tempList.filter((item) => item.subject.toLowerCase().includes(search.toLowerCase()))
 
-    }
+        switch (sort) {
+            case "new":
+                tempList = tempList.sort((a, b) => new Date(a.timestamp) < new Date(b.timestamp) ? 1 : -1);
+                break;
+            case "old":
+                tempList = tempList.sort((a, b) => new Date(a.timestamp) > new Date(b.timestamp) ? 1 : -1);
+                break;
+        }
+
+        CreateCases(tempList)
+    }, [filter, search, sort]);
+
 
     function handleSearch(event) {
         setSearch(event.target.value);
-        if (search === "") {
-            CreateCases(list);
-        }
-        CreateCases(list.filter((item) => item.subject.toLowerCase().includes(search.toLowerCase())))
     }
 
+    function showFilterDropdown() {
+        document.getElementById("myDropdown").classList.toggle(styles.show);
+    }
+
+    function showSortDropdown() {
+        document.getElementById("myDropdown2").classList.toggle(styles.show);
+    }
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            // Check if the click is NOT on a dropdown button
+            if (!event.target.closest(`.${styles.dropbtnFilter}`) &&
+                !event.target.closest(`.${styles.dropbtnSort}`)) {
+
+                // Close all dropdowns
+                const dropdowns = document.querySelectorAll(`.${styles.dropdown_contentFilter}, .${styles.dropdown_contentSort}`);
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove(styles.show);
+                });
+            }
+        }
+
+        window.addEventListener('click', handleClickOutside);
+        return () => window.removeEventListener('click', handleClickOutside);
+    }, []);
     return (
 
-        <div>
-            <select onChange={handleFilterChange} className={styles.filter}>
-                <option value="1">Filter</option>
-                <option value="2">Active</option>
-                <option value="3">Passive</option>
-            </select>
+        <div className={styles.div}>
+
+            <div className={styles.dropdown}>
+                <button onClick={showFilterDropdown} className={styles.dropbtnFilter}>Filter</button>
+                <div id="myDropdown" className={styles.dropdown_contentFilter}>
+                    <a onClick={() => setFilter("all")}>Show All</a>
+                    <a onClick={() => setFilter("active")}>Active</a>
+                    <a onClick={() => setFilter("closed")}>Closed</a>
+                </div>
+            </div>
+
 
             <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
-            <ul>
+
+            <div className={styles.dropdown}>
+                <button onClick={showSortDropdown} className={styles.dropbtnSort}>Sort</button>
+                <div id="myDropdown2" className={styles.dropdown_contentSort}>
+                    <a onClick={() => setSort("new")}>Newest</a>
+                    <a onClick={() => setSort("old")}>Oldest</a>
+                </div>
+            </div>
+
+            <ul className={styles.list}>
                 {caseList}
             </ul>
 
-            <button className={styles.button}>New thread</button>
+            <Link to="/CreateCase" className={styles.button}>New thread</Link>
+
         </div>
     );
 
@@ -110,15 +152,16 @@ export default CaseList;
 
 /*
 function Filter(action){
-    caseList = list.filter(action).map((caseItem) =>
-        <Case caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory} caseStatus={caseItem.caseStatus}/>)
-    //return (list.map(caseItem.caseCategory :true => <cas))
+caseList = list.filter(action).map((caseItem) =>
+    <Case caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory}
+          caseStatus={caseItem.caseStatus}/>)
+//return (list.map(caseItem.caseCategory :true => <cas))
 }
 
 return(
-    <div>
-        <select>
-            <option onClick = {() => Filter(item => item.caseStatus || !item.caseStatus)}>Filters</option>
-            <option onClick = {() => Filter(item => item.caseStatus)}>Active</option>
-            <option onClick = {() => Filter(item => !item.caseStatus)}>Passive</option>
-        </select>*/
+<div>
+    <select>
+        <option onClick={() => Filter(item => item.caseStatus || !item.caseStatus)}>Filters</option>
+        <option onClick={() => Filter(item => item.caseStatus)}>Active</option>
+        <option onClick={() => Filter(item => !item.caseStatus)}>Passive</option>
+    </select>*/
