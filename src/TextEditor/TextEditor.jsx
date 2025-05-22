@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
+import styles from './TextEditor.module.css';
 
 const modules = {
   toolbar: [
@@ -41,7 +42,11 @@ const TextEditor = ({ value, onChange }) => {
     }
   }, [value]);
 
-  return <div ref={editorRef} style={{ height: '400px' }} />;
+  return (
+    <div className={styles.editorContainer}>
+      <div ref={editorRef} />
+    </div>
+  );
 };
 
 export default TextEditor;
