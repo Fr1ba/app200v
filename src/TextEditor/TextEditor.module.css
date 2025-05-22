@@ -1,0 +1,129 @@
+.editorWrapper {
+    width: 100%;
+    max-width: 800px; /* Limit maximum width */
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+  
+  .editorLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+  }
+  
+  /* Container for hele editoren */
+  .editorContainer {
+    width: 100%;
+    margin: 0 0 25px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: transparent;
+  }
+  
+  /* Override Quill's standard containerstil */
+  .editorContainer :global(.ql-container) {
+    font-family: inherit;
+    font-size: 16px;
+    border: 1px solid rgba(92, 83, 83, 0.468);
+    border-top: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Override Quill's editor område */
+  .editorContainer :global(.ql-editor) {
+    min-height: 70px; 
+    max-height: 200px; 
+    padding: 12px; 
+    color: #353131;
+    background-color: white;
+    border-radius: 0 0 10px 10px; /* Avrundede kanter i bunn */
+  }
+  
+  /* Override Quill's toolbarstil */
+  .editorContainer :global(.ql-toolbar) {
+    border: 1px solid rgba(92, 83, 83, 0.468);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgba(245, 245, 245, 0.7);
+    padding: 6px; /* Reduced from 8px */
+  }
+  
+  /* Stilisering av knapper i toolbar */
+  .editorContainer :global(.ql-toolbar button) {
+    margin: 0 2px;
+    border-radius: 4px; /* Avrundede kanter på knapper */
+  }
+  
+  .editorContainer :global(.ql-toolbar button:hover) {
+    color: var(--brandColor, #9de5f9);
+    background-color: rgba(157, 229, 249, 0.1); /* Svak bakgrunnsfarge ved hover */
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-active),
+  .editorContainer :global(.ql-toolbar button:active) {
+    color: var(--brandColor, #9de5f9);
+    background-color: rgba(157, 229, 249, 0.15); /* Litt sterkere bakgrunnsfarge for aktiv tilstand */
+  }
+  
+  /* Dropdown-stiler i toolbar */
+  .editorContainer :global(.ql-toolbar .ql-picker) {
+    color: #353131;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-picker-options) {
+    border-radius: 10px; /* Sammatched border-radius som resten */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(92, 83, 83, 0.468);
+    padding: 5px;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-picker-item) {
+    border-radius: 5px; /* Avrundede kanter på dropdown-elementer */
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-picker-item:hover) {
+    background-color: rgba(157, 229, 249, 0.1); /* Sammatched hover-farge */
+  }
+  
+  /* Fokus-stil */
+  .editorContainer :global(.ql-container:focus-within) {
+    border-color: var(--brandColor, #9de5f9);
+  }
+  
+  .editorContainer :global(.ql-toolbar:focus-within) {
+    border-color: var(--brandColor, #9de5f9);
+  }
+  
+  /* Placeholderstil */
+  .editorContainer :global(.ql-editor.ql-blank::before) {
+    font-style: italic;
+    color: #999;
+  }
+  
+  /* Responsiv styling */
+  @media (max-width: 768px) {
+    .editorContainer :global(.ql-editor) {
+      min-height: 250px;
+    }
+    
+    .editorContainer :global(.ql-toolbar) {
+      flex-wrap: wrap;
+      padding: 5px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .editorContainer :global(.ql-toolbar) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .editorContainer :global(.ql-formats) {
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+  }
