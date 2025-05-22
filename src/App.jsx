@@ -7,6 +7,7 @@ import CaseList from "./CaseList/CaseList.jsx";
 import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
 import APITest from "./APITest.jsx";
+import Message from "./Message/Message.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,7 +50,13 @@ function App() {
                     <Routes>
                         {/* Navigate To default if going to Login while already logged in */}
                         <Route path="/Login" element={<Navigate to="/"/>}/>
-                        <Route path="/" element={<CaseList/>}/>
+                        <Route path="/" element={
+                                        <>
+                                            <CaseList />
+                                            <Message/>
+                                        </>
+                                    }
+                                />
                         <Route path="/CreateCase" element={<CreateCase/>}/>
                         <Route path="/ProfilePage" element={<ProfilePage/>}/>
                         <Route path="/APITest" element={<APITest/>}/>

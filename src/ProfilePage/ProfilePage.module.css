@@ -1,55 +1,207 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
 .title {
   text-align: center;
-  /*display: flex;
-  justify-content: center;
-  align-items: center;*/
-  /*text-align: center;
-  margin: 0px auto;
-  display: block;*/
+  width: 100%;
+  margin-bottom: 30px;
 }
-.inputField {
-  position: relative; /* This ensures the absolute position of the icon is relative to this container */
-  padding: 20px 0;
+
+.contentContainer {
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.inputLabel {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  font-weight: 500;
+}
+
+.inputField {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 25px 0; 
+  padding-top: 5px;
 }
 
 .inputField input {
-  width: 100%; /* Make it take full width */
-  height: 40px;
+  width: 100%;
+  height: 50px;
   background: rgb(255, 255, 255);
-  border: none;
-  outline: none;
   border: 1px solid rgba(92, 83, 83, 0.468);
   border-radius: 10px;
   font-size: 16px;
   color: #353131;
-  padding: 10px 40px 10px 15px; /* Adjust padding for icon */
+  padding: 10px 40px 10px 15px;
+  box-sizing: border-box;
 }
+
 
 .inputField .icon {
   position: absolute;
-  right: 15px; /* Adjust position inside the input */
-  top: 50%;
-  transform: translateY(-50%);
+  right: 15px;
+  top: 50%; 
+  transform: translateY(-50%); 
+  pointer-events: none;
   font-size: 20px;
   color: gray;
 }
 
-.buttons {
-  width: 50%;
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px;
+  width: 100%;
+  min-height: 60px;
+}
+
+.editButton, .cancelButton {
+  width: 180px;
   height: 40px;
   background: #fff;
-  border: none;
+  border: 1px solid black;
   outline: none;
-  margin: 20px;
-  border-radius: 10px; /*rounded edges */
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 15px;
   color: #333;
   font-weight: 500;
-  display: inline;
+  padding: 0 15px;
+}
+
+
+
+.editButton:hover {
+  background-color: var(--brandColor);
+}
+
+.cancelButton:hover {
+  background-color: var(--brandColor);
+}
+
+/* For disabled fields in edit mode */
+.disabled-input {
+  background-color: #f2f2f2 !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+}
+
+/* For highlighting editable fields */
+.editable-input {
+  background-color: #fff !important;
+  color: #000 !important;
+
+}
+
+.editable-input:focus {
+  border: 1px solid var(--brandColor);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* Sml screens/mobil */
+@media (max-width: 768px) {
+  .pageContainer {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+  }
+  
+  .wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 0;
+  }
+  
+  .inputField {
+    width: 100%;
+  }
+  
+  .inputField input {
+    font-size: 14px;
+    padding: 10px 30px 10px 12px;
+  }
+  
+  .inputField .icon {
+    font-size: 18px;
+    right: 12px;
+  }
+  
+  .buttonContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    min-height: 60px;
+    gap: 10px;
+  }
+  
+  .editButton,
+  .cancelButton {
+    width: 160px;
+    font-size: 14px;
+  }
+}
+
+/* Ekstra smal screens */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 15px 15px; 
+  }
+  
+  form {
+    padding: 0; 
+  }
+  
+  .inputField {
+    margin: 0 0 15px 0;
+  }
+  
+  .inputField input {
+    height: 45px;
+    font-size: 14px;
+  }
+  
+  .buttonContainer {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .editButton,
+  .cancelButton {
+    width: 100%;
+    max-width: 220px;
+    margin: 5px 0;
+  }
 }

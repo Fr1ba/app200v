@@ -1,5 +1,5 @@
 .bell {
-    color: var(--headerTextColor);
+    color: var(--accentTextColor);
     width:40px;
     height:40px;
     margin: 20px;
@@ -29,7 +29,7 @@
     box-shadow: 0px 1px 20px 0px ;
 }
 
-.notifiactionBox {
+.notificationBox {
     list-style-type: none;
     margin: 70px;
     padding: 5px;
@@ -40,8 +40,7 @@
     float: right;
     position: absolute;
     right: 0px;
-    box-shadow: 0px 2px 20px 0px ;
-    z-index: 1;
+    z-index: 10;
 }
 
 .notifications{
