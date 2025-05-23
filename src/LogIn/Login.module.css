@@ -61,10 +61,10 @@
 }
 
 .inputBox input:focus {
-  border: 1px solid var(--brandColor); /* eller bruk f.eks. #4e93d4 direkte */
+  border: 1px solid var(--brandColor); 
   outline: none;
   background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* subtil blå glød */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); 
   transition: all 0.2s ease;
 }
 
@@ -110,7 +110,7 @@
 }
 
 .rememberForgot a { /* "Forgot password?" link */
-  color: #221919;
+  color: var(--textColor);
   text-decoration: none; /* not underlining all the time*/
 }
 
