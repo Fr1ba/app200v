@@ -64,7 +64,7 @@ function Message() {
 
     useEffect(() => {
         setCaseEactId(caseId);
-    }, []);
+    }, [caseId]);
 
     const fetchMessages = async () => {
         if (!caseEactId) return;
@@ -77,7 +77,7 @@ function Message() {
                     getConversations: false,
                     getContent: true,
                     draft: false,
-                   // conversationEactId: 3453453,
+                    caseEactId: caseId,
                 }),
             });
 
@@ -93,7 +93,7 @@ function Message() {
     };
 
     useEffect(() => {
-        fetchMessages();
+        fetchMessages(caseId);
     }, [caseEactId]);
 
     return (
