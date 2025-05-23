@@ -22,6 +22,8 @@ function ProfilePage() {
   const [isEditable, setIsEditable] = useState(false);
   const [error, setError] = useState("");
 
+
+
   useEffect(() => {
     loadEntityData();
   }, []);
@@ -135,14 +137,20 @@ function ProfilePage() {
       const entity = await fetchEntity();
       let changes = false;
 
-      if (newEmail && newEmail !== entity.emails[0].email) {
-        if (checkEmail()) {
-          entity.emails[0].email = newEmail;
-          changes = true;
-        } else {
-          setError("Ikke gyldig epost-adresse");
-        }
-      }
+if (!newEmail.trim()) {
+  setError("Epost kan ikke være tom.");
+  return;
+}
+
+if (newEmail !== entity.emails[0].email) {
+  if (checkEmail()) {
+    entity.emails[0].email = newEmail;
+    changes = true;
+  } else {
+    setError("Ikke gyldig epost-adresse");
+    return;
+  }
+}
 
       if (newAddress && newAddress !== entity.address) {
         let splitAdress = newAddress.split(" ");
@@ -235,7 +243,10 @@ function ProfilePage() {
                   id="email"
                   readOnly={!isEditable}
                   value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
+                  onChange={(e) => {
+                    setNewEmail(e.target.value);
+                    setError(""); // Clear the error when typing
+             }}
                   placeholder={email ? email : "eksempel@eksempel.no"}
                   className={
                     isEditable
