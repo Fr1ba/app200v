@@ -1,3 +1,4 @@
+
 import React, {useContext, useEffect, useState} from "react";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
@@ -9,14 +10,13 @@ const endpoint = "https://app06.itxnorge.no";
 
 function Message() {
     const [message, setMessage] = useState("");
-    const [caseEactId, setCaseEactId] = useState("");
     const [replyToEactId] = "";
     const [messages, setMessages] = useState([]);
     const [error, setError] = useState("");
 
     const { caseId, caseSubject } = useContext(CaseContext);
 
-    const handleSubmit = async (event) => {
+    const sendMessage = async (event) => {
         event.preventDefault();
 
         const temp = document.createElement("div");
@@ -30,7 +30,7 @@ function Message() {
 
 const data = {
     direction: 2,
-    subject: caseSubject, // use selected subject
+    subject: caseSubject,
     body: message,
     createCase: false,
     caseEactId: caseId,
@@ -59,16 +59,12 @@ const data = {
             setError("");
             await fetchMessages();
         } catch (error) {
-            console.error("Error sending message:", error);
+            console.error("Feil ved sending av melding:", error);
         }
     };
 
-    useEffect(() => {
-        setCaseEactId(caseId);
-    }, [caseId]);
-
     const fetchMessages = async () => {
-        if (!caseEactId) return;
+        if (!caseId) return;
         try {
             const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
                 method: "POST",
@@ -89,13 +85,13 @@ const data = {
             const sorted = data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
             setMessages(sorted);
         } catch (error) {
-            console.error("Error fetching messages:", error);
+            console.error("Feil ved henting av meldinger:", error);
         }
     };
 
     useEffect(() => {
-        fetchMessages(caseId);
-    }, [caseEactId]);
+        fetchMessages();
+    });
 
     return (
   <div className={styles.chatContainer}>
@@ -130,7 +126,7 @@ const data = {
             </ul>
           </div>
         ))}
-        <form onSubmit={handleSubmit} className={styles.messageForm}>
+        <form onSubmit={sendMessage} className={styles.messageForm}>
           <TextEditor value={message} onChange={setMessage} />
           {error && <p style={{ color: "red" }}>{error}</p>}
           <button type="submit">Send</button>
