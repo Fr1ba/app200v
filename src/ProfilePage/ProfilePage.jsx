@@ -15,12 +15,13 @@ const endpoint = "https://app06.itxnorge.no";
 function ProfilePage() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [name, setName] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("");
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
   const [isEditable, setIsEditable] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     loadEntityData();
@@ -40,12 +41,12 @@ function ProfilePage() {
       });
       console.log(`${endpoint}/rest/itxems/entity`);
       if (!response.ok)
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new emailError(`HTTP emailError! Status: ${response.status}`);
 
       const entity = await response.json();
       return entity;
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } catch (emailError) {
+      console.emailError("emailError fetching data:", emailError);
     }
   };
   /**
@@ -136,7 +137,7 @@ function ProfilePage() {
       let changes = false;
 
       if (!newEmail.trim()) {
-        setError("Epost kan ikke være tom.");
+        setEmailError("Epost kan ikke være tom.");
         return;
       }
 
@@ -145,12 +146,16 @@ function ProfilePage() {
           entity.emails[0].email = newEmail;
           changes = true;
         } else {
-          setError("Ikke gyldig epost-adresse");
+          setEmailError("Ikke gyldig epost-adresse");
           return;
         }
       }
 
       if (newAddress && newAddress !== entity.address) {
+        if (newAddress.trim() === "") {
+          setAddressError("Adressen kan ikke være tom");
+          return;
+        }
         let splitAdress = newAddress.split(" ");
         if (splitAdress.length == 2) {
           entity.addresses[0].street = splitAdress[0];
@@ -188,8 +193,8 @@ function ProfilePage() {
       setEmail(newEmail);
       setAddress(newAddress);
       setIsEditable(false);
-    } catch (error) {
-      console.error("Error saving profile:", error);
+    } catch (emailError) {
+      console.emailError("emailError saving profile:", emailError);
     }
   };
 
@@ -243,7 +248,7 @@ function ProfilePage() {
                   value={newEmail}
                   onChange={(e) => {
                     setNewEmail(e.target.value);
-                    setError(""); // Clear the error when typing
+                    setEmailError(""); // Clear the emailError when typing
                   }}
                   placeholder={email ? email : "eksempel@eksempel.no"}
                   className={
@@ -254,7 +259,7 @@ function ProfilePage() {
                 />
                 <IoMdMail className={styles.icon} />
               </div>
-              {error && <p style={{ color: "red" }}>{error}</p>}
+              {emailError && <p style={{ color: "red" }}>{emailError}</p>}
             </label>
             <label className={styles.inputLabel}>
               Mobil
@@ -276,7 +281,10 @@ function ProfilePage() {
                   type="text"
                   readOnly={!isEditable}
                   value={newAddress}
-                  onChange={(e) => setNewAddress(e.target.value)}
+                  onChange={(e) => {
+                    setNewAddress(e.target.value);
+                    setAddressError(""); // Clear the emailError when typing
+                  }}
                   placeholder={address ? address : "gatenavn 1"}
                   className={
                     isEditable
@@ -287,6 +295,7 @@ function ProfilePage() {
 
                 <FaHome className={styles.icon} />
               </div>
+              {addressError && <p style={{ color: "red" }}>{addressError}</p>}
             </label>
             <div className={styles.buttonContainer}>
               <button
