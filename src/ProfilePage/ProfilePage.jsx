@@ -22,7 +22,7 @@ function ProfilePage() {
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    fetchEntity();
+    extractValues();
   }, []);
 
   /**
@@ -41,45 +41,48 @@ function ProfilePage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
 
       const entity = await response.json();
-
-      // Extract the name
-      if (entity.name1) {
-        setName(entity.name1); // Update state with name
-      } else {
-        setName(null); // if no name is found, the value of name is set to null so a placeholder is shown
-        console.log("No name found in response");
-        return null;
-      }
-      // Extract the email
-      if (entity.emails && entity.emails.length > 0) {
-        setEmail(entity.emails[0].email); // Update state with email
-      } else {
-        setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
-        console.log("No email found in response");
-        return null;
-      }
-
-      if (entity.corporation && entity.corporation.phoneNumberPrefix) {
-        setPhonePrefix(entity.corporation.phoneNumberPrefix);
-      } else {
-        setPhonePrefix(null);
-        console.log("No phone number found in response");
-        return null;
-      }
-
-      // Extract the address
-      if (entity.addresses) {
-        setAddress(
-          entity.addresses[0].street + " " + entity.addresses[0].streetNumber
-        );
-        console.log(address);
-      } else {
-        setAddress(null);
-        console.log("No address found in response");
-        return null;
-      }
+      return entity;
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+  const extractValues = async () => {
+    const entity = await fetchEntity();
+    // Extract the name
+    if (entity.name1) {
+      setName(entity.name1); // Update state with name
+    } else {
+      setName(null); // if no name is found, the value of name is set to null so a placeholder is shown
+      console.log("No name found in response");
+      return null;
+    }
+    // Extract the email
+    if (entity.emails && entity.emails.length > 0) {
+      setEmail(entity.emails[0].email); // Update state with email
+    } else {
+      setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
+      console.log("No email found in response");
+      return null;
+    }
+
+    if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+      setPhonePrefix(entity.corporation.phoneNumberPrefix);
+    } else {
+      setPhonePrefix(null);
+      console.log("No phone number found in response");
+      return null;
+    }
+
+    // Extract the address
+    if (entity.addresses) {
+      setAddress(
+        entity.addresses[0].street + " " + entity.addresses[0].streetNumber
+      );
+      console.log(address);
+    } else {
+      setAddress(null);
+      console.log("No address found in response");
+      return null;
     }
   };
 
@@ -120,12 +123,7 @@ function ProfilePage() {
     }
 
     try {
-      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const entity = await response.json();
+      const entity = await fetchEntity();
       let changes = false;
 
       if (newEmail && newEmail !== entity.emails[0].email) {
@@ -144,19 +142,6 @@ function ProfilePage() {
           entity.addresses[0].streetNumber = "";
           changes = true;
         } else if (splitAdress.length > 2) {
-          /*let streetName = "";
-          for (let i = 0; i < splitAdress.length - 1; i++) {
-            streetName += splitAdress[i] + " ";
-          }
-          let streetNumber = splitAdress[splitAdress.length - 1];
-          if (streetNumber.isInteger) {
-            entity.addresses[0].streetNumber =
-              splitAdress[splitAdress.length - 1];
-          } else {
-            streetName += splitAdress[splitAdress.length - 1];
-            entity.addresses[0].streetNumber = "";
-          }
-          entity.addresses[0].street = streetName;*/
           let streetName = splitAdress.slice(0, -1).join(" ");
           let streetNumber = splitAdress[splitAdress.length - 1];
 
