@@ -1,6 +1,6 @@
 .editorWrapper {
     width: 100%;
-    max-width: 800px; /* Limit maximum width */
+    max-width: 800px; 
     margin-top: 0;
     margin-bottom: 25px;
   }
@@ -39,7 +39,7 @@
     padding: 12px; 
     color: #353131;
     background-color: white;
-    border-radius: 0 0 10px 10px; /* Avrundede kanter i bunn */
+    border-radius: 0 0 10px 10px; 
   }
   
   /* Override Quill's toolbarstil */
@@ -48,44 +48,44 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-color: rgba(245, 245, 245, 0.7);
-    padding: 6px; /* Reduced from 8px */
+    padding: 6px; 
   }
   
   /* Stilisering av knapper i toolbar */
   .editorContainer :global(.ql-toolbar button) {
     margin: 0 2px;
-    border-radius: 4px; /* Avrundede kanter på knapper */
+    border-radius: 4px; 
   }
   
   .editorContainer :global(.ql-toolbar button:hover) {
     color: var(--brandColor, #9de5f9);
-    background-color: rgba(157, 229, 249, 0.1); /* Svak bakgrunnsfarge ved hover */
+    background-color: rgba(157, 229, 249, 0.1); 
   }
   
   .editorContainer :global(.ql-toolbar .ql-active),
   .editorContainer :global(.ql-toolbar button:active) {
     color: var(--brandColor, #9de5f9);
-    background-color: rgba(157, 229, 249, 0.15); /* Litt sterkere bakgrunnsfarge for aktiv tilstand */
+    background-color: rgba(157, 229, 249, 0.15); 
   }
   
   /* Dropdown-stiler i toolbar */
   .editorContainer :global(.ql-toolbar .ql-picker) {
-    color: #353131;
+    color: var(--textColor);
   }
   
   .editorContainer :global(.ql-toolbar .ql-picker-options) {
-    border-radius: 10px; /* Sammatched border-radius som resten */
+    border-radius: 10px; 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(92, 83, 83, 0.468);
     padding: 5px;
   }
   
   .editorContainer :global(.ql-toolbar .ql-picker-item) {
-    border-radius: 5px; /* Avrundede kanter på dropdown-elementer */
+    border-radius: 5px; 
   }
   
   .editorContainer :global(.ql-toolbar .ql-picker-item:hover) {
-    background-color: rgba(157, 229, 249, 0.1); /* Sammatched hover-farge */
+    background-color: rgba(157, 229, 249, 0.1); 
   }
   
   /* Fokus-stil */
