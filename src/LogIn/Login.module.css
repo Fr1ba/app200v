@@ -152,6 +152,15 @@
     transform: scale(0.98); 
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   }
+
+  .wrapper button:disabled {      /*Styling når logg inn knappen er inaktiv (under en log in request)*/
+  background-color: #cccccc;      /* Make it visually "off" */
+  cursor: default;                  /*Makes mouse show as arrow */
+  opacity: 0.6;                     /* Gives a faded look */
+  box-shadow: none;                 /* Removes "3D" press effect */
+  transform: none;                  /* Prevents any scaling */
+  transition: none;                 /* Disable animation */
+}
   
   @media (max-width: 600px) {
 
