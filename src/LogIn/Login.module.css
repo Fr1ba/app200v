@@ -149,6 +149,15 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
+.wrapper button:disabled {      /*Styling når logg inn knappen er inaktiv (under en log in request)*/
+  background-color: #cccccc;      /* Make it visually "off" */
+  cursor: default;                  /*Makes mouse show as arrow */
+  opacity: 0.6;                     /* Gives a faded look */
+  box-shadow: none;                 /* Removes "3D" press effect */
+  transform: none;                  /* Prevents any scaling */
+  transition: none;                 /* Disable animation */
+}
+
 /* Medium screens/tablets */
 @media (max-width: 768px) {
   .wrapper {
@@ -162,15 +171,6 @@
       margin: 25px auto;
       height: auto;
   }
-
-  .wrapper button:disabled {      /*Styling når logg inn knappen er inaktiv (under en log in request)*/
-  background-color: #cccccc;      /* Make it visually "off" */
-  cursor: default;                  /*Makes mouse show as arrow */
-  opacity: 0.6;                     /* Gives a faded look */
-  box-shadow: none;                 /* Removes "3D" press effect */
-  transform: none;                  /* Prevents any scaling */
-  transition: none;                 /* Disable animation */
-}
   
   .inputBox input {
       font-size: 15px;
