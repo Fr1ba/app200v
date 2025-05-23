@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './CreateCase.module.css';
+import TextEditor from "../TextEditor/TextEditor.jsx";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -13,22 +14,28 @@ function CreateCase() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const handleChange = (event) => {
+  /*const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }));
+  };*/
+  const handleChange = (eventOrHtml, maybeFieldName) => {
+    if (typeof eventOrHtml === 'string' && maybeFieldName) {
+      setInputs(values => ({ ...values, [maybeFieldName]: eventOrHtml }));
+    } else {
+      const { name, value } = eventOrHtml.target;
+      setInputs(values => ({ ...values, [name]: value }));
+    }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     setError(null);
     setSuccess(false);
-    
+
     try {
-      
+
       const formData = new FormData();
-      
 
       const messageData = {
         direction: 2,
@@ -36,42 +43,44 @@ function CreateCase() {
         body: inputs.details, 
         createCase: true 
       };
-      
-     
-      formData.append('data', JSON.stringify(messageData));
+
+      const jsonBlob = new Blob([JSON.stringify(messageData)], {
+        type: 'application/json'
+      });
+
+      formData.append('data',jsonBlob);
       
       
       const response = await fetch(`${endpoint}/rest/itxems/message`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-        
-        },
         body: formData
       });
-      
+
+
       if (!response.ok) {
         throw new Error(`API-forespørselen mislyktes med status ${response.status}`);
       }
-      
-      const responseData = await response.json();
-      console.log("Sak opprettet:", responseData);
-      
-      
-      setInputs({
-        subject: '',
-        category: '',
-        details: ''
-      });
-      
-      setSuccess(true);
-    } catch (error) {
-      console.error("Feil ved opprettelse av sak:", error);
-      setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
+
+    const responseData = await response.json();
+    console.log("Sak opprettet:", responseData);
+
+
+    setInputs({
+      subject: '',
+      category: '',
+      details: ''
+    });
+
+    setSuccess(true);
+  } catch (error) {
+    console.error("Feil ved opprettelse av sak:", error);
+    setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div id={styles.mainContainer}>
@@ -109,11 +118,11 @@ function CreateCase() {
         </div>
         <div className={styles.formGroup}>
           <label id={styles.detailsLabel}>Detaljer:</label>
-          <textarea
+          <TextEditor
             id={styles.detailsInput}
             name="details"
             value={inputs.details}
-            onChange={handleChange}
+            onChange={(html) => handleChange(html, 'details')}
             required
           />
         </div>
