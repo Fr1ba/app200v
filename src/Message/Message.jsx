@@ -29,7 +29,7 @@ function Message() {
 
 const data = {
     direction: 2,
-    subject: caseSubject || "(uten tittel)", // use selected subject
+    subject: caseSubject, // use selected subject
     body: message,
     createCase: false,
     caseEactId: caseId,
