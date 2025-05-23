@@ -180,11 +180,12 @@ function ProfilePage() {
         }
       }
 
+      if (newAddress.trim() === "") {
+        setAddressError("Adressen kan ikke være tom");
+        return;
+      }
+
       if (newAddress && newAddress !== entity.address) {
-        if (newAddress.trim() === "") {
-          setAddressError("Adressen kan ikke være tom");
-          return;
-        }
         let splitAdress = newAddress.split(" ");
         if (splitAdress.length == 2) {
           entity.addresses[0].street = splitAdress[0];
