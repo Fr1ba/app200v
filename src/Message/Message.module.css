@@ -81,3 +81,25 @@
   bottom: 0;
   background-color: white; */
 }
+
+.messageItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.outgoing + .timestamp {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.incoming + .timestamp {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.25rem;
+}

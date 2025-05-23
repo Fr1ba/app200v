@@ -85,8 +85,8 @@ const data = {
                 throw new Error(`HTTP error! Status: ${response.status}`);
 
             const data = await response.json();
-            setMessages(data.length ? data : []);
-            data.reverse();
+            const sorted = data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            setMessages(sorted);
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
@@ -111,19 +111,21 @@ const data = {
                 <div key={subject} className={styles.messageGroup}>
                     <h3 className={styles.subjectline}>{subject}</h3>
 
-                    <ul className={styles.messageList}>
-                        {msgs.map((msg) => (
-                            <li
-                                key={msg.eactId}
-                                className={`${styles.messageBubble} ${
-                                    // checks if it is an incoming or outgoing message
-                                    msg.direction === 2 ? styles.outgoing : styles.incoming
-                                }`}
-                            >
-                                <div dangerouslySetInnerHTML={{__html: msg.body}}/>
-                            </li>
-                        ))}
-                    </ul>
+                   <ul className={styles.messageList}>
+                    {msgs.map((msg) => (
+                      <li key={msg.eactId} className={styles.messageItem}>
+                        <div className={`${styles.messageBubble} ${msg.direction === 2 ? styles.outgoing : styles.incoming}`}>
+                          <div dangerouslySetInnerHTML={{__html: msg.body}} />
+                        </div>
+                        <div className={styles.timestamp}>
+                          {new Date(msg.timestamp).toLocaleString('nb-NO', {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                          })}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
             ))}
 
