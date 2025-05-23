@@ -3,7 +3,7 @@ import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
 import {CaseContext} from "../SelectedCase.jsx";
-import { IoMdMail } from "react-icons/io";
+import { BsEnvelope } from "react-icons/bs";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -138,7 +138,7 @@ const data = {
       </>
     ) : (
       <div className={styles.emptyState}>
-        <IoMdMail className={styles.emptyIcon} />
+        <BsEnvelope className={styles.emptyIcon} />
         <p className={styles.emptyText}>Ingen sak er valgt</p>
       </div>
     )}
