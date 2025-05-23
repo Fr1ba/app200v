@@ -173,8 +173,6 @@ function ProfilePage() {
 
       if (!changes) {
         setIsEditable(false);
-        setEmail(newEmail);
-        setAddress(newAddress);
         return;
       }
 
