@@ -1,4 +1,7 @@
+
 .pageContainer {
+  overflow: auto !important;
+  height: 100vh !important;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -20,7 +23,7 @@
 }
 
 .contentContainer {
-  padding: 0;
+  padding: 0 0 80px 0;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -61,11 +64,11 @@ form {
 .inputField select {
   width: 100%;
   height: 50px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(92, 83, 83, 0.468);
+  background: var(--backgroundColor);
+  border: 1px solid var(--borderColor);
   border-radius: 10px;
   font-size: 16px;
-  color: #353131;
+  color: var(--textColor); 
   padding: 10px 15px;
   box-sizing: border-box;
 }
@@ -73,11 +76,11 @@ form {
 .textareaField {
   width: 100%;
   height: 150px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(92, 83, 83, 0.468);
+  background: var(--backgroundColor);
+  border: 1px solid var(--borderColor); 
   border-radius: 10px;
   font-size: 16px;
-  color: #353131;
+  color: var(--textColor);
   padding: 15px;
   box-sizing: border-box;
   resize: none;
@@ -96,25 +99,25 @@ form {
 .SubmitButton {
   width: 180px;
   height: 40px;
-  background: #fff;
-  border: 1px solid black;
+  background: var(--backgroundColor);
+  border: 1px solid var(--borderColor);
   outline: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 15px;
-  color: #333;
+  color: var(--textColor);
   font-weight: 500;
   padding: 0 15px;
 }
 
 .SubmitButton:hover {
   background-color: var(--brandColor, #9de5f9);
+  color: var(--accentTextColor);
 }
 
 .errorMessage {
-  background-color: #ffebee;
-  color: #c62828;
+  color: var(--errorColor); 
   padding: 10px 15px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -123,8 +126,7 @@ form {
 }
 
 .successMessage {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  color: var(--successColor);
   padding: 10px 15px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -135,25 +137,22 @@ form {
 /* Sml screens/mobil */
 @media (max-width: 768px) {
   .pageContainer {
-    flex-direction: column;
-    align-items: stretch;
     padding: 15px;
+    align-items: flex-start;
+    min-height: 100vh;
   }
   
   .wrapper {
     width: 100%;
-    max-width: 100%;
-    padding: 20px;
+    max-width: 650px;
+    margin-top: 20px; /* Litt margin fra toppen */
+    padding: 20px 20px 80px 20px; /* Ekstra padding nederst */
     border-radius: 0;
   }
   
   .formRow {
     flex-direction: column;
     gap: 0;
-  }
-  
-  .inputField {
-    width: 100%;
   }
   
   .inputField input,
@@ -176,10 +175,20 @@ form {
   }
 }
 
-/* Ekstra smal screens */
 @media (max-width: 480px) {
+  .pageContainer {
+    padding: 5px; /* Mindre padding */
+  }
+
   .wrapper {
-    padding: 15px;
+    width: 100%;
+    max-width: 650px; /* Samme som andre breakpoints */
+    margin-top: 10px; /* Mindre margin fra toppen */
+    padding: 15px 15px 70px 15px;
+  }
+
+  .title {
+    margin-bottom: 20px; 
   }
   
   form {
