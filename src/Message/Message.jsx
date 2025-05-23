@@ -3,6 +3,7 @@ import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
 import {CaseContext} from "../SelectedCase.jsx";
+import { IoMdMail } from "react-icons/io";
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -97,45 +98,52 @@ const data = {
     }, [caseEactId]);
 
     return (
-        <div className={styles.chatContainer}>
-            <MessageDetails/>
-            {/* Gruppér meldinger etter subject */}
-            {Object.entries(
-                messages.reduce((acc, msg) => {
-                    const subject = msg.subject || "(uten tittel)";
-                    if (!acc[subject]) acc[subject] = [];
-                    acc[subject].push(msg);
-                    return acc;
-                }, {})
-            ).map(([subject, msgs]) => (
-                <div key={subject} className={styles.messageGroup}>
-                    <h3 className={styles.subjectline}>{subject}</h3>
-
-                   <ul className={styles.messageList}>
-                    {msgs.map((msg) => (
-                      <li key={msg.eactId} className={styles.messageItem}>
-                        <div className={`${styles.messageBubble} ${msg.direction === 2 ? styles.outgoing : styles.incoming}`}>
-                          <div dangerouslySetInnerHTML={{__html: msg.body}} />
-                        </div>
-                        <div className={styles.timestamp}>
-                          {new Date(msg.timestamp).toLocaleString('nb-NO', {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                          })}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-            ))}
-
-            <form onSubmit={handleSubmit} className={styles.messageForm}>
-                <TextEditor value={message} onChange={setMessage}/>
-                {error && <p style={{color: "red"}}>{error}</p>}
-                <button type="submit">Send</button>
-            </form>
-        </div>
-    );
+  <div className={styles.chatContainer}>
+    {caseId ? (
+      <>
+        <MessageDetails />
+        {/* Gruppér meldinger etter subject */}
+        {Object.entries(
+          messages.reduce((acc, msg) => {
+            const subject = msg.subject || "(uten tittel)";
+            if (!acc[subject]) acc[subject] = [];
+            acc[subject].push(msg);
+            return acc;
+          }, {})
+        ).map(([subject, msgs]) => (
+          <div key={subject} className={styles.messageGroup}>
+            <h3 className={styles.subjectline}>{subject}</h3>
+            <ul className={styles.messageList}>
+              {msgs.map((msg) => (
+                <li key={msg.eactId} className={styles.messageItem}>
+                  <div className={`${styles.messageBubble} ${msg.direction === 2 ? styles.outgoing : styles.incoming}`}>
+                    <div dangerouslySetInnerHTML={{ __html: msg.body }} />
+                  </div>
+                  <div className={styles.timestamp}>
+                    {new Date(msg.timestamp).toLocaleString('nb-NO', {
+                      dateStyle: 'short',
+                      timeStyle: 'short',
+                    })}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <form onSubmit={handleSubmit} className={styles.messageForm}>
+          <TextEditor value={message} onChange={setMessage} />
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button type="submit">Send</button>
+        </form>
+      </>
+    ) : (
+      <div className={styles.emptyState}>
+        <IoMdMail className={styles.emptyIcon} />
+        <p className={styles.emptyText}>Ingen sak er valgt</p>
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Message;
