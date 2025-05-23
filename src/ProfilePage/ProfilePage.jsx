@@ -250,7 +250,7 @@ function ProfilePage() {
     const emailInput = document.getElementById("email");
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
     // Check if the email input matches the pattern
-    if (emailInput.validity.valid && emailPattern.test(emailInput.value)) {
+    if (emailPattern.test(emailInput.value)) {
       return true;
     } else {
       console.log("Ugyldig epost!!!!");
