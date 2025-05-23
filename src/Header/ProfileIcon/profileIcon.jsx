@@ -10,6 +10,8 @@ async function Logout() {
         method: 'POST',
         credentials: 'include'
     });
+
+    window.location.href = '/Login';
 }
 
 function ProfileIcon() {
@@ -30,7 +32,7 @@ function profileOptions() {
     return (
         <ul className={styles.dropDown}>
             <li className={styles.dropDownItems}><Link to="/ProfilePage">Profil</Link></li>
-            <li className={styles.dropDownItems} onClick={Logout}><Link to="/Login">Logg ut</Link></li>
+            <li className={styles.dropDownItems} onClick={Logout}>Logg ut</li>
         </ul>
     );
 }
