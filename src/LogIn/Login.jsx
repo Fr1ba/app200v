@@ -12,34 +12,49 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [type, setType] = useState('password');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); //prevents page from refreshing  
+        setIsLoading(true);
 
-             console.log(`${endpoint}/rest/core/login`);
-        
-             const fetchData = async () => {
-                 return await fetch(`${endpoint}/rest/core/login`, {
-                    method: 'POST',
-                     credentials: 'include',
-                     body: JSON.stringify({
-                         username,
-                         password,
-                         rememberMe: true
-                     })
-                 });
-             };
-        
-             const data = fetchData();
-        
-             data.then(response => {
-                 if (response.ok) {
-                     window.location.href = '/';
-                 }
-             })
-        };
-        
+             //console.log(`${endpoint}/rest/core/login`);
 
+        try {
+            await new Promise(resolve => setTimeout(resolve, 5000)); //delay to see what the pending request looks like. to be removed 
+
+            const response = await fetch(`${endpoint}/rest/core/login`, { //waits for this function call to finish
+                method: 'POST',
+                credentials: 'include', //cookies sendes med alle de neste requestene, så brukeren blir identifisert av API'et
+                body: JSON.stringify({
+                    username,
+                    password,
+                    rememberMe: true
+                })
+            });
+
+            if (response.ok) {
+                window.location.href = '/';
+            } else {
+                alert("Login failed");
+            }
+            
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Something went wrong");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    function showPassword() {
+    if (type === 'password') {
+        setType('text')
+    } else {
+        setType('password')
+    }
+  }
+        
     return(
      <div className={styles.container}> 
         <div>
@@ -68,21 +83,13 @@ function Login() {
                     <a href='#'> Glemt passord? </a>
                 </div>
                 <div className={styles.buttonContainer}>
-                <button type='submit' className={styles.button}>Logg inn</button>
+                <button type='submit' className={styles.button} disabled={isLoading}>{isLoading ? "Laster..." : "Logg inn"}</button>
                 </div>
             </form>
          </div>
        </div>
     </div>
    );
-
-   function showPassword() {
-    if (type === 'password') {
-        setType('text')
-    } else {
-        setType('password')
-    }
-  }
 };
 
 

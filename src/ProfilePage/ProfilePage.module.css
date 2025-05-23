@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
-
 .pageContainer {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-height: 100vh;
   padding: 20px;
+  overflow-y: auto !important; /* Tvinger scrolling på denne siden */
+  height: 100vh; /* Gir den full høyde */
 }
 
 .wrapper {
@@ -20,15 +20,13 @@
   width: 100%;
   margin-bottom: 30px;
 }
-
 .contentContainer {
-  padding: 0;
+  padding: 10px 0 150px 0; /* Ekstra plass nederst for knappen */
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
 form {
@@ -60,7 +58,7 @@ form {
   border: 1px solid rgba(92, 83, 83, 0.468);
   border-radius: 10px;
   font-size: 16px;
-  color: #353131;
+  color: var(--textColor);
   padding: 10px 40px 10px 15px;
   box-sizing: border-box;
 }
@@ -96,7 +94,7 @@ form {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 15px;
-  color: #333;
+  color: var(--textColor);
   font-weight: 500;
   padding: 0 15px;
 }
@@ -121,7 +119,7 @@ form {
 /* For highlighting editable fields */
 .editable-input {
   background-color: #fff !important;
-  color: #000 !important;
+  color: var(--textColor) !important;
 
 }
 
@@ -133,17 +131,15 @@ form {
 /* Sml screens/mobil */
 @media (max-width: 768px) {
   .pageContainer {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 15px;
-  }
-  
-  .wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 20px;
-    border-radius: 0;
-  }
+    align-items: flex-start; /* Ikke sentrer vertikalt */
+    min-height: 100vh;
+    padding: 10px; /* Mindre padding */
+}
+
+.wrapper {
+    margin-top: 20px; /* Litt margin fra toppen */
+    padding: 20px 20px 80px 20px; /* Mindre padding, men fortsatt plass til knapp */
+}
   
   .inputField {
     width: 100%;
@@ -176,9 +172,18 @@ form {
 
 /* Ekstra smal screens */
 @media (max-width: 480px) {
-  .wrapper {
-    padding: 15px 15px; 
-  }
+  .pageContainer {
+    padding: 5px;
+}
+
+.wrapper {
+    margin-top: 10px;
+    padding: 15px 15px 70px 15px; /* Enda mindre padding */
+}
+
+.title {
+    margin-bottom: 20px; /* Mindre margin under tittel */
+}
   
   form {
     padding: 0; 
