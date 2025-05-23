@@ -25,9 +25,8 @@ function ProfilePage() {
     loadEntityData();
   }, []);
 
-
   /**
-   * Fetches the current user's entity from the ITX EMS API.
+   * Fetches the current user's entity from the ITX API.
    * @function
    * @author Vendela
    * @returns {Object} The user's entity object
@@ -49,7 +48,7 @@ function ProfilePage() {
     }
   };
   /**
-   * Loads the current user's entity data from the ITX EMS API into the component's state.
+   * Loads the current user's entity data from the ITX API into the component's state.
    * @function
    * @author Vendela
    * @returns {Object} The user's entity object. If no entity is found, null is returned.
@@ -94,7 +93,6 @@ function ProfilePage() {
     }
   };
 
-
   /**
    * Updates the user's entity data in the ITX API.
    * @function
@@ -114,7 +112,6 @@ function ProfilePage() {
     return response.json();
   };
 
-
   /**
    * Handles saving the user's profile changes.
    * If the user is not in edit mode, sets the new values for email and address to the current values and sets isEditable to true.
@@ -128,7 +125,7 @@ function ProfilePage() {
     e.preventDefault();
 
     if (!isEditable) {
-      setNewEmail(email); 
+      setNewEmail(email);
       setNewAddress(address);
       setIsEditable(true);
       return;
@@ -183,7 +180,6 @@ function ProfilePage() {
       console.error("Error saving profile:", error);
     }
   };
-
 
   /**
    * Resets the input fields to the original values and sets isEditable to false.
