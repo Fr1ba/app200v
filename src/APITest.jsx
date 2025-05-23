@@ -2,8 +2,9 @@ import {useEffect} from "react";
 
 const endpoint = "https://app06.itxnorge.no"
 
-function APITest(){
 
+
+function APITest(){
     // Login
     // useEffect(() => {
     //     console.log(`${endpoint}/rest/core/login`);
