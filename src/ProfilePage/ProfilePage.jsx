@@ -6,11 +6,11 @@ import { IoMdMail } from "react-icons/io";
 const endpoint = "https://app06.itxnorge.no";
 
 /**
- * Component for the profile page where users can view or update their account information.
+ * ProfilePage component. Contains the user's profile information and allows the user to edit this information.
  * @component
- * @returns The profilepage component
  * @author Vendela
  * @author Trudy
+ * @returns A ProfilePage component
  */
 function ProfilePage() {
   const [email, setEmail] = useState("");
@@ -22,13 +22,15 @@ function ProfilePage() {
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    extractValues();
+    loadEntityData();
   }, []);
 
+
   /**
-   * Fetches the entity data from the API and saves the relevant data in the state.
+   * Fetches the current user's entity from the ITX EMS API.
    * @function
    * @author Vendela
+   * @returns {Object} The user's entity object
    */
   const fetchEntity = async () => {
     try {
@@ -46,7 +48,13 @@ function ProfilePage() {
       console.error("Error fetching data:", error);
     }
   };
-  const extractValues = async () => {
+  /**
+   * Loads the current user's entity data from the ITX EMS API into the component's state.
+   * @function
+   * @author Vendela
+   * @returns {Object} The user's entity object. If no entity is found, null is returned.
+   */
+  const loadEntityData = async () => {
     const entity = await fetchEntity();
     // Extract the name
     if (entity.name1) {
@@ -86,11 +94,12 @@ function ProfilePage() {
     }
   };
 
+
   /**
-   * Sends the updated entity data to the backend.
+   * Updates the user's entity data in the ITX API.
    * @function
-   * @param entity - the entity object with changes made by the user
-   * @returns the response from the API
+   * @param {Object} entity - The user's entity data to be updated.
+   * @returns {Promise} Resolves with the updated entity data from the API.
    * @author Vendela
    * @author Trudy
    */
@@ -105,10 +114,13 @@ function ProfilePage() {
     return response.json();
   };
 
+
   /**
-   * Handles the save button click. If changes have been made, the entity is updated with the changes.
-   * @function
-   * @param e - when the form is submitted
+   * Handles saving the user's profile changes.
+   * If the user is not in edit mode, sets the new values for email and address to the current values and sets isEditable to true.
+   * If the user is in edit mode, updates the user's entity data in the ITX API if the email or address has changed.
+   * If the user is in edit mode and no changes have been made, sets isEditable to false.
+   * @param {Event} e - The event that triggered this function.
    * @author Vendela
    * @author Trudy
    */
@@ -116,7 +128,7 @@ function ProfilePage() {
     e.preventDefault();
 
     if (!isEditable) {
-      setNewEmail(email);
+      setNewEmail(email); 
       setNewAddress(address);
       setIsEditable(true);
       return;
@@ -172,8 +184,9 @@ function ProfilePage() {
     }
   };
 
+
   /**
-   * Cancels edit mode and resets form fields to current values.
+   * Resets the input fields to the original values and sets isEditable to false.
    * @function
    * @author Trudy
    */
