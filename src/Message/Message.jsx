@@ -13,7 +13,7 @@ function Message() {
     const [messages, setMessages] = useState([]);
     const [error, setError] = useState("");
 
-    const {caseId} = useContext(CaseContext);
+    const { caseId, caseSubject } = useContext(CaseContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,14 +27,14 @@ function Message() {
             return;
         }
 
-        const data = {
-            direction: 2,
-            subject: "Reklamasjon",
-            body: message,
-            createCase: false,
-            caseEactId: caseId,
-            //replyToEactId: replyToEactId,
-        };
+const data = {
+    direction: 2,
+    subject: caseSubject || "(uten tittel)", // use selected subject
+    body: message,
+    createCase: false,
+    caseEactId: caseId,
+    ...(replyToEactId && { replyToEactId })
+};
 
 
         const jsonBlob = new Blob([JSON.stringify(data)], {
@@ -64,7 +64,7 @@ function Message() {
 
     useEffect(() => {
         setCaseEactId(caseId);
-    }, []);
+    }, [caseId]);
 
     const fetchMessages = async () => {
         if (!caseEactId) return;
@@ -77,7 +77,7 @@ function Message() {
                     getConversations: false,
                     getContent: true,
                     draft: false,
-                   // conversationEactId: 3453453,
+                    caseEactId: caseId,
                 }),
             });
 
@@ -93,7 +93,7 @@ function Message() {
     };
 
     useEffect(() => {
-        fetchMessages();
+        fetchMessages(caseId);
     }, [caseEactId]);
 
     return (

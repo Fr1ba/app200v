@@ -1,15 +1,15 @@
-﻿import styles from './Case.module.css';
-import {useContext} from "react";
-import {CaseContext} from "../SelectedCase.jsx";
+﻿// Case.jsx
+import styles from './Case.module.css';
+import { useContext } from "react";
+import { CaseContext } from "../SelectedCase.jsx";
 
-function Case({caseId, caseTitle, caseCategory, caseStatus}) {
-
-    const { setCaseId } = useContext(CaseContext);
+function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
+    const { setCaseId, setCaseSubject } = useContext(CaseContext);
 
     const handleClick = () => {
         setCaseId(caseId);
-
-        console.log(caseId);
+        setCaseSubject(caseTitle); // Use subject from case
+        console.log(caseId, caseTitle);
     }
 
     return (
