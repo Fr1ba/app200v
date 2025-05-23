@@ -14,7 +14,7 @@ function CreateCase() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  /*const handleChange = (event) => {
+ /* const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }));
@@ -126,7 +126,7 @@ function CreateCase() {
               <TextEditor
                 name="details"
                 value={inputs.details}
-                onChange={handleChange}
+                onChange={(html) => handleChange(html, 'details')}
                 required
                 className={styles.textareaField}
               />

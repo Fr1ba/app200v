@@ -36,10 +36,14 @@ function CaseList() {
 
         const data = fetchData().then((response) => response.json());
 
+
         data.then(responseData => {
             console.log(responseData);
-            setList(responseData)
-            CreateCases(responseData)
+            const uniqueCases = Array.from(
+                new Map(responseData.map(item => [item.caseEactId, item])).values()
+            );
+            setList(uniqueCases);
+            CreateCases(uniqueCases);
         }).catch(error => {
             console.error("Error fetching data:", error);
         });
