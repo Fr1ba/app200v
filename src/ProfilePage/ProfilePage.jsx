@@ -20,6 +20,7 @@ function ProfilePage() {
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     loadEntityData();
@@ -123,7 +124,6 @@ function ProfilePage() {
    */
   const onSave = async (e) => {
     e.preventDefault();
-
     if (!isEditable) {
       setNewEmail(email);
       setNewAddress(address);
@@ -136,8 +136,12 @@ function ProfilePage() {
       let changes = false;
 
       if (newEmail && newEmail !== entity.emails[0].email) {
-        entity.emails[0].email = newEmail;
-        changes = true;
+        if (checkEmail()) {
+          entity.emails[0].email = newEmail;
+          changes = true;
+        } else {
+          setError("Ikke gyldig epost-adresse");
+        }
       }
 
       if (newAddress && newAddress !== entity.address) {
@@ -169,15 +173,29 @@ function ProfilePage() {
 
       if (!changes) {
         setIsEditable(false);
+        setEmail(newEmail);
+        setAddress(newAddress);
         return;
       }
 
       const result = await updateProfile(entity);
       console.log("Updated:", result);
-      fetchEntity();
+      await loadEntityData(); //kan fjernes mby
+      setEmail(newEmail);
+      setAddress(newAddress);
       setIsEditable(false);
     } catch (error) {
       console.error("Error saving profile:", error);
+    }
+  };
+
+  const checkEmail = () => {
+    const emailInput = document.getElementById("email");
+    if (emailInput.validity.valid) {
+      return true;
+    } else {
+      console.log("Ugyldig epost!!!!");
+      return false;
     }
   };
 
@@ -216,6 +234,7 @@ function ProfilePage() {
               <div className={styles.inputField}>
                 <input
                   type="email"
+                  id="email"
                   readOnly={!isEditable}
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
@@ -226,9 +245,9 @@ function ProfilePage() {
                       : styles["disabled-input"]
                   }
                 />
-
                 <IoMdMail className={styles.icon} />
               </div>
+              {error && <p style={{ color: "red" }}>{error}</p>}
             </label>
             <label className={styles.inputLabel}>
               Mobil
