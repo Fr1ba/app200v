@@ -1,3 +1,8 @@
+/**
+ * A requirement from ITX was to be able to change name and phone number in the future. 
+ * The code that is commented out is for this purpose.
+ */
+
 import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
@@ -17,7 +22,11 @@ function ProfilePage() {
   const [newEmail, setNewEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [name, setName] = useState("");
+/*   const [newName, setNewName] = useState("");
+  const [nameError, setNameError] = useState(""); */
   const [phonePrefix, setPhonePrefix] = useState("");
+/*   const [number, setNumber] = useState("");
+  const [newNumber, setNewNumber] = useState(""); */
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
   const [addressError, setAddressError] = useState("");
@@ -82,6 +91,15 @@ function ProfilePage() {
       return null;
     }
 
+/*     // Extract the phone number
+    if (entity.numbers) {
+      setNumber(entity.numbers[0].number);
+    } else {
+      setNumber(null);
+      console.log("No phone number found in response");
+      return null;
+    } */
+
     // Extract the address
     if (entity.addresses) {
       setAddress(
@@ -126,6 +144,8 @@ function ProfilePage() {
   const onSave = async (e) => {
     e.preventDefault();
     if (!isEditable) {
+//      setNewName(name);
+//      setNewNumber(number);
       setNewEmail(email);
       setNewAddress(address);
       setIsEditable(true);
@@ -136,13 +156,22 @@ function ProfilePage() {
       const entity = await fetchEntity();
       let changes = false;
 
+/*       if (newName && newName !== name) {
+        if (newName.trim() === "") {    
+          setNameError("Navnet kan ikke være tom.");
+          return;
+        }
+        entity.name1 = newName;
+        changes = true;
+      } */
+
       if (!newEmail.trim()) {
         setEmailError("Epost kan ikke være tom.");
         return;
       }
 
       if (newEmail !== entity.emails[0].email) {
-        if (checkEmail()) {
+        if (validateEmail()) {
           entity.emails[0].email = newEmail;
           changes = true;
         } else {
@@ -178,6 +207,14 @@ function ProfilePage() {
             entity.addresses[0].streetNumber = "";
           }
 
+/*           if (newNumber !== entity.numbers[0].number) {
+            entity.numbers[0].number = newNumber;
+            changes = true;
+          } else {
+            setNumberError("Ugyldig telefonnummer");
+            return;
+          } */
+
           changes = true;
         }
       }
@@ -192,15 +229,28 @@ function ProfilePage() {
       await loadEntityData(); //kan fjernes mby
       setEmail(newEmail);
       setAddress(newAddress);
+      // setName(newName);
+      //setNumber(newNumber);
       setIsEditable(false);
     } catch (emailError) {
       console.emailError("emailError saving profile:", emailError);
     }
   };
 
-  const checkEmail = () => {
+  /**
+   * Validates the email input field to ensure it matches the standard
+   * email pattern. The function uses the built-in HTML5 input validation
+   * and a regular expression to check if the email is valid.
+   * @function
+   * @author Trudy
+   * @author Vendela
+   * @returns {boolean} True if the email is valid, false if it is not.
+   */
+  const validateEmail = () => {
     const emailInput = document.getElementById("email");
-    if (emailInput.validity.valid) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+    // Check if the email input matches the pattern     
+    if (emailInput.validity.valid && emailPattern.test(emailInput.value)) {
       return true;
     } else {
       console.log("Ugyldig epost!!!!");
@@ -214,6 +264,7 @@ function ProfilePage() {
    * @author Trudy
    */
   const onCancel = () => {
+    //setNewName(name);
     setNewEmail(email);
     setNewAddress(address);
     setIsEditable(false);
@@ -230,6 +281,11 @@ function ProfilePage() {
               <div className={styles.inputField}>
                 <input
                   type="text"
+/*                   value= {newName}
+                  onChange={(e) => {
+                    setNewName(e.target.value);
+                    setNameError("");
+                  }} */
                   readOnly={true}
                   placeholder={name ? name : "Kari Nordmann"}
                   className={styles["disabled-input"]}
