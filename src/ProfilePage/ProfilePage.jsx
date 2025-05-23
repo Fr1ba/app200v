@@ -1,5 +1,5 @@
 /**
- * A requirement from ITX was to be able to change name and phone number in the future. 
+ * A requirement from ITX was to be able to change name and phone number in the future.
  * The code that is commented out is for this purpose.
  */
 
@@ -22,10 +22,10 @@ function ProfilePage() {
   const [newEmail, setNewEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [name, setName] = useState("");
-/*   const [newName, setNewName] = useState("");
+  /*   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState(""); */
   const [phonePrefix, setPhonePrefix] = useState("");
-/*   const [number, setNumber] = useState("");
+  /*   const [number, setNumber] = useState("");
   const [newNumber, setNewNumber] = useState(""); */
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
@@ -50,12 +50,12 @@ function ProfilePage() {
       });
       console.log(`${endpoint}/rest/itxems/entity`);
       if (!response.ok)
-        throw new emailError(`HTTP emailError! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
 
       const entity = await response.json();
       return entity;
-    } catch (emailError) {
-      console.emailError("emailError fetching data:", emailError);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
   /**
@@ -91,7 +91,7 @@ function ProfilePage() {
       return null;
     }
 
-/*     // Extract the phone number
+    /*     // Extract the phone number
     if (entity.numbers) {
       setNumber(entity.numbers[0].number);
     } else {
@@ -144,8 +144,8 @@ function ProfilePage() {
   const onSave = async (e) => {
     e.preventDefault();
     if (!isEditable) {
-//      setNewName(name);
-//      setNewNumber(number);
+      //      setNewName(name);
+      //      setNewNumber(number);
       setNewEmail(email);
       setNewAddress(address);
       setIsEditable(true);
@@ -156,7 +156,7 @@ function ProfilePage() {
       const entity = await fetchEntity();
       let changes = false;
 
-/*       if (newName && newName !== name) {
+      /*       if (newName && newName !== name) {
         if (newName.trim() === "") {    
           setNameError("Navnet kan ikke være tom.");
           return;
@@ -207,7 +207,7 @@ function ProfilePage() {
             entity.addresses[0].streetNumber = "";
           }
 
-/*           if (newNumber !== entity.numbers[0].number) {
+          /*           if (newNumber !== entity.numbers[0].number) {
             entity.numbers[0].number = newNumber;
             changes = true;
           } else {
@@ -249,7 +249,7 @@ function ProfilePage() {
   const validateEmail = () => {
     const emailInput = document.getElementById("email");
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-    // Check if the email input matches the pattern     
+    // Check if the email input matches the pattern
     if (emailInput.validity.valid && emailPattern.test(emailInput.value)) {
       return true;
     } else {
@@ -281,7 +281,7 @@ function ProfilePage() {
               <div className={styles.inputField}>
                 <input
                   type="text"
-/*                   value= {newName}
+                  /*                   value= {newName}
                   onChange={(e) => {
                     setNewName(e.target.value);
                     setNameError("");
