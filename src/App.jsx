@@ -8,6 +8,7 @@ import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
 import APITest from "./APITest.jsx";
 import Message from "./Message/Message.jsx";
+import {CaseProvider} from "./SelectedCase.jsx"
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,12 +38,12 @@ function App() {
     }, [location, navigate]); // Runs whenever the route (`location`) changes
 
 
-    if(loading) return (
+    if (loading) return (
         <></>
     )
 
     return (
-        <>
+        <CaseProvider>
             {isLoggedIn ? (
                 <>
                     {/* Render Header and the main routes if the user is logged in */}
@@ -51,12 +52,12 @@ function App() {
                         {/* Navigate To default if going to Login while already logged in */}
                         <Route path="/Login" element={<Navigate to="/"/>}/>
                         <Route path="/" element={
-                                        <>
-                                            <CaseList />
-                                            <Message/>
-                                        </>
-                                    }
-                                />
+                            <>
+                                <CaseList/>
+                                <Message/>
+                            </>
+                        }
+                        />
                         <Route path="/CreateCase" element={<CreateCase/>}/>
                         <Route path="/ProfilePage" element={<ProfilePage/>}/>
                         <Route path="/APITest" element={<APITest/>}/>
@@ -72,7 +73,7 @@ function App() {
                     />
                 </Routes>
             )}
-        </>
+        </CaseProvider>
     );
 }
 
