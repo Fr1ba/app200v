@@ -16,9 +16,23 @@ OBS! skriv ny css i kommentar før du pusher på denne siden!
 /* Creates variables */
 :root{
     --brandColor: #5FA4E5;
-    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --backgroundColor: white; 
+    --borderColor: #5c535377; 
     --textColor: #212121;
     --accentTextColor: white;
+    --font: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    --errorColor: rgba(232, 12, 12, 0.846);
+    --successColor: rgba(4, 180, 4, 0.915);
+   
+
+/* Font sizes */
+
+    --font-size-xs: 12px; 
+    --font-size-s: 14px; 
+    --font-size-m: 16px; 
+    --font-size-l: 18px; 
+    --font-size-xl: 24px; 
+    --font-size-xxl: 32px; 
 }
 
 body {
