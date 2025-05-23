@@ -9,7 +9,7 @@ const endpoint = "https://app06.itxnorge.no";
 function Message() {
     const [message, setMessage] = useState("");
     const [caseEactId, setCaseEactId] = useState("");
-    const [replyToEactId, setReplyToEactId] = useState("");
+    const [replyToEactId] = "";
     const [messages, setMessages] = useState([]);
     const [error, setError] = useState("");
 
