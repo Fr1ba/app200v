@@ -32,13 +32,15 @@ function Message() {
             subject: "Reklamasjon",
             body: message,
             createCase: false,
-            caseEactId: 3453451,
-            replyToEactId: 3453465,
+            caseEactId: caseId,
+            //replyToEactId: replyToEactId,
         };
+
 
         const jsonBlob = new Blob([JSON.stringify(data)], {
             type: "application/json",
         });
+
 
         const formData = new FormData();
         formData.append("data", jsonBlob);
@@ -61,7 +63,7 @@ function Message() {
     };
 
     useEffect(() => {
-        setCaseEactId(3453451);
+        setCaseEactId(caseId);
     }, []);
 
     const fetchMessages = async () => {
@@ -75,7 +77,7 @@ function Message() {
                     getConversations: false,
                     getContent: true,
                     draft: false,
-                    conversationEactId: 3453453,
+                   // conversationEactId: 3453453,
                 }),
             });
 
