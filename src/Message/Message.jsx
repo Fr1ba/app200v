@@ -38,7 +38,7 @@ const loadMessages = async () => {
 
 useEffect(() => {
   loadMessages();
-});
+},[]);
 
   return (
     <div className={styles.chatContainer}>
