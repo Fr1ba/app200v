@@ -7,8 +7,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
-
-const endpoint = "https://app06.itxnorge.no";
+import { fetchEntity, updateProfile } from "../api/profileApi.js";
 
 /**
  * ProfilePage component. Contains the user's profile information and allows the user to edit this information.
@@ -36,28 +35,6 @@ function ProfilePage() {
     loadEntityData();
   }, []);
 
-  /**
-   * Fetches the current user's entity from the ITX API.
-   * @function
-   * @author Vendela
-   * @returns {Object} The user's entity object
-   */
-  const fetchEntity = async () => {
-    try {
-      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-        method: "GET",
-        credentials: "include",
-      });
-      console.log(`${endpoint}/rest/itxems/entity`);
-      if (!response.ok)
-        throw new Error(`HTTP error! Status: ${response.status}`);
-
-      const entity = await response.json();
-      return entity;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   /**
    * Loads the current user's entity data from the ITX API into the component's state.
    * @function
@@ -111,25 +88,6 @@ function ProfilePage() {
       console.log("No address found in response");
       return null;
     }
-  };
-
-  /**
-   * Updates the user's entity data in the ITX API.
-   * @function
-   * @param {Object} entity - The user's entity data to be updated.
-   * @returns {Promise} Resolves with the updated entity data from the API.
-   * @author Vendela
-   * @author Trudy
-   */
-  const updateProfile = async (entity) => {
-    const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(entity),
-    });
-
-    return response.json();
   };
 
   /**

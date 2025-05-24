@@ -1,55 +1,30 @@
-﻿import Case from './Case';
-import React, {useEffect, useState} from "react";
+﻿import React, { useEffect, useState } from "react";
+import Case from './Case';
 import styles from "./CaseList.module.css";
 import { Link } from 'react-router-dom';
-
-
-const endpoint = "https://app06.itxnorge.no";
+import { fetchCases } from "../api/caseApi.js";
 
 function CaseList() {
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("new");
 
-    const [filter, setFilter] = useState("all");
-    const [search, setSearch] = useState("");
-    const [sort, setSort] = useState("new");
+  const [list, setList] = useState([]);
+  const [caseList, setCaseList] = useState();
 
-    const [list, setList] = useState([]);
-    const [caseList, setCaseList] = useState();
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            return await fetch(`${endpoint}/rest/itxems/message/search`,
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        getConversations: false,
-                        getContent: true,
-                        // conversationEactId: "3414941"
-                    })
-                }
-            );
-        }
-
-        const data = fetchData().then((response) => response.json());
-
-
-        data.then(responseData => {
-            console.log(responseData);
-            const uniqueCases = Array.from(
-                new Map(responseData.map(item => [item.caseEactId, item])).values()
-            );
-            setList(uniqueCases);
-            CreateCases(uniqueCases);
-        }).catch(error => {
-            console.error("Error fetching data:", error);
-        });
-
-
-    }, []);
+  useEffect(() => {
+    fetchCases()
+      .then((responseData) => {
+        const uniqueCases = Array.from(
+          new Map(responseData.map((item) => [item.caseEactId, item])).values()
+        );
+        setList(uniqueCases);
+        CreateCases(uniqueCases);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
     function CreateCases(someList) {
         setCaseList(someList.map((caseItem) =>
