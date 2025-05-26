@@ -32,7 +32,7 @@ function Login() {
   };
 
   const showPassword = () => {
-    setType((prev) => (prev === "password" ? "text" : "password"));
+    setType(type === "password" ? "text" : "password");
   };
 
   return (
