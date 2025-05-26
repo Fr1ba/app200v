@@ -1,21 +1,45 @@
-// TODO When you click on the notif you will be directed to the related case and the notif will be gone from the bell. 
+/**
+ * This code simulates a notification bell. It is not a functional component, but can be further developed later.
+ * @author Erica Laub Varpe
+ */
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
 import styles from './bell.module.css';
 
 function NotificationBell() {
   const [open, setOpen] = useState(false);
+  const notificationRef = useRef(null);
+  
   const handleOpen = () => setOpen(!open);
-
   const notificationCount = notisArray().props.children.length;
+
+    // Handle clicks outside the profile component
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    // Add event listener when the dropdown menu is open
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // Remove event listener when click outside dropdown menu
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <div>
+    <div ref={notificationRef}>
        <div className={styles.bellWithCount}>
-         <Bell 
-           className={styles.bell} 
-           onClick={handleOpen} 
-           fill={open ? "white" : "none"} 
+         <Bell
+           className={styles.bell}
+           onClick={handleOpen}
+           fill={open ? "white" : "none"}
          />
          {notificationCount > 0 && (
            <span className={styles.notificationCount}>
@@ -39,7 +63,6 @@ function notisArray(){
       }
     </ul>
   )
- 
 }
 
 export default NotificationBell;
