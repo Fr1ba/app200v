@@ -1,3 +1,6 @@
+/* Author: Stine A. Skrøder */
+
+/* Text editor wrapper and label */
 .editorWrapper {
   width: 100%;
   max-width: 800px;
@@ -12,7 +15,8 @@
   padding-bottom: 5px;
 }
 
-/* Container for hele editoren */
+/* Main editor container */
+
 .editorContainer {
   width: 100%;
   margin: 0 0 25px 0;
@@ -24,7 +28,7 @@
   overflow: visible;
 }
 
-/* Override Quill's standard containerstil */
+/* Quill editor content area styling */
 .editorContainer :global(.ql-container) {
   min-height: 40px; 
   max-height: 80px; 
@@ -36,7 +40,7 @@
 }
 
 
-/* Override Quill's toolbarstil */
+/* Quill toolbar styling and interactions */
 .editorContainer :global(.ql-toolbar) {
   border: none; 
   border-radius: 20px 20px 0 0; 
@@ -58,11 +62,11 @@
   background-color: rgba(157, 229, 249, 0.15);
 }
 
-
+/* Dropdown menu styling for toolbar options */
 .editorContainer :global(.ql-toolbar .ql-picker-options) {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(92, 83, 83, 0.468);
+  border: transparent;
   padding: 5px;
   z-index: 100;
   position: absolute;
@@ -70,7 +74,7 @@
   overflow-y: auto;
 }
 
-/* Placeholderstil */
+/* Placeholder text styling */
 .editorContainer :global(.ql-editor.ql-blank::before) {
   font-style: normal; 
   color: #999;
