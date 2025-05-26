@@ -1,14 +1,12 @@
 /* author Erica Laub Varpe */
 
 /* Base styles for all views */
-.chatContainer, .subjectline, .messageList, .messageItem, .emptyState {
+.chatContainer, .subjectline, .messageList, .messageItem, .emptyState, .details, .headerContainer {
   display: flex;
 }
-
 .subjectline, .emptyState {
   align-items: center;
 }
-
 .chatContainer {
   position: absolute;
   flex-direction: column;
@@ -19,32 +17,50 @@
   bottom:0;
 }
 
-.subjectline {
+/* Header container for back button, subject and details */
+.headerContainer {
   position: sticky;
   z-index: 5;
   top: 0;
   background-color: var(--backgroundColor);
   padding-top: 1rem;
-  font-size: var(--font-size-xxl);
-  justify-content: center;
+  padding-bottom: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  border-bottom: solid 1px var(--borderColor);
   margin-bottom: 0.5rem;
-  border-bottom: solid 1px;
 }
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+.backButton {
   background: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
   color: #999;
-  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+  flex-shrink: 0;
 }
 
-.closeButton:hover {
+.backButton:hover {
   color: #333;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.subjectline {
+  font-size: var(--font-size-xxl);
+  margin: 0;
+  text-align: center;
+  justify-self: center;
+  padding: 0 1rem;
+}
+
+.details {
+  justify-self: end;
 }
 
 .messageList {
@@ -54,12 +70,10 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .messageItem {
   flex-direction: column;
   align-items: flex-start;
 }
-
 /* Messages */
 .messageBubble {
   padding: 0.75rem 1rem;
@@ -67,37 +81,31 @@
   line-height: 1.4;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
-
 .timestamp {
   font-size: var(--font-size-xs);
   color: #888;
   margin-top: 0.25rem;
 }
-
 .incoming {
   background-color: #ccc;
   color: var(--textColor);
   border-radius: 0 1rem 1rem 1rem;
   align-self: flex-start;
 }
-
 .incoming + .timestamp {
   align-self: flex-start;
   text-align: left;
 }
-
 .outgoing {
   background-color: var(--brandColor);
   color: #000;
   border-radius: 1rem 0 1rem 1rem;
   align-self: flex-end;
 }
-
 .outgoing + .timestamp {
   align-self: flex-end;
   text-align: right;
 }
-
 .messageForm {
   margin-top: 1rem;
   height: 40%;
@@ -105,12 +113,10 @@
   border-radius: 0.5rem;
   width: auto;
 }
-
 /* Empty state - hidden by default on mobile */
 .emptyState {
   display: none;
 }
-
 /* Desktop view (992px and up) */
 @media screen and (min-width: 992px) {
   .chatContainer {
@@ -118,9 +124,8 @@
     bottom: 0;
     right: 0;
     width: 60%;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   }
-
+  
   /* Show empty state on desktop */
   .emptyState {
     display: flex;
@@ -131,13 +136,11 @@
     font-size: 1.2rem;
     text-align: center;
   }
-
   .emptyIcon {
     font-size: 10rem;
     color: #ccc;
     margin-bottom: 1rem;
   }
-
   .emptyText {
     font-weight: 500;
   }
