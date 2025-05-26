@@ -13,11 +13,14 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
     }
 
     return (
-        <div className={styles.case} onClick={handleClick}>
-            <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}></div>
-            <p className={styles.text}>{caseTitle}</p>
-            <p className={styles.category}>{caseCategory}</p>
-        </div>
+  <div className={styles.case} onClick={handleClick}>
+    <div>
+      <p className={styles.text}>{caseTitle}</p>
+      <p className={styles.category}>{caseCategory}</p>
+    </div>
+    <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
+    </div>
+</div>
     );
 }
 
