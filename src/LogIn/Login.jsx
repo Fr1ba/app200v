@@ -5,7 +5,7 @@ import Logo from "../Logo/Logo";
 import { loginUser } from "../api/authentication";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); //tracks input fields
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,10 +20,11 @@ function Login() {
       if (response.ok) {
         window.location.href = "/";
       } else {
-        alert("Login failed");
+        const data = await response.json().catch(() => ({}));// If API response can’t be read as JSON => "Login failed"
+        alert(data.errorMsg || "Login failed"); //successful fetch but with error status, f.ex. unauthorised access
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:", error); //fetch unsuccesful, e.g. problem with network connection. 
       alert("Something went wrong");
     } finally {
       setIsLoading(false);
