@@ -51,7 +51,7 @@ function MessageDetails() {
       </button>
       {caseDetails && (
           <div className={styles.caseDetails}>
-            <h4 className={styles.header}>detaljer</h4>
+            <h4 className={styles.header}>Detaljer</h4>
             <p>
               <strong>Saksbehandler:</strong> {caseDetails.caseWorker}
             </p>
