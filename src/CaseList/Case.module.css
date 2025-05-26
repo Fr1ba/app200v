@@ -27,12 +27,18 @@
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .case:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     border-color: var(--brandColor);
   }
+
+  /* Highlight styling for selected case */
+  .case.selected {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 98, 128, 0.277);
+    border: 3px solid var(--brandColor);
+  }
+
   
   .category {
     font-size: 15px;
