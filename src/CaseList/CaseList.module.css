@@ -41,7 +41,7 @@
     background-color: var(--backgroundColor);  
     color: var(--textColor);
     padding: 5px 30px;
-    font-size: 16px;
+    font-size: var(font-size-m);
     border: 1px solid var(--borderColor);
     font-weight: normal;
     border-radius: 10px;
@@ -53,7 +53,7 @@
     background-color: var(--backgroundColor);  
     color: var(--textColor);
     padding: 5px 0px;
-    font-size: 16px;
+    font-size: var(--font-size-m);
     font-weight: normal;
     border: none;
     background-color: transparent;
@@ -117,7 +117,7 @@
     padding: 12px 24px;
     border: none;
     border-radius: 25px;
-    font-size: 18px;
+    font-size: var(--font-size-l);
     cursor: pointer;
     width: 250px;
     text-align: center;

@@ -31,7 +31,7 @@
 
 .wrapper h1 { /* "Velkommen" heading inside the wrapper */
   font: var(--font);
-  font-size: 30px;
+  font-size: var(--font-size-xxl);
   color: var(--textColor);
   text-align: center;
   margin-top: 10px;  
@@ -55,7 +55,7 @@
   background:#F2F2F2;
   border: #F2F2F2;
   border-radius: 60px;
-  font-size: 16px;
+  font-size: var(--font-size-m);
   padding: 15px 50px 15px 20px;
   box-sizing: border-box;
 }
@@ -73,7 +73,7 @@
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 17px;
+  font-size: var(--font-size-m);
 }
 
 .passwordToggle { /* Password visibility toggle icon */
@@ -82,7 +82,7 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 17px;
+  font-size: var(--font-size-m);
 }
 
 .wrapper .rememberForgot { /* Container for "remember me" and "forgot password?" */
@@ -92,7 +92,7 @@
   padding-left: 25px;
   padding-right: 30px;
   padding-top: 15px;
-  font-size: 14.5px;
+  font-size: var(--font-size-s);
   margin: -15px 0 15px;
   gap: 10px; 
 }
@@ -132,7 +132,7 @@
   border: none;
   border-radius: 60px;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  font-size: 16px;
+  font-size: var(--font-size-m);
   color: var(--accentTextColor);
   font-weight: 700;
 }
@@ -173,12 +173,12 @@
   }
   
   .inputBox input {
-      font-size: 15px;
+      font-size: var(--font-size-s);
       height: 45px;
   }
 
   .wrapper h1 {
-      font-size: 26px;
+      font-size: var(--font-size-xl);
       margin-bottom: 40px;
   }
 
@@ -191,7 +191,7 @@
   .rememberForgot {
       padding-left: 20px;
       padding-right: 20px;
-      font-size: 14px;
+      font-size: var(--font-size-s);
   }
 
   .logo {
@@ -222,19 +222,19 @@
   }
   
   .inputBox input {
-      font-size: 14px;
+      font-size: var(--font-size-s);
       height: 45px;
       padding: 12px 40px 12px 15px;
   }
 
   .inputBox .icon,
   .passwordToggle {
-      font-size: 16px;
+      font-size: var(--font-size-m);
       right: 15px;
   }
 
   .wrapper h1 {
-      font-size: 24px;
+      font-size: var(--font-size-xl);
       margin-bottom: 30px;
   }
 
@@ -242,7 +242,7 @@
       width: 100%;
       margin-top: 30px;
       height: 45px;
-      font-size: 15px;
+      font-size: var(--font-size-s);
   }
 
   .rememberForgot {
@@ -252,7 +252,7 @@
       padding-left: 5px;
       padding-right: 5px;
       gap: 15px;
-      font-size: 13px;
+      font-size: var(--font-size-xs);
   }
 
   .rememberForgot label {
