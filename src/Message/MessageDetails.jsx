@@ -39,7 +39,18 @@ function MessageDetails() {
   const fetchCaseDetails = async () => {
     if (!caseId) return;
     const data = await getMessages(caseId);
+    console.log(data);
 
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      setCaseDetails({
+        caseWorker: "Venter på tildeling av saksbehandler",
+        createdDate: "Ingen opprettelsesdato funnet",
+        status: "Aktiv",
+        priority: "Høy",
+        category: "Retur",
+      });
+      return;
+    }
     let caseWorker = "";
     let checkElements = Math.min(data.length, 3);
     for (let i = 0; i <= checkElements; i++) {
@@ -65,9 +76,9 @@ function MessageDetails() {
     const details = {
       caseWorker: caseWorker || "Venter på tildeling av saksbehandler",
       createdDate: date || "Ingen opprettelsesdato funnet",
-      status: "Aktiv",
-      priority: "Høy",
-      category: "Retur",
+      status: data.status || "Aktiv",
+      priority: data.priority || "Høy",
+      category: data.category || "Retur",
     };
     setCaseDetails(details);
   };
