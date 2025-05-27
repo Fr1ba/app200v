@@ -65,6 +65,7 @@ function MessageDetails() {
     const details = {
       caseWorker: caseWorker || "Venter på tildeling av saksbehandler",
       createdDate: date || "Ingen opprettelsesdato funnet",
+      status: "Aktiv",
       priority: "Høy",
       category: "Retur",
     };
@@ -89,6 +90,9 @@ function MessageDetails() {
           </p>
           <p>
             <strong>Opprettet:</strong> {caseDetails.createdDate}
+          </p>
+          <p>
+            <strong>Status:</strong> {caseDetails.status}
           </p>
           <p>
             <strong>Prioritet:</strong> {caseDetails.priority}
