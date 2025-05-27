@@ -99,114 +99,117 @@ function ProfilePage() {
    * @author Vendela
    * @author Trudy
    */
-const onSave = async (e) => {
-  e.preventDefault();
-  if (!isEditable) {
-    setNewEmail(email ?? "");
-    setNewAddress(address ?? "");
-    setIsEditable(true);
-    return;
-  }
-
-  try {
-    const entity = await fetchEntity();
-    let changes = false;
-    let emailChanged = false;
-    let addressChanged = false;
-
-    // --- EMAIL ---
-    if (!entity.emails || entity.emails.length === 0) {
-      entity.emails = [{
-        seqNo: 1,
-        email: "",
-        emailType: 20,
-        desc: "Kontaktadresse"
-      }];
-    }
-
-    const oldEmail = entity.emails[0].email ?? "";
-    if (!newEmail.trim()) {
-      setEmailError("Epost kan ikke være tom.");
+  const onSave = async (e) => {
+    e.preventDefault();
+    if (!isEditable) {
+      setNewEmail(email ?? "");
+      setNewAddress(address ?? "");
+      setIsEditable(true);
       return;
     }
 
-    if (newEmail !== oldEmail) {
-      if (validateEmail()) {
-        entity.emails[0].email = newEmail;
-        entity.emails[0].emailType = 20;
-        entity.emails[0].seqNo = 1;
-        entity.emails[0].desc = "Kontaktadresse";
-        emailChanged = true;
-        changes = true;
-      } else {
-        setEmailError("Ikke gyldig epost-adresse");
+    try {
+      const entity = await fetchEntity();
+      let changes = false;
+      let emailChanged = false;
+      let addressChanged = false;
+
+      // --- EMAIL ---
+      if (!entity.emails || entity.emails.length === 0) {
+        entity.emails = [
+          {
+            seqNo: 1,
+            email: "",
+            emailType: 20,
+            desc: "Kontaktadresse",
+          },
+        ];
+      }
+
+      const oldEmail = entity.emails[0].email ?? "";
+      if (!newEmail.trim()) {
+        setEmailError("Epost kan ikke være tom.");
         return;
       }
-    }
 
-    // --- ADDRESS ---
-    if (!newAddress.trim()) {
-      setAddressError("Adressen kan ikke være tom");
-      return;
-    }
-
-    if (!entity.addresses || entity.addresses.length === 0) {
-      entity.addresses = [{
-        seqNo: 1,
-        addressType: 10,
-        street: "",
-        streetNumber: "",
-      }];
-    }
-
-    const oldStreet = entity.addresses[0].street ?? "";
-    const oldStreetNumber = entity.addresses[0].streetNumber ?? "";
-    const fullOldAddress = `${oldStreet} ${oldStreetNumber}`.trim();
-
-    if (newAddress !== fullOldAddress) {
-      const splitAddress = newAddress.trim().split(" ");
-      const streetName = splitAddress.slice(0, -1).join(" ");
-      const streetNumber = splitAddress.slice(-1)[0];
-
-      if (!isNaN(streetNumber)) {
-        entity.addresses[0].street = streetName;
-        entity.addresses[0].streetNumber = streetNumber;
-      } else {
-        entity.addresses[0].street = newAddress;
-        entity.addresses[0].streetNumber = "";
+      if (newEmail !== oldEmail) {
+        if (validateEmail()) {
+          entity.emails[0].email = newEmail;
+          entity.emails[0].emailType = 20;
+          entity.emails[0].seqNo = 1;
+          entity.emails[0].desc = "Kontaktadresse";
+          emailChanged = true;
+          changes = true;
+        } else {
+          setEmailError("Ikke gyldig epost-adresse");
+          return;
+        }
       }
 
-      // Ensure required props
-      entity.addresses[0].addressType = 10;
-      entity.addresses[0].country = entity.addresses[0].country ?? "Norway";
-      entity.addresses[0].postalCode = entity.addresses[0].postalCode ?? "0000";
-      entity.addresses[0].city = entity.addresses[0].city ?? "Oslo";
-      entity.addresses[0].seqNo = 1;
+      // --- ADDRESS ---
+      if (!newAddress.trim()) {
+        setAddressError("Adressen kan ikke være tom");
+        return;
+      }
 
-      addressChanged = true;
-      changes = true;
-    }
+      if (!entity.addresses || entity.addresses.length === 0) {
+        entity.addresses = [
+          {
+            seqNo: 1,
+            addressType: 10,
+            street: "",
+            streetNumber: "",
+          },
+        ];
+      }
 
-    if (!changes) {
+      const oldStreet = entity.addresses[0].street ?? "";
+      const oldStreetNumber = entity.addresses[0].streetNumber ?? "";
+      const fullOldAddress = `${oldStreet} ${oldStreetNumber}`.trim();
+
+      if (newAddress !== fullOldAddress) {
+        const splitAddress = newAddress.trim().split(" ");
+        const streetName = splitAddress.slice(0, -1).join(" ");
+        const streetNumber = splitAddress.slice(-1)[0];
+
+        if (!isNaN(streetNumber)) {
+          entity.addresses[0].street = streetName;
+          entity.addresses[0].streetNumber = streetNumber;
+        } else {
+          entity.addresses[0].street = newAddress;
+          entity.addresses[0].streetNumber = "";
+        }
+
+        // Ensure required props
+        entity.addresses[0].addressType = 10;
+        entity.addresses[0].country = entity.addresses[0].country ?? "Norway";
+        entity.addresses[0].postalCode =
+          entity.addresses[0].postalCode ?? "0000";
+        entity.addresses[0].city = entity.addresses[0].city ?? "Oslo";
+        entity.addresses[0].seqNo = 1;
+
+        addressChanged = true;
+        changes = true;
+      }
+
+      if (!changes) {
+        setIsEditable(false);
+        return;
+      }
+
+      entity.emailChanged = emailChanged;
+      entity.addressChanged = addressChanged;
+
+      const result = await updateProfile(entity);
+      console.log("Updated:", result);
+      await loadEntityData();
+      setEmail(newEmail);
+      setAddress(newAddress);
       setIsEditable(false);
-      return;
+    } catch (error) {
+      console.error("Error saving profile:", error);
     }
-
-    entity.emailChanged = emailChanged;
-    entity.addressChanged = addressChanged;
-
-    const result = await updateProfile(entity);
-    console.log("Updated:", result);
-    await loadEntityData();
-    setEmail(newEmail);
-    setAddress(newAddress);
-    setIsEditable(false);
-  } catch (error) {
-    console.error("Error saving profile:", error);
-  }
-};
-
-
+  };
 
   /**
    * Validates the email input field to ensure it matches the standard
@@ -239,6 +242,8 @@ const onSave = async (e) => {
     setNewEmail(email);
     setNewAddress(address);
     setIsEditable(false);
+    setEmailError("");
+    setAddressError("");
   };
 
   return (
