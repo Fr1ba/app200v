@@ -11,13 +11,11 @@ const modules = {
   toolbar: [
     [{ header: [1, 2, false] }],
     ['bold', 'italic', 'underline'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-  ],
-};
+
 
 const formats = [
-  'header', 'bold', 'italic', 'underline', 'list'
-  // Remove 'bullet' - it's part of 'list', not a separate format
+
+  'header', 'bold', 'italic', 'underline', 
 ];
 
 const TextEditor = ({ value, onChange }) => {

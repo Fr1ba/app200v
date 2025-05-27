@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BsEnvelope } from "react-icons/bs";
+import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
 import DOMPurify from "dompurify";
-
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
 import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
-
 function Message() {
   const [message, setMessage] = useState("");
-  const replyToEactId = ""; // or useState("") if you need it to change
+  const replyToEactId = ""; // eller useState hvis du trenger det senere
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
   const { caseId, caseSubject } = useContext(CaseContext);
-
   const loadMessages = async () => {
     if (!caseId) return;
     try {
@@ -24,10 +22,8 @@ function Message() {
       console.error("Feil ved henting av meldinger:", err);
     }
   };
-
   const handleSendMessage = async (event) => {
     event.preventDefault();
-
     try {
       await postMessage({ message, caseId, caseSubject, replyToEactId });
       setMessage("");
@@ -37,19 +33,32 @@ function Message() {
       setError(err.message || "Feil ved sending av melding");
     }
   };
-
   useEffect(() => {
-    loadMessages();
+    if (caseId) {
+      setIsVisible(true);
+      loadMessages();
+    }
   }, [caseId]);
-
   return (
     <div className={styles.chatContainer}>
-      {caseId ? (
+      {caseId && isVisible ? (
         <>
           {messages.length > 0 && (
-            <h3 className={styles.subjectline}>
-              {messages[0].subject || caseSubject || "(uten tittel)"}
-            </h3>
+            <div className={styles.headerContainer}>
+              <button
+                className={styles.backButton}
+                onClick={() => setIsVisible(false)}
+                aria-label="Tilbake"
+              >
+                <BsArrowLeft />
+              </button>
+              <h3 className={styles.subjectline}>
+                {messages[0].subject || caseSubject || "(uten tittel)"}
+              </h3>
+              <div className={styles.details}>
+                <MessageDetails />
+              </div>
+            </div>
           )}
           <ul className={styles.messageList}>
             {messages.map((msg) => (
@@ -74,11 +83,10 @@ function Message() {
               </li>
             ))}
           </ul>
-
           <form onSubmit={handleSendMessage} className={styles.messageForm}>
             <TextEditor value={message} onChange={setMessage} />
             {error && <p style={{ color: "red" }}>{error}</p>}
-            <button type="submit">Send</button>
+            <button className={styles.sendButton} type="submit">Send</button>
           </form>
         </>
       ) : (
@@ -90,5 +98,4 @@ function Message() {
     </div>
   );
 }
-
 export default Message;

@@ -94,33 +94,35 @@ function CaseList() {
     }, []);
     return (
 
-        <div className={styles.div}>
+            <div className={styles.div}>
+            <div className={styles.controls}>
+                <div className={styles.dropdown}>
+                    <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filter</button>
+                    <div id="myDropdown" className={styles.dropdown_contentFilter}>
+                        <a onClick={() => setFilter("all")}>Show All</a>
+                        <a onClick={() => setFilter("active")}>Active</a>
+                        <a onClick={() => setFilter("closed")}>Closed</a>
+                    </div>
+                </div>
 
-            <div className={styles.dropdown}>
-                <button onClick={showFilterDropdown} className={styles.dropbtnFilter}>Filter</button>
-                <div id="myDropdown" className={styles.dropdown_contentFilter}>
-                    <a onClick={() => setFilter("all")}>Show All</a>
-                    <a onClick={() => setFilter("active")}>Active</a>
-                    <a onClick={() => setFilter("closed")}>Closed</a>
+
+                <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
+        
+            
+                <div className={styles.dropdown}>
+                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> <span>↕</span> Sort</button>
+                    <div id="myDropdown2" className={styles.dropdown_contentSort}>
+                        <a onClick={() => setSort("new")}>Newest</a>
+                        <a onClick={() => setSort("old")}>Oldest</a>
+                    </div>
                 </div>
             </div>
 
+                <ul className={styles.list}>
+                    {caseList}
+                </ul>
 
-            <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
-
-            <div className={styles.dropdown}>
-                <button onClick={showSortDropdown} className={styles.dropbtnSort}>Sort</button>
-                <div id="myDropdown2" className={styles.dropdown_contentSort}>
-                    <a onClick={() => setSort("new")}>Newest</a>
-                    <a onClick={() => setSort("old")}>Oldest</a>
-                </div>
-            </div>
-
-            <ul className={styles.list}>
-                {caseList}
-            </ul>
-
-            <Link to="/CreateCase" className={styles.button}>New thread</Link>
+                <Link to="/CreateCase" className={styles.button}>New thread</Link>
 
         </div>
     );
