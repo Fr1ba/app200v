@@ -39,7 +39,6 @@ function MessageDetails() {
   const fetchCaseDetails = async () => {
     if (!caseId) return;
     const data = await getMessages(caseId);
-    console.log(data);
 
     if (!data || !Array.isArray(data) || data.length === 0) {
       setCaseDetails({
