@@ -1,5 +1,17 @@
 import { endpoint } from "./endpoint";
 
+/**
+ * Fetches case data from the backend API.
+ *
+ * Sends a POST request to the ITX message search endpoint to retrieve case data
+ * with content but without conversations. Throws an error if the response is not OK.
+ *
+ * @async
+ * @function fetchCases
+ * @returns {Promise<Object[]>} A promise that resolves to an array of case objects.
+ * @throws {Error} If the API response is not successful.
+ * @author Nikola Deja
+ */
 export const fetchCases = async () => {
   const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
     method: "POST",

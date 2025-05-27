@@ -12,6 +12,7 @@ import { fetchCases } from "../api/caseApi.js";
  *
  * @component
  * @returns {JSX.Element} The rendered CaseList component.
+ * @author Nikola Deja
  */
 function CaseList() {
 
@@ -22,6 +23,15 @@ function CaseList() {
     const [list, setList] = useState([]);
     const [caseList, setCaseList] = useState();
 
+    /**
+     * Loads case data on component mount.
+     *
+     * Calls the `fetchCases` function to retrieve case data from the API.
+     * Filters out duplicates by `caseEactId`, updates the list state,
+     * and renders the cases using `CreateCases`.
+     *
+     * Logs an error to the console if the request fails.
+     */
   useEffect(() => {
     fetchCases()
       .then((responseData) => {
@@ -44,7 +54,7 @@ function CaseList() {
      */
     function CreateCases(listOfCases) {
         setCaseList(listOfCases.map((caseItem) =>
-            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.isDraft}
+            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Return"}
                   caseStatus={caseItem.eactId}/>))
 
     }

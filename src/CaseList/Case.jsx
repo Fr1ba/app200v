@@ -16,6 +16,7 @@ import { CaseContext } from "../SelectedCase.jsx";
  * @param {string} props.caseCategory - The category or type of the case.
  * @param {boolean} props.caseStatus - The status of the case (e.g., open or closed).
  * @returns {JSX.Element} The rendered case component.
+ * @author Nikola Deja
  */
 function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
   const { caseId: selectedCaseId, setCaseId, setCaseSubject } = useContext(CaseContext); // added caseId: selectedCaseId
@@ -38,6 +39,7 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
       <div className={`${styles.case} ${isSelected ? styles.selected : ''}`} onClick={handleClick}> 
         <div> 
         <p className={styles.text}>{caseTitle}</p>
+            <p>{caseId}</p>
         <p className={styles.category}>{caseCategory}</p>
       </div>
       <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
