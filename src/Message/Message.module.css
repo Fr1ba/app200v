@@ -16,8 +16,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10; /* Higher than CaseList to cover it when visible */
   height: calc(100vh - 80px); /* Match CaseList height on mobile */
+  align-items: center;
 }
 
 /* Header container for back button, subject and details */
@@ -33,6 +33,7 @@
   align-items: center;
   border-bottom: solid 1px var(--borderColor);
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 .backButton {
   background: transparent;
@@ -110,12 +111,14 @@
   text-align: right;
 }
 .messageForm {
-  margin-top: 1rem;
+  margin: 0;
   height: 40%;
   padding: 1rem;
   border-radius: 0.5rem;
-  width: auto;
+  width: 100%;
   bottom:0;
+  display: flex;
+  flex-direction: column;
 
 }
 
@@ -130,12 +133,11 @@
     cursor: pointer;
     width: 150px;
     text-align: center;
-    text-decoration: none;
     bottom: 20px;
     transform: translateX(-50%);
     z-index: 100000; /* Høy z-index */
-    justify-self: center;
     align-self: center;
+    
 }
 .emptyState {
   display: none;
