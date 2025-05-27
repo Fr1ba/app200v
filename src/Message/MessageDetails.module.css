@@ -39,17 +39,17 @@
     width: 90%;
 }
 
-    .header {
-        font-size: var(--font-size-l);
-        margin: 0;
-        text-align: center;
-        justify-self: center;
-        padding: 0 1rem;
-        top: 0;
-        align-items: center;
-        border-bottom: solid 1px var(--borderColor);
-        margin-bottom: 0.5rem;
-    }
+.header {
+    font-size: var(--font-size-l);
+    margin: 0;
+    text-align: center;
+    justify-self: center;
+    padding: 0 1rem;
+    top: 0;
+    align-items: center;
+    border-bottom: solid 1px var(--borderColor);
+    margin-bottom: 0.5rem;
+}
 
 @media screen and (min-width: 992px) {
   
@@ -57,7 +57,7 @@
         position: fixed; 
         top: 532px;
         transform: translateY(-50%);
-        z-index: 100;  
+        z-index: 250;  
         background-color: white; 
         border: 0;
         border-radius: 0;
