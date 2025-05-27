@@ -1,5 +1,4 @@
 /* author Erica Laub Varpe */
-
 /* Base styles for all views */
 .chatContainer, .subjectline, .messageList, .messageItem, .emptyState, .details, .headerContainer {
   display: flex;
@@ -8,13 +7,17 @@
   align-items: center;
 }
 .chatContainer {
-  position: absolute;
+  position: fixed;
   flex-direction: column;
   padding: 0 1rem;
   overflow-y: auto;
   background-color: var(--backgroundColor);
-  top:100px;
-  bottom:0;
+  top: 150px; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10; /* Higher than CaseList to cover it when visible */
+  height: calc(100vh - 80px); /* Match CaseList height on mobile */
 }
 
 /* Header container for back button, subject and details */
@@ -31,7 +34,6 @@
   border-bottom: solid 1px var(--borderColor);
   margin-bottom: 0.5rem;
 }
-
 .backButton {
   background: transparent;
   border: none;
@@ -45,12 +47,10 @@
   transition: background-color 0.2s, color 0.2s;
   flex-shrink: 0;
 }
-
 .backButton:hover {
   color: #333;
   background-color: rgba(0, 0, 0, 0.05);
 }
-
 .subjectline {
   font-size: var(--font-size-xxl);
   margin: 0;
@@ -58,17 +58,19 @@
   justify-self: center;
   padding: 0 1rem;
 }
-
 .details {
   justify-self: end;
 }
-
 .messageList {
   list-style: none;
-  padding: 0;
-  margin: 0;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
+  height: 60%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 60px;
 }
 .messageItem {
   flex-direction: column;
@@ -76,7 +78,8 @@
 }
 /* Messages */
 .messageBubble {
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 20%;
   max-width: 40%;
   line-height: 1.4;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -112,20 +115,58 @@
   padding: 1rem;
   border-radius: 0.5rem;
   width: auto;
+  bottom:0;
+
 }
-/* Empty state - hidden by default on mobile */
+
+.sendButton{
+    background-color: var(--brandColor);
+    color: var(--accentTextColor);
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    font-size: var(--font-size-l);
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+    text-decoration: none;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 100000; /* Høy z-index */
+    justify-self: center;
+    align-self: center;
+}
 .emptyState {
   display: none;
 }
+
+/* Tablet view (768px to 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .chatContainer {
+    top: 150px; 
+  }
+}
+
+/* Tablet view (768px to 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .chatContainer {
+    top: 150px; 
+    height: calc(100vh - 100px);
+  }
+}
+
 /* Desktop view (992px and up) */
 @media screen and (min-width: 992px) {
   .chatContainer {
-    top: 150px;
+    top: 150px; 
     bottom: 0;
     right: 0;
     width: 60%;
+    left: auto; 
+    height: calc(100vh - 100px); 
   }
-  
+ 
   /* Show empty state on desktop */
   .emptyState {
     display: flex;
@@ -141,6 +182,7 @@
     color: #ccc;
     margin-bottom: 1rem;
   }
+ 
   .emptyText {
     font-weight: 500;
   }
