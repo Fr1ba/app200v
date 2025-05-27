@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MessageDetails.module.css";
-
 /**
  * Component for viewing and hiding details about messages.
  * @returns the MessageDetails component.
@@ -9,23 +8,26 @@ import styles from "./MessageDetails.module.css";
  */
 function MessageDetails() {
   const [caseDetails, setCaseDetails] = useState(null);
-  const [buttonText, setButtonText] = useState("Vis saksdetaljer");
-
+  const [buttonText, setButtonText] = useState("Vis detaljer");
+  const [isOpen, setIsOpen] = useState(false);
+  
   /**
    * Function for handling button click
    * @author Oda
    * @author Vendela
    */
   const handleClick = () => {
-    if (buttonText === "Vis saksdetaljer") {
+    if (buttonText === "Vis detaljer") {
       fetchCaseDetails();
-      setButtonText("Skjul saksdetaljer");
-    } else if (buttonText === "Skjul saksdetaljer") {
+      setButtonText("Skjul detaljer");
+      setIsOpen(true);
+    } else if (buttonText === "Skjul detaljer") {
       setCaseDetails(null);
-      setButtonText("Vis saksdetaljer");
+      setButtonText("Vis detaljer");
+      setIsOpen(false);
     }
   };
-
+  
   /**
    * Function for fetching details about a case. The details are per now mock data as the API does not have the data.
    * @author Oda
@@ -40,25 +42,29 @@ function MessageDetails() {
     };
     setCaseDetails(mockDetails);
   };
+  
   return (
     <div>
-      <button onClick={handleClick}>{buttonText}</button>
+      <button className={styles.caseButton} onClick={handleClick}>
+        {buttonText} 
+        <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : styles.arrowDown}`}></span>
+      </button>
       {caseDetails && (
-        <div className={styles.caseDetails}>
-          <h4>Saksdetaljer</h4>
-          <p>
-            <strong>Saksbehandler:</strong> {caseDetails.caseWorker}
-          </p>
-          <p>
-            <strong>Åpnet:</strong> {caseDetails.openedDate}
-          </p>
-          <p>
-            <strong>Prioritet:</strong> {caseDetails.priority}
-          </p>
-          <p>
-            <strong>Kategori:</strong> {caseDetails.category}
-          </p>
-        </div>
+          <div className={styles.caseDetails}>
+            <h4 className={styles.header}>Detaljer</h4>
+            <p>
+              <strong>Saksbehandler:</strong> {caseDetails.caseWorker}
+            </p>
+            <p>
+              <strong>Åpnet:</strong> {caseDetails.openedDate}
+            </p>
+            <p>
+              <strong>Prioritet:</strong> {caseDetails.priority}
+            </p>
+            <p>
+              <strong>Kategori:</strong> {caseDetails.category}
+            </p>
+          </div>
       )}
     </div>
   );

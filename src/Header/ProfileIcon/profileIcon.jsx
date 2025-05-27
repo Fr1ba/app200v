@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import {CircleUser} from "lucide-react";
-import {Link} from "react-router-dom"; // Add this import
+import {Link} from "react-router-dom"; 
 import styles from './profileIcon.module.css';
 
 const endpoint = "https://app06.itxnorge.no"
@@ -10,16 +10,41 @@ async function Logout() {
         method: 'POST',
         credentials: 'include'
     });
-
     window.location.href = '/Login';
 }
 
+/**
+ * 
+ * @returns profile icon with a dropdown menu to profile and logout
+ * @author Erica Laub Varpe
+ */
 function ProfileIcon() {
     const [open, setOpen] = useState(false);
+    const profileRef = useRef(null);
+    
     const handleOpen = () => setOpen(!open);
 
+    // Handle clicks outside the profile component
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (profileRef.current && !profileRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        // Add event listener when the dropdown menu is open
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        // Remove event listener when click outside dropdown menu
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
+
     return (
-        <div>
+        <div ref={profileRef}>
             <div>
                 <CircleUser className={styles.profileIcon} onClick={handleOpen}/>
             </div>
@@ -28,6 +53,11 @@ function ProfileIcon() {
     );
 }
 
+/**
+ * 
+ * @returns dropdown menu with options
+ * @author Erica Laub Varpe
+ */
 function profileOptions() {
     return (
         <ul className={styles.dropDown}>

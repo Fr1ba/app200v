@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {IsLoggedIn} from "./UserValidation.jsx"
+import {IsLoggedIn} from "./api/authentication.js"
 import Login from './Login/Login.jsx/';
 import Header from "./Header/header.jsx";
 import CaseList from "./CaseList/CaseList.jsx";

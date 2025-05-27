@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import styles from './CreateCase.module.css';
 import TextEditor from "../TextEditor/TextEditor.jsx";
-
-const endpoint = "https://app06.itxnorge.no";
+import { createCase } from '../api/caseApi';
 
 function CreateCase() {
   const [inputs, setInputs] = useState({
@@ -14,11 +13,6 @@ function CreateCase() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
- /* const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({ ...values, [name]: value }));
-  };*/
   const handleChange = (eventOrHtml, maybeFieldName) => {
     if (typeof eventOrHtml === 'string' && maybeFieldName) {
       setInputs(values => ({ ...values, [maybeFieldName]: eventOrHtml }));
@@ -27,6 +21,7 @@ function CreateCase() {
       setInputs(values => ({ ...values, [name]: value }));
     }
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -34,55 +29,29 @@ function CreateCase() {
     setSuccess(false);
 
     try {
-
-      const formData = new FormData();
-
-      const messageData = {
-        direction: 2,
+      const responseData = await createCase({
         subject: inputs.subject,
-        body: inputs.details, 
-        createCase: true 
-      };
+        details: inputs.details
+      });
+      
+      console.log("Sak opprettet:", responseData);
 
-      const jsonBlob = new Blob([JSON.stringify(messageData)], {
-        type: 'application/json'
+      setInputs({
+        subject: '',
+        category: '',
+        details: ''
       });
 
-      formData.append('data',jsonBlob);
-      
-      
-      const response = await fetch(`${endpoint}/rest/itxems/message`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData
-      });
+      setSuccess(true);
+    } catch (error) {
+      console.error("Feil ved opprettelse av sak:", error);
+      setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-
-      if (!response.ok) {
-        throw new Error(`API-forespørselen mislyktes med status ${response.status}`);
-      }
-
-
-    const responseData = await response.json();
-    console.log("Sak opprettet:", responseData);
-
-
-    setInputs({
-      subject: '',
-      category: '',
-      details: ''
-    });
-
-    setSuccess(true);
-  } catch (error) {
-    console.error("Feil ved opprettelse av sak:", error);
-    setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
- return (
+  return (
     <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
         <div className={styles.title}>

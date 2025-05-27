@@ -2,9 +2,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./CaseList.module.css";
 import { Link } from 'react-router-dom';
-
-
-const endpoint = "https://app06.itxnorge.no";
+import { fetchCases } from "../api/caseApi.js";
 
 /**
  * Component displaying a list of cases with filter, search, and sort options.
@@ -24,43 +22,19 @@ function CaseList() {
     const [list, setList] = useState([]);
     const [caseList, setCaseList] = useState();
 
-    /**
-     * Fetches case data on component mount and processes it into a unique list.
-     */
-    useEffect(() => {
-        const fetchData = async () => {
-            return await fetch(`${endpoint}/rest/itxems/message/search`,
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        getConversations: false,
-                        getContent: true,
-                        // conversationEactId: "3414941"
-                    })
-                }
-            );
-        }
-
-        const data = fetchData().then((response) => response.json());
-
-
-        data.then(responseData => {
-            console.log(responseData);
-            const uniqueCases = Array.from(
-                new Map(responseData.map(item => [item.caseEactId, item])).values()
-            );
-            setList(uniqueCases);
-            CreateCases(uniqueCases);
-        }).catch(error => {
-            console.error("Error fetching data:", error);
-        });
-
-
-    }, []);
+  useEffect(() => {
+    fetchCases()
+      .then((responseData) => {
+        const uniqueCases = Array.from(
+          new Map(responseData.map((item) => [item.caseEactId, item])).values()
+        );
+        setList(uniqueCases);
+        CreateCases(uniqueCases);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
 
     /**
@@ -150,33 +124,35 @@ function CaseList() {
     }, []);
     return (
 
-        <div className={styles.div}>
+            <div className={styles.div}>
+            <div className={styles.controls}>
+                <div className={styles.dropdown}>
+                    <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filter</button>
+                    <div id="myDropdown" className={styles.dropdown_contentFilter}>
+                        <a onClick={() => setFilter("all")}>Show All</a>
+                        <a onClick={() => setFilter("active")}>Active</a>
+                        <a onClick={() => setFilter("closed")}>Closed</a>
+                    </div>
+                </div>
 
-            <div className={styles.dropdown}>
-                <button onClick={showFilterDropdown} className={styles.dropbtnFilter}>Filter</button>
-                <div id="myDropdown" className={styles.dropdown_contentFilter}>
-                    <a onClick={() => setFilter("all")}>Show All</a>
-                    <a onClick={() => setFilter("active")}>Active</a>
-                    <a onClick={() => setFilter("closed")}>Closed</a>
+
+                <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
+
+
+                <div className={styles.dropdown}>
+                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> <span>↕</span> Sort</button>
+                    <div id="myDropdown2" className={styles.dropdown_contentSort}>
+                        <a onClick={() => setSort("new")}>Newest</a>
+                        <a onClick={() => setSort("old")}>Oldest</a>
+                    </div>
                 </div>
             </div>
 
+                <ul className={styles.list}>
+                    {caseList}
+                </ul>
 
-            <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
-
-            <div className={styles.dropdown}>
-                <button onClick={showSortDropdown} className={styles.dropbtnSort}>Sort</button>
-                <div id="myDropdown2" className={styles.dropdown_contentSort}>
-                    <a onClick={() => setSort("new")}>Newest</a>
-                    <a onClick={() => setSort("old")}>Oldest</a>
-                </div>
-            </div>
-
-            <ul className={styles.list}>
-                {caseList}
-            </ul>
-
-            <Link to="/CreateCase" className={styles.button}>New thread</Link>
+                <Link to="/CreateCase" className={styles.button}>New thread</Link>
 
         </div>
     );
@@ -185,3 +161,18 @@ function CaseList() {
 
 export default CaseList;
 
+/*
+function Filter(action){
+caseList = list.filter(action).map((caseItem) =>
+    <Case caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory}
+          caseStatus={caseItem.caseStatus}/>)
+//return (list.map(caseItem.caseCategory :true => <cas))
+}
+
+return(
+<div>
+    <select>
+        <option onClick={() => Filter(item => item.caseStatus || !item.caseStatus)}>Filters</option>
+        <option onClick={() => Filter(item => item.caseStatus)}>Active</option>
+        <option onClick={() => Filter(item => !item.caseStatus)}>Passive</option>
+    </select>*/

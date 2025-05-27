@@ -18,7 +18,7 @@ import { CaseContext } from "../SelectedCase.jsx";
  * @returns {JSX.Element} The rendered case component.
  */
 function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
-    const { setCaseId, setCaseSubject } = useContext(CaseContext);
+  const { caseId: selectedCaseId, setCaseId, setCaseSubject } = useContext(CaseContext); // added caseId: selectedCaseId
 
 
     /**
@@ -30,13 +30,19 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
         setCaseSubject(caseTitle); // Use subject from case
         console.log(caseId, caseTitle);
     }
+    // Check if this case is the currently selected one
+    const isSelected = selectedCaseId === caseId;
 
+    // added isSelected variable to determine if the case is selected
     return (
-        <div className={styles.case} onClick={handleClick}>
-            <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}></div>
-            <p className={styles.text}>{caseTitle}</p>
-            <p className={styles.category}>{caseCategory}</p>
-        </div>
+      <div className={`${styles.case} ${isSelected ? styles.selected : ''}`} onClick={handleClick}> 
+        <div> 
+        <p className={styles.text}>{caseTitle}</p>
+        <p className={styles.category}>{caseCategory}</p>
+      </div>
+      <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
+      </div>
+      </div>
     );
 }
 

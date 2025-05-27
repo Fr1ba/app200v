@@ -7,8 +7,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
-
-const endpoint = "https://app06.itxnorge.no";
+import { fetchEntity, updateProfile } from "../api/profileApi.js";
 
 /**
  * ProfilePage component. Contains the user's profile information and allows the user to edit this information.
@@ -36,28 +35,6 @@ function ProfilePage() {
     loadEntityData();
   }, []);
 
-  /**
-   * Fetches the current user's entity from the ITX API.
-   * @function
-   * @author Vendela
-   * @returns {Object} The user's entity object
-   */
-  const fetchEntity = async () => {
-    try {
-      const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-        method: "GET",
-        credentials: "include",
-      });
-      console.log(`${endpoint}/rest/itxems/entity`);
-      if (!response.ok)
-        throw new Error(`HTTP error! Status: ${response.status}`);
-
-      const entity = await response.json();
-      return entity;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   /**
    * Loads the current user's entity data from the ITX API into the component's state.
    * @function
@@ -114,25 +91,6 @@ function ProfilePage() {
   };
 
   /**
-   * Updates the user's entity data in the ITX API.
-   * @function
-   * @param {Object} entity - The user's entity data to be updated.
-   * @returns {Promise} Resolves with the updated entity data from the API.
-   * @author Vendela
-   * @author Trudy
-   */
-  const updateProfile = async (entity) => {
-    const response = await fetch(`${endpoint}/rest/itxems/entity`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(entity),
-    });
-
-    return response.json();
-  };
-
-  /**
    * Handles saving the user's profile changes.
    * If the user is not in edit mode, sets the new values for email and address to the current values and sets isEditable to true.
    * If the user is in edit mode, updates the user's entity data in the ITX API if the email or address has changed.
@@ -141,102 +99,114 @@ function ProfilePage() {
    * @author Vendela
    * @author Trudy
    */
-  const onSave = async (e) => {
-    e.preventDefault();
-    if (!isEditable) {
-      //      setNewName(name);
-      //      setNewNumber(number);
-      setNewEmail(email);
-      setNewAddress(address);
-      setIsEditable(true);
+const onSave = async (e) => {
+  e.preventDefault();
+  if (!isEditable) {
+    setNewEmail(email ?? "");
+    setNewAddress(address ?? "");
+    setIsEditable(true);
+    return;
+  }
+
+  try {
+    const entity = await fetchEntity();
+    let changes = false;
+    let emailChanged = false;
+    let addressChanged = false;
+
+    // --- EMAIL ---
+    if (!entity.emails || entity.emails.length === 0) {
+      entity.emails = [{
+        seqNo: 1,
+        email: "",
+        emailType: 20,
+        desc: "Kontaktadresse"
+      }];
+    }
+
+    const oldEmail = entity.emails[0].email ?? "";
+    if (!newEmail.trim()) {
+      setEmailError("Epost kan ikke være tom.");
       return;
     }
 
-    try {
-      const entity = await fetchEntity();
-      let changes = false;
-
-      /*       if (newName && newName !== name) {
-        if (newName.trim() === "") {    
-          setNameError("Navnet kan ikke være tom.");
-          return;
-        }
-        entity.name1 = newName;
+    if (newEmail !== oldEmail) {
+      if (validateEmail()) {
+        entity.emails[0].email = newEmail;
+        entity.emails[0].emailType = 20;
+        entity.emails[0].seqNo = 1;
+        entity.emails[0].desc = "Kontaktadresse";
+        emailChanged = true;
         changes = true;
-      } */
-
-      if (!newEmail.trim()) {
-        setEmailError("Epost kan ikke være tom.");
+      } else {
+        setEmailError("Ikke gyldig epost-adresse");
         return;
       }
-
-      if (newEmail !== entity.emails[0].email) {
-        if (validateEmail()) {
-          entity.emails[0].email = newEmail;
-          changes = true;
-        } else {
-          setEmailError("Ikke gyldig epost-adresse");
-          return;
-        }
-      }
-
-      if (newAddress.trim() === "") {
-        setAddressError("Adressen kan ikke være tom");
-        return;
-      }
-
-      if (newAddress && newAddress !== entity.address) {
-        let splitAdress = newAddress.split(" ");
-        if (splitAdress.length == 2) {
-          entity.addresses[0].street = splitAdress[0];
-          entity.addresses[0].streetNumber = splitAdress[1];
-          changes = true;
-        } else if (splitAdress.length < 2) {
-          entity.addresses[0].street = newAddress;
-          entity.addresses[0].streetNumber = "";
-          changes = true;
-        } else if (splitAdress.length > 2) {
-          let streetName = splitAdress.slice(0, -1).join(" ");
-          let streetNumber = splitAdress[splitAdress.length - 1];
-
-          if (!isNaN(streetNumber)) {
-            entity.addresses[0].street = streetName;
-            entity.addresses[0].streetNumber = streetNumber;
-          } else {
-            // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
-            entity.addresses[0].street = streetName + " " + streetNumber;
-            entity.addresses[0].streetNumber = "";
-          }
-
-          /*           if (newNumber !== entity.numbers[0].number) {
-            entity.numbers[0].number = newNumber;
-            changes = true;
-          } else {
-            setNumberError("Ugyldig telefonnummer");
-            return;
-          } */
-
-          changes = true;
-        }
-      }
-
-      if (!changes) {
-        setIsEditable(false);
-        return;
-      }
-
-      const result = await updateProfile(entity);
-      console.log("Updated:", result);
-      await loadEntityData(); //kan fjernes mby
-      setEmail(newEmail);
-      setAddress(newAddress);
-      // setName(newName);
-      //setNumber(newNumber);
-      setIsEditable(false);
-    } catch (emailError) {
-      console.emailError("emailError saving profile:", emailError);
     }
-  };
+
+    // --- ADDRESS ---
+    if (!newAddress.trim()) {
+      setAddressError("Adressen kan ikke være tom");
+      return;
+    }
+
+    if (!entity.addresses || entity.addresses.length === 0) {
+      entity.addresses = [{
+        seqNo: 1,
+        addressType: 10,
+        street: "",
+        streetNumber: "",
+      }];
+    }
+
+    const oldStreet = entity.addresses[0].street ?? "";
+    const oldStreetNumber = entity.addresses[0].streetNumber ?? "";
+    const fullOldAddress = `${oldStreet} ${oldStreetNumber}`.trim();
+
+    if (newAddress !== fullOldAddress) {
+      const splitAddress = newAddress.trim().split(" ");
+      const streetName = splitAddress.slice(0, -1).join(" ");
+      const streetNumber = splitAddress.slice(-1)[0];
+
+      if (!isNaN(streetNumber)) {
+        entity.addresses[0].street = streetName;
+        entity.addresses[0].streetNumber = streetNumber;
+      } else {
+        entity.addresses[0].street = newAddress;
+        entity.addresses[0].streetNumber = "";
+      }
+
+      // Ensure required props
+      entity.addresses[0].addressType = 10;
+      entity.addresses[0].country = entity.addresses[0].country ?? "Norway";
+      entity.addresses[0].postalCode = entity.addresses[0].postalCode ?? "0000";
+      entity.addresses[0].city = entity.addresses[0].city ?? "Oslo";
+      entity.addresses[0].seqNo = 1;
+
+      addressChanged = true;
+      changes = true;
+    }
+
+    if (!changes) {
+      setIsEditable(false);
+      return;
+    }
+
+    entity.emailChanged = emailChanged;
+    entity.addressChanged = addressChanged;
+
+    const result = await updateProfile(entity);
+    console.log("Updated:", result);
+    await loadEntityData();
+    setEmail(newEmail);
+    setAddress(newAddress);
+    setIsEditable(false);
+  } catch (error) {
+    console.error("Error saving profile:", error);
+  }
+};
+
+
 
   /**
    * Validates the email input field to ensure it matches the standard
@@ -302,7 +272,7 @@ function ProfilePage() {
                   type="email"
                   id="email"
                   readOnly={!isEditable}
-                  value={newEmail}
+                  value={newEmail ?? ""}
                   onChange={(e) => {
                     setNewEmail(e.target.value);
                     setEmailError(""); // Clear the emailError when typing
@@ -337,7 +307,7 @@ function ProfilePage() {
                 <input
                   type="text"
                   readOnly={!isEditable}
-                  value={newAddress}
+                  value={newAddress ?? ""}
                   onChange={(e) => {
                     setNewAddress(e.target.value);
                     setAddressError(""); // Clear the emailError when typing
