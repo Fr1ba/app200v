@@ -6,7 +6,6 @@ import Header from "./Header/header.jsx";
 import CaseList from "./CaseList/CaseList.jsx";
 import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
-import APITest from "./APITest.jsx";
 import Message from "./Message/Message.jsx";
 import {CaseProvider} from "./SelectedCase.jsx"
 
