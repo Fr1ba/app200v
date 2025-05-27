@@ -6,6 +6,15 @@ import { Link } from 'react-router-dom';
 
 const endpoint = "https://app06.itxnorge.no";
 
+/**
+ * Component displaying a list of cases with filter, search, and sort options.
+ *
+ * Fetches data from the server, filters/search/sorts it based on user input,
+ * and renders each case using the `Case` component.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered CaseList component.
+ */
 function CaseList() {
 
     const [filter, setFilter] = useState("all");
@@ -15,7 +24,9 @@ function CaseList() {
     const [list, setList] = useState([]);
     const [caseList, setCaseList] = useState();
 
-
+    /**
+     * Fetches case data on component mount and processes it into a unique list.
+     */
     useEffect(() => {
         const fetchData = async () => {
             return await fetch(`${endpoint}/rest/itxems/message/search`,
@@ -51,13 +62,22 @@ function CaseList() {
 
     }, []);
 
-    function CreateCases(someList) {
-        setCaseList(someList.map((caseItem) =>
+
+    /**
+     * Converts a list of case data into rendered `Case` components.
+     *
+     * @param {Array<Object>} listOfCases - Array of case data items.
+     */
+    function CreateCases(listOfCases) {
+        setCaseList(listOfCases.map((caseItem) =>
             <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.isDraft}
                   caseStatus={caseItem.eactId}/>))
 
     }
 
+    /**
+     * Filters, sorts and search through the case list whenever `filter`, `search`, or `sort` is changed by the user.
+     */
     useEffect(() => {
         var tempList = list;
 
@@ -87,19 +107,30 @@ function CaseList() {
         CreateCases(tempList)
     }, [filter, search, sort]);
 
-
+    /**
+     * Handles the search input field change.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event.
+     */
     function handleSearch(event) {
         setSearch(event.target.value);
     }
-
+    /**
+     * Toggles the visibility of the filter dropdown.
+     */
     function showFilterDropdown() {
         document.getElementById("myDropdown").classList.toggle(styles.show);
     }
 
+    /**
+     * Toggles the visibility of the sort dropdown.
+     */
     function showSortDropdown() {
         document.getElementById("myDropdown2").classList.toggle(styles.show);
     }
-
+    /**
+     * Closes dropdowns when clicking outside.
+     */
     useEffect(() => {
         function handleClickOutside(event) {
             // Check if the click is NOT on a dropdown button
@@ -154,18 +185,3 @@ function CaseList() {
 
 export default CaseList;
 
-/*
-function Filter(action){
-caseList = list.filter(action).map((caseItem) =>
-    <Case caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory}
-          caseStatus={caseItem.caseStatus}/>)
-//return (list.map(caseItem.caseCategory :true => <cas))
-}
-
-return(
-<div>
-    <select>
-        <option onClick={() => Filter(item => item.caseStatus || !item.caseStatus)}>Filters</option>
-        <option onClick={() => Filter(item => item.caseStatus)}>Active</option>
-        <option onClick={() => Filter(item => !item.caseStatus)}>Passive</option>
-    </select>*/
