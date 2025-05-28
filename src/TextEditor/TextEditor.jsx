@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import Quill from 'quill';
-import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import styles from './TextEditor.module.css';
 
