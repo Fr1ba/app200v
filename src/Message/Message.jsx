@@ -1,6 +1,6 @@
 
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
+import { BsEnvelope, BsSend } from "react-icons/bs";
 
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
@@ -24,7 +24,6 @@ function Message() {
   const [isVisible, setIsVisible] = useState(true);
 
   const { caseId, caseSubject } = useContext(CaseContext);
-  const textEditorRef = useRef();
 
   /**
    * Fetches messages for the current case and sets the state with the data.
