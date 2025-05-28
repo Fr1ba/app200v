@@ -1,5 +1,7 @@
+
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
+
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
@@ -115,11 +117,15 @@ function Message() {
             ))}
           </ul>
 
-          <form onSubmit={handleSendMessage} className={styles.messageForm}>
-            <TextEditor ref={textEditorRef} value={message} onChange={setMessage} />
+          <div className={styles.messageForm}>
+            <form onSubmit={handleSendMessage}>
+              <TextEditor value={message} onChange={setMessage} />
+              <button className={styles.sendButton} type="submit" aria-label="Send melding">
+                <BsSend />
+              </button>
+            </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
-            <button className={styles.sendButton} type="submit">Send</button>
-          </form>
+          </div>
         </>
       ) : (
         <div className={styles.emptyState}>

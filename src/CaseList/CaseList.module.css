@@ -136,3 +136,51 @@
 .button:hover {
     background-color: #6aa6dc; /* Slightly darker on hover */
 }
+
+/* Mobile responsiveness - skjul CaseList når melding er åpen */
+@media screen and (max-width: 991px) {
+    .div {
+        width: 100%;
+        position: fixed;
+        top: 150px;
+        left: 0;
+        right: 0;
+        height: calc(100vh - 150px);
+        z-index: 1;
+    }
+    
+    /* Skjul CaseList når en case er valgt (melding vises) */
+    .div.hidden {
+        display: none;
+    }
+    
+    .button {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+    }
+}
+
+/* Tablet view */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .controls {
+        padding-top: 20px;
+        gap: 10px;
+    }
+    
+    .search {
+        width: 150px;
+    }
+}
+
+/* Desktop view - behold original oppførsel */
+@media screen and (min-width: 992px) {
+    .div {
+        width: 40%;
+        position: relative;
+    }
+    
+    .button {
+        left: 19%;
+    }
+}
