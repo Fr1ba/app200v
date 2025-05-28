@@ -1,24 +1,129 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import Quill from 'quill';
-import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import styles from './TextEditor.module.css';
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ['bold', 'italic', 'underline'],
-    [{list: 'ordered'}],
-  ],
+/**
+ * Adds an image to the Quill editor from a file input element.
+ * The image is resized to fit within a maximum size of 500x400 pixels
+ * and is inserted at the current cursor position.
+ * If the image is larger than the maximum size, it is resized to fit
+ * within the maximum size while maintaining its aspect ratio.
+ * If the image is smaller than the maximum size, it is inserted at its
+ * original size.
+ * @param {Quill} quillInstance - The Quill editor instance.
+ * @author Trudy
+ */
+const imageHandler = (quillInstance) => {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  input.click();
+
+  /**
+   * Handles the file input element change event.
+   * If a file is selected and is an image, it is resized to fit
+   * within a maximum size of 500x400 pixels and is inserted at
+   * the current cursor position in the Quill editor.
+   * If the image is larger than the maximum size, it is resized to
+   * fit within the maximum size while maintaining its aspect ratio.
+   * If the image is smaller than the maximum size, it is inserted at
+   * its original size.
+   * @listens input#file:onchange
+   * @param {Event} event - The file input element change event.
+   */
+  input.onchange = () => {
+    const file = input.files[0];
+    if (file) {
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('Bildet er for stort. Maksimal størrelse er 5MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          const maxWidth = 500;
+          const maxHeight = 400;
+
+          let { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+            width *= ratio;
+            height *= ratio;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const resizedImageUrl = canvas.toDataURL('image/jpeg', 0.8);
+          const range = quillInstance.getSelection();
+          quillInstance.insertEmbed(range.index, 'image', resizedImageUrl);
+        };
+        img.src = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 };
 
-const formats = [
-  'header', 'bold', 'italic', 'underline', 'list'
-];
+const modules = {
+  toolbar: {
+    container: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      [{ color: [] }],
+      [{ list: 'ordered' }],
+      ['image'],
+    ],
+    handlers: {
 
-const TextEditor = ({ value, onChange }) => {
+      /**
+       * Handles image insertion into the editor.
+       * It triggers the imageHandler function with the current Quill instance.
+       * @function
+       * @param {Quill} quill - The current Quill instance.
+       */
+      image: function () {
+        imageHandler(this.quill);
+      }
+    }
+  },
+};
+
+const formats = ['header', 'bold', 'italic', 'underline', 'color', 'list', 'image'];
+
+const TextEditor = forwardRef(({ value, onChange }, ref) => {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    /**
+     * Returns true if the text editor has any content,
+     * otherwise false. A single newline character is
+     * not considered content.
+     * @returns {boolean}
+     */
+    hasContent: () => {
+      if (!quillRef.current) return false;
+      return quillRef.current.getLength() > 1;
+    },
+    /**
+     * Returns the plain text content of the text editor, stripped of any formatting and trimmed of whitespace.
+     * @returns {string}
+     */
+    getPlainText: () => {
+      if (!quillRef.current) return '';
+      return quillRef.current.getText().trim();
+    }
+  }));
 
   useEffect(() => {
     if (editorRef.current && !quillRef.current) {
@@ -33,7 +138,7 @@ const TextEditor = ({ value, onChange }) => {
         onChange?.(html);
       });
     }
-  }, []);
+  }, [onChange]);
 
   useEffect(() => {
     if (quillRef.current && value !== quillRef.current.root.innerHTML) {
@@ -46,6 +151,6 @@ const TextEditor = ({ value, onChange }) => {
       <div ref={editorRef} />
     </div>
   );
-};
+});
 
 export default TextEditor;

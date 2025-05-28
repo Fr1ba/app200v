@@ -19,8 +19,9 @@ export const postMessage = async ({ message, caseId, caseSubject, replyToEactId 
   const temp = document.createElement("div");
   temp.innerHTML = message;
   const plainText = temp.innerText.trim();
+  const hasImage = message.includes("<img");
 
-  if (!plainText) {
+  if (!plainText && !hasImage) {
     throw new Error("Meldingen kan ikke være tom!");
   }
 
