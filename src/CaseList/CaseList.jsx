@@ -156,7 +156,7 @@ function CaseList() {
 
 
                 <div className={styles.dropdown}>
-                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> <span>↕</span> Sort</button>
+                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> Sort</button>
                     <div id="myDropdown2" className={styles.dropdown_contentSort}>
                         <a onClick={() => setSort("new")}>Newest</a>
                         <a onClick={() => setSort("old")}>Oldest</a>
