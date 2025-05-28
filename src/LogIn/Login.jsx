@@ -9,13 +9,14 @@ function Login() {
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); //prevents page from refreshing  
     setIsLoading(true); 
 
     try {
-      const response = await loginUser(username, password);
+      const response = await loginUser(username, password, rememberMe);
 
       if (response.ok) {
         window.location.href = "/";
@@ -68,7 +69,7 @@ function Login() {
             </div>
             <div className={styles.rememberForgot}>
               <label>
-                <input type="checkbox" />
+                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}/>
                 Husk meg
               </label>
               <a href="#">Glemt passord?</a>
