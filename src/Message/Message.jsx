@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { BsEnvelope, BsSend } from "react-icons/bs";
 
 import DOMPurify from "dompurify";
@@ -23,7 +23,7 @@ function Message() {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-
+  const bottomRef = useRef(null);
   const { caseId, caseSubject } = useContext(CaseContext);
 
   /**
@@ -40,15 +40,16 @@ function Message() {
       const data = await getMessages(caseId);
       setMessages(data);
     } catch (err) {
-      console.error("Error fetching messages:", err);
-    }
-  };
+    setError("Feil ved henting av meldinger: " + err.message);
+  }
+};
 
   /**
    * Handles sending a new message.
-   * Prevents default form submission, posts the message,
-   * clears input and errors on success, reloads messages,
-   * and sets error state on failure.
+   * - Prevents default form submission behavior.
+   * - Sends the message using the postMessage API.
+   * - Clears the input and error state on success.
+   * - Reloads messages, which triggers scroll-to-bottom via a separate effect.
    *
    * @async
    * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
@@ -57,13 +58,25 @@ function Message() {
   const handleSendMessage = async (event) => {
     event.preventDefault();
 
+    const temp = document.createElement("div");
+    temp.innerHTML = message;
+    const plainText = temp.innerText.trim();
+    const hasImage = message.includes("<img");
+
+    if (!plainText && !hasImage) {
+      setError("Meldingen kan ikke være tom.");
+      return;
+    }
+
+    setError("");
+
     try {
       await postMessage({ message, caseId, caseSubject, replyToEactId: "" });
       setMessage("");
       setError("");
       await loadMessages();
     } catch (err) {
-      setError(err.message || "Error sending message");
+      setError("Feil ved sending av melding" + err.message);
     }
   };
 
@@ -71,6 +84,12 @@ function Message() {
     setIsVisible(true);
     loadMessages();
   }, [caseId]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "auto" });
+    }
+  }, [messages]);
 
   return (
     <div className={styles.chatContainer}>
@@ -109,6 +128,7 @@ function Message() {
                 </div>
               </li>
             ))}
+            <div ref={bottomRef} /> {/*This is the scroll target */}
           </ul>
 
           <div className={styles.messageForm}>
