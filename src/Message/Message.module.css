@@ -1,4 +1,5 @@
 /* author Erica Laub Varpe */
+
 /* Base styles for all views */
 .chatContainer, .subjectline, .messageList, .messageItem, .emptyState, .details, .headerContainer {
   display: flex;
@@ -78,7 +79,7 @@
 }
 /* Messages */
 .messageBubble {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   min-width: 20%;
   max-width: 40%;
   line-height: 1.4;
@@ -176,6 +177,10 @@
     width: 60%;
     left: auto; 
     height: calc(100vh - 100px); 
+  }
+
+  .backButton{
+    visibility: hidden;
   }
  
   /* Show empty state on desktop */
