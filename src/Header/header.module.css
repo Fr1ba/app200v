@@ -72,7 +72,7 @@
   display: flex;
   background: none;
   border: none;
-  color: var(--headerTextColor);
+  color: var(--accentTextColor);
   cursor: pointer;
   padding: 0.5rem;
 }
@@ -81,6 +81,7 @@
   background-color: var(--brandColor);
   padding: 1rem 0;
   animation: slideDown 0.3s ease;
+  z-index: 99999;
 }
 
 .mobileNavLinks {
