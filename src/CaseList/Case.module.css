@@ -20,9 +20,8 @@
   .case {
     border: 2px solid var(--borderColor);
     border-radius: 25px;
-    margin-top: 20px;
-    margin-right: 20px;
-    width: 90%;
+    margin: 0 70px 20px 20px;
+    width: calc(100% - 90px);
     padding: 15px;
     background-color: var(--backgroundColor);
     cursor: pointer;
@@ -54,3 +53,9 @@
     margin-top: 0;
   }
   
+  @media screen and (max-width: 991px) {
+    .case {
+        margin: 0 20px 20px 20px; /* Lik margin på begge sider på mobile */
+        width: calc(100% - 40px); /* Justert bredde for mobile */
+    }
+}
