@@ -57,7 +57,7 @@ function CaseList() {
      */
     function CreateCases(listOfCases) {
         setCaseList(listOfCases.map((caseItem) =>
-            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Return"}
+            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Retur"}
                   caseStatus={caseItem.eactId}/>))
 
     }
