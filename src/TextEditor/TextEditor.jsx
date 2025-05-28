@@ -5,6 +5,7 @@ import styles from './TextEditor.module.css';
 
 
 /**
+ * remobve this later
  * Handles the onchange event for the image input field.
  * - Checks file size and alerts if it's too large.
  * - Reads the file and resizes it to fit within maxWidth and maxHeight.
