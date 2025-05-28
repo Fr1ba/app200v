@@ -1,12 +1,11 @@
 import {BrowserRouter as Router, Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {IsLoggedIn} from "./UserValidation.jsx"
+import {IsLoggedIn} from "./api/authentication.js"
 import Login from './Login/Login.jsx/';
 import Header from "./Header/header.jsx";
 import CaseList from "./CaseList/CaseList.jsx";
 import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
-import APITest from "./APITest.jsx";
 import Message from "./Message/Message.jsx";
 import {CaseProvider} from "./SelectedCase.jsx"
 
@@ -60,7 +59,7 @@ function App() {
                         />
                         <Route path="/CreateCase" element={<CreateCase/>}/>
                         <Route path="/ProfilePage" element={<ProfilePage/>}/>
-                        <Route path="/APITest" element={<APITest/>}/>
+                        <Route path="/Login" element={<Login/>}/>
                     </Routes>
                 </>
             ) : (

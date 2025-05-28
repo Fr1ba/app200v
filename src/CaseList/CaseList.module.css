@@ -1,4 +1,5 @@
-﻿
+﻿/* Author: Stine A. Skrøder */
+
 .div {
     width: 40%;
     height: 100vh;
@@ -41,7 +42,7 @@
     background-color: var(--backgroundColor);  
     color: var(--textColor);
     padding: 5px 30px;
-    font-size: 16px;
+    font-size: var(font-size-m);
     border: 1px solid var(--borderColor);
     font-weight: normal;
     border-radius: 10px;
@@ -53,7 +54,7 @@
     background-color: var(--backgroundColor);  
     color: var(--textColor);
     padding: 5px 0px;
-    font-size: 16px;
+    font-size: var(--font-size-m);
     font-weight: normal;
     border: none;
     background-color: transparent;
@@ -65,11 +66,11 @@
 
 .dropbtnFilter:focus {
     border: 1px solid var(--brandColor);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 0 1px rgba(0, 123, 255, 0.2);
 }
 
 .dropbtnSort:focus {
-        text-decoration: underline; /*underline when hovering*/
+        text-decoration: underline; 
       }
 
 
@@ -101,7 +102,8 @@
 
 /* Hover effect on links */
 .dropdown_contentFilter a:hover, .dropdown_contentSort a:hover {
-    background-color: var(--backgroundColor);
+    background-color: lightgray;
+    cursor: pointer;
 }
 
 /* Show dropdown when .show is added */
@@ -110,6 +112,7 @@
     border-radius: 5px;
 }
 
+/*Create new case button*/
 .button {
     background-color: var(--brandColor);
     color: var(--accentTextColor);
@@ -117,7 +120,7 @@
     padding: 12px 24px;
     border: none;
     border-radius: 25px;
-    font-size: 18px;
+    font-size: var(--font-size-l);
     cursor: pointer;
     width: 250px;
     text-align: center;

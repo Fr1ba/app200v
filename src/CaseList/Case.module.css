@@ -1,17 +1,22 @@
-﻿.circle {
+﻿/* Author: Stine A. Skrøder */
+
+/* Shows the status of a case in the case list */
+.circle {
     height: 20px;
     width: 20px;
     border-radius: 50%;
     border: 1px solid var(--borderColor);
   }
   
+  /*Case title */
   .text {
-    font-size: 20px;
+    font-size: var(--font-size-l);
     font-family: var(--font);
     color: var(--textColor);
     font-weight: 500;
   }
   
+ 
   .case {
     border: 2px solid var(--borderColor);
     border-radius: 25px;
@@ -39,16 +44,13 @@
     border: 3px solid var(--brandColor);
   }
 
-  
+
+  /* Case category */
   .category {
-    font-size: 15px;
+    font-size: var(--font-size-s);
     font-family: var(--font);
     color: var(--textColor);
     opacity: 0.7;
     margin-top: 0;
   }
   
-  .line {
-    border-left: 6px solid var(--successColor);
-    height: 500px;
-  }

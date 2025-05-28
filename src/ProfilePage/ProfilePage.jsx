@@ -102,10 +102,8 @@ function ProfilePage() {
   const onSave = async (e) => {
     e.preventDefault();
     if (!isEditable) {
-      //      setNewName(name);
-      //      setNewNumber(number);
-      setNewEmail(email);
-      setNewAddress(address);
+      setNewEmail(email ?? "");
+      setNewAddress(address ?? "");
       setIsEditable(true);
       return;
     }
@@ -113,24 +111,34 @@ function ProfilePage() {
     try {
       const entity = await fetchEntity();
       let changes = false;
+      let emailChanged = false;
+      let addressChanged = false;
 
-      /*       if (newName && newName !== name) {
-        if (newName.trim() === "") {    
-          setNameError("Navnet kan ikke være tom.");
-          return;
-        }
-        entity.name1 = newName;
-        changes = true;
-      } */
+      // --- EMAIL ---
+      if (!entity.emails || entity.emails.length === 0) {
+        entity.emails = [
+          {
+            seqNo: 1,
+            email: "",
+            emailType: 20,
+            desc: "Kontaktadresse",
+          },
+        ];
+      }
 
+      const oldEmail = entity.emails[0].email ?? "";
       if (!newEmail.trim()) {
         setEmailError("Epost kan ikke være tom.");
         return;
       }
 
-      if (newEmail !== entity.emails[0].email) {
+      if (newEmail !== oldEmail) {
         if (validateEmail()) {
           entity.emails[0].email = newEmail;
+          entity.emails[0].emailType = 20;
+          entity.emails[0].seqNo = 1;
+          entity.emails[0].desc = "Kontaktadresse";
+          emailChanged = true;
           changes = true;
         } else {
           setEmailError("Ikke gyldig epost-adresse");
@@ -138,44 +146,50 @@ function ProfilePage() {
         }
       }
 
-      if (newAddress.trim() === "") {
+      // --- ADDRESS ---
+      if (!newAddress.trim()) {
         setAddressError("Adressen kan ikke være tom");
         return;
       }
 
-      if (newAddress && newAddress !== entity.address) {
-        let splitAdress = newAddress.split(" ");
-        if (splitAdress.length == 2) {
-          entity.addresses[0].street = splitAdress[0];
-          entity.addresses[0].streetNumber = splitAdress[1];
-          changes = true;
-        } else if (splitAdress.length < 2) {
+      if (!entity.addresses || entity.addresses.length === 0) {
+        entity.addresses = [
+          {
+            seqNo: 1,
+            addressType: 10,
+            street: "",
+            streetNumber: "",
+          },
+        ];
+      }
+
+      const oldStreet = entity.addresses[0].street ?? "";
+      const oldStreetNumber = entity.addresses[0].streetNumber ?? "";
+      const fullOldAddress = `${oldStreet} ${oldStreetNumber}`.trim();
+
+      if (newAddress !== fullOldAddress) {
+        const splitAddress = newAddress.trim().split(" ");
+        const streetName = splitAddress.slice(0, -1).join(" ");
+        const streetNumber = splitAddress.slice(-1)[0];
+
+        if (!isNaN(streetNumber)) {
+          entity.addresses[0].street = streetName;
+          entity.addresses[0].streetNumber = streetNumber;
+        } else {
           entity.addresses[0].street = newAddress;
           entity.addresses[0].streetNumber = "";
-          changes = true;
-        } else if (splitAdress.length > 2) {
-          let streetName = splitAdress.slice(0, -1).join(" ");
-          let streetNumber = splitAdress[splitAdress.length - 1];
-
-          if (!isNaN(streetNumber)) {
-            entity.addresses[0].street = streetName;
-            entity.addresses[0].streetNumber = streetNumber;
-          } else {
-            // Hvis det siste elementet ikke er et tall, ta alt som gatenavn
-            entity.addresses[0].street = streetName + " " + streetNumber;
-            entity.addresses[0].streetNumber = "";
-          }
-
-          /*           if (newNumber !== entity.numbers[0].number) {
-            entity.numbers[0].number = newNumber;
-            changes = true;
-          } else {
-            setNumberError("Ugyldig telefonnummer");
-            return;
-          } */
-
-          changes = true;
         }
+
+        // Ensure required props
+        entity.addresses[0].addressType = 10;
+        entity.addresses[0].country = entity.addresses[0].country ?? "Norway";
+        entity.addresses[0].postalCode =
+          entity.addresses[0].postalCode ?? "0000";
+        entity.addresses[0].city = entity.addresses[0].city ?? "Oslo";
+        entity.addresses[0].seqNo = 1;
+
+        addressChanged = true;
+        changes = true;
       }
 
       if (!changes) {
@@ -183,16 +197,17 @@ function ProfilePage() {
         return;
       }
 
+      entity.emailChanged = emailChanged;
+      entity.addressChanged = addressChanged;
+
       const result = await updateProfile(entity);
       console.log("Updated:", result);
-      await loadEntityData(); //kan fjernes mby
+      await loadEntityData();
       setEmail(newEmail);
       setAddress(newAddress);
-      // setName(newName);
-      //setNumber(newNumber);
       setIsEditable(false);
-    } catch (emailError) {
-      console.emailError("emailError saving profile:", emailError);
+    } catch (error) {
+      console.error("Error saving profile:", error);
     }
   };
 
@@ -227,6 +242,8 @@ function ProfilePage() {
     setNewEmail(email);
     setNewAddress(address);
     setIsEditable(false);
+    setEmailError("");
+    setAddressError("");
   };
 
   return (
@@ -260,7 +277,7 @@ function ProfilePage() {
                   type="email"
                   id="email"
                   readOnly={!isEditable}
-                  value={newEmail}
+                  value={newEmail ?? ""}
                   onChange={(e) => {
                     setNewEmail(e.target.value);
                     setEmailError(""); // Clear the emailError when typing
@@ -295,7 +312,7 @@ function ProfilePage() {
                 <input
                   type="text"
                   readOnly={!isEditable}
-                  value={newAddress}
+                  value={newAddress ?? ""}
                   onChange={(e) => {
                     setNewAddress(e.target.value);
                     setAddressError(""); // Clear the emailError when typing

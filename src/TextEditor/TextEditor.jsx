@@ -8,13 +8,12 @@ const modules = {
   toolbar: [
     [{ header: [1, 2, false] }],
     ['bold', 'italic', 'underline'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'image'],
+    [{list: 'ordered'}],
   ],
 };
 
 const formats = [
-  'header', 'bold', 'italic', 'underline', 'list', 'bullet', 'link', 'image'
+  'header', 'bold', 'italic', 'underline', 'list'
 ];
 
 const TextEditor = ({ value, onChange }) => {
