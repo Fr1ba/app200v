@@ -1,30 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
+import { BsEnvelope, BsArrowLeft, BsSend } from "react-icons/bs";
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
 import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
+
 function Message() {
   const [message, setMessage] = useState("");
   const replyToEactId = ""; // eller useState hvis du trenger det senere
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
-  const { caseId, caseSubject, setCaseId } = useContext(CaseContext);
-
-  // Lytt til window resize events
-useEffect(() => {
-  const handleResize = () => {
-    setIsMobile(window.innerWidth <= 991);
-  };
-
-  window.addEventListener('resize', handleResize);
-  return () => window.removeEventListener('resize', handleResize);
-}, []);
-
+  const { caseId, caseSubject } = useContext(CaseContext);
   const loadMessages = async () => {
     if (!caseId) return;
     try {
@@ -45,17 +34,6 @@ useEffect(() => {
       setError(err.message || "Feil ved sending av melding");
     }
   };
-
-  const handleBackClick = () => {
-    if (isMobile) {
-      // På mobile/tablet: skjul message og vis caselist
-      setCaseId(null);
-    } else {
-      // På desktop: bare skjul message
-      setIsVisible(false);
-    }
-  };
-
   useEffect(() => {
     if (caseId) {
       setIsVisible(true);
@@ -70,7 +48,7 @@ useEffect(() => {
             <div className={styles.headerContainer}>
               <button
                 className={styles.backButton}
-                onClick={handleBackClick}
+                onClick={() => setIsVisible(false)}
                 aria-label="Tilbake"
               >
                 <BsArrowLeft />
@@ -106,11 +84,16 @@ useEffect(() => {
               </li>
             ))}
           </ul>
-          <form onSubmit={handleSendMessage} className={styles.messageForm}>
-            <TextEditor value={message} onChange={setMessage} />
+    
+          <div className={styles.messageForm}>
+            <form onSubmit={handleSendMessage}>
+              <TextEditor value={message} onChange={setMessage} />
+              <button className={styles.sendButton} type="submit" aria-label="Send melding">
+                <BsSend />
+              </button>
+            </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
-            <button className={styles.sendButton} type="submit">Send</button>
-          </form>
+          </div>
         </>
       ) : (
         <div className={styles.emptyState}>
