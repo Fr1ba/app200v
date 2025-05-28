@@ -59,6 +59,7 @@ function App() {
                         />
                         <Route path="/CreateCase" element={<CreateCase/>}/>
                         <Route path="/ProfilePage" element={<ProfilePage/>}/>
+                        <Route path="/Login" element={<Login/>}/>
                     </Routes>
                 </>
             ) : (

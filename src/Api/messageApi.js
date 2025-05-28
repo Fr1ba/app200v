@@ -1,3 +1,17 @@
+/**
+ * Message API utility functions for interacting with the backend case messaging system.
+ * 
+ * - `postMessage`: Validates and sends a new message as form data to the server.
+ * - `getMessages`: Fetches all messages for a given case ID and returns them sorted by timestamp.
+ * 
+ * Includes validation logic to prevent submission of empty messages, and error handling
+ * for failed HTTP requests. Designed for use in a client-side messaging interface.
+ * 
+ * @module messageApi
+ * @author Trudy
+ * @author Oda
+ */
+
 import { endpoint } from "./endpoint";
 
 /**
@@ -12,15 +26,14 @@ import { endpoint } from "./endpoint";
  * @param {string} [params.replyToEactId] - Optional ID of the message being replied to.
  * @throws Will throw an error if the message content is empty or if the HTTP request fails.
  * @returns {Promise<Object>} The response data from the server.
- * @author Trudy
- * @author Oda
  */
 export const postMessage = async ({ message, caseId, caseSubject, replyToEactId }) => {
   const temp = document.createElement("div");
   temp.innerHTML = message;
   const plainText = temp.innerText.trim();
+  const hasImage = message.includes("<img");
 
-  if (!plainText) {
+  if (!plainText && !hasImage) {
     throw new Error("Meldingen kan ikke være tom!");
   }
 
@@ -55,8 +68,6 @@ export const postMessage = async ({ message, caseId, caseSubject, replyToEactId 
  * @param {string} caseId - The ID of the case to fetch messages for.
  * @throws Will throw an error if the HTTP request fails.
  * @returns {Promise<Object[]>} The response data from the server, sorted by timestamp.
- * @author Oda
- * @author Trudy
  */
 
 export const getMessages = async (caseId) => {

@@ -1,8 +1,9 @@
 ﻿import Case from './Case';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import styles from "./CaseList.module.css";
 import { Link } from 'react-router-dom';
 import { fetchCases } from "../api/caseApi.js";
+import { CaseContext } from "../SelectedCase.jsx";
 
 /**
  * Component displaying a list of cases with filter, search, and sort options.
@@ -22,6 +23,8 @@ function CaseList() {
 
     const [list, setList] = useState([]);
     const [caseList, setCaseList] = useState();
+
+    const { caseId } = useContext(CaseContext);
 
     /**
      * Loads case data on component mount.
@@ -132,9 +135,12 @@ function CaseList() {
         window.addEventListener('click', handleClickOutside);
         return () => window.removeEventListener('click', handleClickOutside);
     }, []);
+
+    const shouldHide = caseId && window.innerWidth <= 991;
+
     return (
 
-            <div className={styles.div}>
+            <div className={`${styles.div} ${shouldHide ? styles.hidden : ''}`}>
             <div className={styles.controls}>
                 <div className={styles.dropdown}>
                     <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filter</button>
