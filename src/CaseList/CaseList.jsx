@@ -11,7 +11,7 @@ import { fetchCases } from "../api/caseApi.js";
  * and renders each case using the `Case` component.
  *
  * @component
- * @returns {JSX.Element} The rendered CaseList component.
+ * @returns The CaseList component.
  * @author Nikola Deja
  */
 function CaseList() {
