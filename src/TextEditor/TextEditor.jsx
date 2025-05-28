@@ -59,6 +59,7 @@ const modules = {
     container: [
       [{ header: [1, 2, false] }],
       ['bold', 'italic', 'underline'],
+      [{ 'color': [] },],
       [{ list: 'ordered' }],
       ['image'],
     ],
@@ -71,7 +72,7 @@ const modules = {
 };
 
 const formats = [
-  'header', 'bold', 'italic', 'underline', 'list', 'image'
+  'header', 'bold', 'italic', 'underline', 'color', 'list', 'image'
 ];
 
 const TextEditor = forwardRef(({ value, onChange }, ref) => {
