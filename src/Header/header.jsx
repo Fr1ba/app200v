@@ -7,16 +7,31 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { logoutUser } from '../api/authentication.js';
 
-// Mobileview of header
+const endpoint = "https://app06.itxnorge.no";
+
+async function Logout() {
+  await fetch(`${endpoint}/rest/core/logout`, {
+    method: 'POST',
+    credentials: 'include'
+  });
+}
+
 function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
- 
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+
+ // const navigate = useNavigate();
+ 
+ // const toggleMenu = () => {
+ //   setMenuOpen(!menuOpen);
+ // };
   
   // Close the menu when the user clicks on a link
+
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -33,8 +48,8 @@ function MobileHeader() {
   };
 
   return (
-    <nav className={styles.mobileHeader}>
-      <div className={styles.mobileHeaderTop}>
+    <nav className={`${styles.header} ${styles.mobileHeader}`}>
+      <div className={styles.headerContainer}>
         <Link to="/" className={styles.headerLogo}>
           <img src={logo} alt="Logo" className={styles.logo} />
         </Link>
@@ -49,24 +64,15 @@ function MobileHeader() {
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
-       
       </div>
      
-      {/* Navigation for mobileview*/}
       {menuOpen && (
         <div className={styles.mobileNav}>
-          <ul className={styles.mobileNavLinks}>
+          <ul className={`${styles.navLinks} ${styles.mobileNavLinks}`}>
             <li><Link to="/" onClick={closeMenu}>Hjem</Link></li>
             <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny Sak</Link></li>
-            <li><Link to="/ProfilePage">Profil</Link></li>
-            <li>
-              <button 
-                onClick={handleLogout}
-                className={styles.logoutButton}
-              >
-                Logg ut
-              </button>
-            </li>
+            <li><Link to="/ProfilePage" onClick={closeMenu}>Profil</Link></li>
+            <li onClick={Logout}><Link to="/Login" onClick={closeMenu}>Logg ut</Link></li>
           </ul>
         </div>
       )}
@@ -74,7 +80,6 @@ function MobileHeader() {
   );
 }
 
-// Desktopview of header
 function DesktopHeader() {
   return (
     <nav className={styles.desktopHeader}>
@@ -97,7 +102,6 @@ function DesktopHeader() {
   );
 }
 
-// Main component that chooses the right header based on screen size
 function Header() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
@@ -114,7 +118,4 @@ function Header() {
   
   return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
-
-
-
 export default Header;
