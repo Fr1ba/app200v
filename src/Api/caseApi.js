@@ -9,7 +9,6 @@ import { endpoint } from "./endpoint";
  * @async
  * @function fetchCases
  * @returns {Promise<Object[]>} A promise that resolves to an array of case objects.
- * @throws {Error} If the API response is not successful.
  * @author Nikola Deja
  */
 export const fetchCases = async () => {
@@ -47,6 +46,10 @@ export const createCase = async (caseData) => {
   });
 
   formData.append('data', jsonBlob);
+
+  if (caseData.file) {
+    formData.append('attachment', caseData.file);
+  }
   
   const response = await fetch(`${endpoint}/rest/itxems/message`, {
     method: 'POST',

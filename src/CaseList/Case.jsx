@@ -10,12 +10,11 @@ import { CaseContext } from "../SelectedCase.jsx";
  * When clicked, it updates the selected case context with the case ID and title.
  *
  * @component
- * @param {Object} props - Component props.
- * @param {string} props.caseId - The unique identifier for the case.
- * @param {string} props.caseTitle - The title or subject of the case.
- * @param {string} props.caseCategory - The category or type of the case.
- * @param {boolean} props.caseStatus - The status of the case (e.g., open or closed).
- * @returns {JSX.Element} The rendered case component.
+ * @param {string} caseId - The unique identifier for the case.
+ * @param {string} caseTitle - The title or subject of the case.
+ * @param {string} caseCategory - The category or type of the case.
+ * @param {boolean} caseStatus - The status of the case (e.g., open or closed).
+ * @returns The case component.
  * @author Nikola Deja
  */
 function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
@@ -38,9 +37,9 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
     return (
       <div className={`${styles.case} ${isSelected ? styles.selected : ''}`} onClick={handleClick}> 
         <div> 
-        <p className={styles.text}>{caseTitle}</p>
-            <p>{caseId}</p>
-        <p className={styles.category}>{caseCategory}</p>
+        <p className={styles.text}>Emne: {caseTitle}</p>
+            <p>Saksnummer: {caseId}</p>
+        <p className={styles.category}>Kategori: {caseCategory}</p>
       </div>
       <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
       </div>
