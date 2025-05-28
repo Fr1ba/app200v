@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import NotificationBell from './Notification/NotificationBell';
 import ProfileIcon from './ProfileIcon/profileIcon';
 import logo from '../images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { logoutUser } from '../api/authentication.js';
 
 const endpoint = "https://app06.itxnorge.no";
 
@@ -22,8 +23,28 @@ function MobileHeader() {
     setMenuOpen(!menuOpen);
   };
 
+
+ // const navigate = useNavigate();
+ 
+ // const toggleMenu = () => {
+ //   setMenuOpen(!menuOpen);
+ // };
+  
+  // Close the menu when the user clicks on a link
+
   const closeMenu = () => {
     setMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      // Navigate to login page after successful logout
+      navigate('/Login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // You might want to show an error message to the user
+    }
   };
 
   return (
@@ -61,23 +82,21 @@ function MobileHeader() {
 
 function DesktopHeader() {
   return (
-    <nav className={`${styles.header} ${styles.desktopHeader}`}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <Link to="/" className={styles.headerLogo}>
-            <img src={logo} alt="Logo" className={styles.logo} />
-          </Link>
-         
-          <ul className={`${styles.navLinks} ${styles.desktopNavLinks}`}>
-            <li><Link to="/">Hjem</Link></li>
-            <li><Link to="/CreateCase">Opprett ny Sak</Link></li>
-          </ul>
-        </div>
+    <nav className={styles.desktopHeader}>
+      <div className={styles.headerLeft}>
+        <Link to="/" className={styles.headerLogo}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </Link>
        
-        <div className={styles.headerRight}>
-          <NotificationBell />
-          <ProfileIcon />
-        </div>
+        <ul className={styles.desktopNavLinks}>
+          <li><Link to="/">Hjem</Link></li>
+          <li><Link to="/CreateCase">Opprett ny Sak</Link></li>
+        </ul>
+      </div>
+     
+      <div className={styles.headerRight}>
+        <NotificationBell />
+        <ProfileIcon />
       </div>
     </nav>
   );
@@ -85,19 +104,18 @@ function DesktopHeader() {
 
 function Header() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
+    
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  
   return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
-
 export default Header;

@@ -1,17 +1,40 @@
-﻿import React, { useEffect, useState } from "react";
-import Case from './Case';
+﻿import Case from './Case';
+import React, {useEffect, useState, useContext} from "react";
 import styles from "./CaseList.module.css";
 import { Link } from 'react-router-dom';
 import { fetchCases } from "../api/caseApi.js";
+import { CaseContext } from "../SelectedCase.jsx";
 
+/**
+ * Component displaying a list of cases with filter, search, and sort options.
+ *
+ * Fetches data from the server, filters/search/sorts it based on user input,
+ * and renders each case using the `Case` component.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered CaseList component.
+ * @author Nikola Deja
+ */
 function CaseList() {
-  const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("new");
 
-  const [list, setList] = useState([]);
-  const [caseList, setCaseList] = useState();
+    const [filter, setFilter] = useState("all");
+    const [search, setSearch] = useState("");
+    const [sort, setSort] = useState("new");
 
+    const [list, setList] = useState([]);
+    const [caseList, setCaseList] = useState();
+
+    const { caseId } = useContext(CaseContext);
+
+    /**
+     * Loads case data on component mount.
+     *
+     * Calls the `fetchCases` function to retrieve case data from the API.
+     * Filters out duplicates by `caseEactId`, updates the list state,
+     * and renders the cases using `CreateCases`.
+     *
+     * Logs an error to the console if the request fails.
+     */
   useEffect(() => {
     fetchCases()
       .then((responseData) => {
@@ -26,13 +49,22 @@ function CaseList() {
       });
   }, []);
 
-    function CreateCases(someList) {
-        setCaseList(someList.map((caseItem) =>
-            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.isDraft}
+
+    /**
+     * Converts a list of case data into rendered `Case` components.
+     *
+     * @param {Array<Object>} listOfCases - Array of case data items.
+     */
+    function CreateCases(listOfCases) {
+        setCaseList(listOfCases.map((caseItem) =>
+            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Return"}
                   caseStatus={caseItem.eactId}/>))
 
     }
 
+    /**
+     * Filters, sorts and search through the case list whenever `filter`, `search`, or `sort` is changed by the user.
+     */
     useEffect(() => {
         var tempList = list;
 
@@ -62,19 +94,30 @@ function CaseList() {
         CreateCases(tempList)
     }, [filter, search, sort]);
 
-
+    /**
+     * Handles the search input field change.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event.
+     */
     function handleSearch(event) {
         setSearch(event.target.value);
     }
-
+    /**
+     * Toggles the visibility of the filter dropdown.
+     */
     function showFilterDropdown() {
         document.getElementById("myDropdown").classList.toggle(styles.show);
     }
 
+    /**
+     * Toggles the visibility of the sort dropdown.
+     */
     function showSortDropdown() {
         document.getElementById("myDropdown2").classList.toggle(styles.show);
     }
-
+    /**
+     * Closes dropdowns when clicking outside.
+     */
     useEffect(() => {
         function handleClickOutside(event) {
             // Check if the click is NOT on a dropdown button
@@ -92,9 +135,12 @@ function CaseList() {
         window.addEventListener('click', handleClickOutside);
         return () => window.removeEventListener('click', handleClickOutside);
     }, []);
+
+    const shouldHide = caseId && window.innerWidth <= 991;
+
     return (
 
-            <div className={styles.div}>
+            <div className={`${styles.div} ${shouldHide ? styles.hidden : ''}`}>
             <div className={styles.controls}>
                 <div className={styles.dropdown}>
                     <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filter</button>
@@ -107,8 +153,8 @@ function CaseList() {
 
 
                 <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
-        
-            
+
+
                 <div className={styles.dropdown}>
                     <button onClick={showSortDropdown} className={styles.dropbtnSort}> <span>↕</span> Sort</button>
                     <div id="myDropdown2" className={styles.dropdown_contentSort}>

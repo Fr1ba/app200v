@@ -12,7 +12,19 @@ function Message() {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-  const { caseId, caseSubject } = useContext(CaseContext);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+  const { caseId, caseSubject, setCaseId } = useContext(CaseContext);
+
+  // Lytt til window resize events
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 991);
+  };
+
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
   const loadMessages = async () => {
     if (!caseId) return;
     try {
@@ -33,6 +45,17 @@ function Message() {
       setError(err.message || "Feil ved sending av melding");
     }
   };
+
+  const handleBackClick = () => {
+    if (isMobile) {
+      // På mobile/tablet: skjul message og vis caselist
+      setCaseId(null);
+    } else {
+      // På desktop: bare skjul message
+      setIsVisible(false);
+    }
+  };
+
   useEffect(() => {
     if (caseId) {
       setIsVisible(true);
@@ -47,7 +70,7 @@ function Message() {
             <div className={styles.headerContainer}>
               <button
                 className={styles.backButton}
-                onClick={() => setIsVisible(false)}
+                onClick={handleBackClick}
                 aria-label="Tilbake"
               >
                 <BsArrowLeft />
