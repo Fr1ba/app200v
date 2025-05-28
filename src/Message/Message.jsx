@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState} from "react";
 import { BsEnvelope, BsSend } from "react-icons/bs";
 
 import DOMPurify from "dompurify";
