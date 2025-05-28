@@ -106,3 +106,59 @@
     margin-bottom: 5px;
   }
 }
+
+.messageBubble img {
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 300px !important;
+  border-radius: 8px;
+  margin: 4px 0;
+  display: block;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.messageBubble img:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Add a subtle overlay on hover to indicate it's clickable */
+.messageBubble img:hover::after {
+  content: "🔍";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  font-size: 16px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Style for images in the text editor */
+.messageForm .editorContainer img {
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 300px !important;
+  border-radius: 8px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .messageBubble img {
+    max-height: 200px !important;
+  }
+  
+  .messageBubble img:hover::after {
+    font-size: 14px;
+    padding: 6px;
+  }
+}

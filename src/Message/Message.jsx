@@ -1,18 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
+import ImageModal from "../TextEditor/ImageModal.jsx"; // Import the new component
 import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
+
 function Message() {
   const [message, setMessage] = useState("");
-  const replyToEactId = ""; // eller useState hvis du trenger det senere
+  const replyToEactId = "";
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
+  
+  // Image modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  
   const { caseId, caseSubject } = useContext(CaseContext);
+  const textEditorRef = useRef();
+
   const loadMessages = async () => {
     if (!caseId) return;
     try {
@@ -22,8 +31,19 @@ function Message() {
       console.error("Feil ved henting av meldinger:", err);
     }
   };
+
   const handleSendMessage = async (event) => {
     event.preventDefault();
+    
+    // Check for content using the enhanced validation
+    const hasTextContent = message.replace(/<[^>]*>/g, '').trim().length > 0;
+    const hasImages = message.includes('<img');
+    
+    if (!hasTextContent && !hasImages) {
+      setError("Meldingen kan ikke være tom");
+      return;
+    }
+    
     try {
       await postMessage({ message, caseId, caseSubject, replyToEactId });
       setMessage("");
@@ -33,12 +53,57 @@ function Message() {
       setError(err.message || "Feil ved sending av melding");
     }
   };
+
+  // Handle image clicks using event delegation
+  const handleImageClick = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  // Use event delegation to handle image clicks
+  useEffect(() => {
+    const chatContainer = document.querySelector(`.${styles.chatContainer}`);
+    
+    const handleClick = (e) => {
+      // Check if clicked element is an image inside a message bubble
+      if (e.target.tagName === 'IMG' && e.target.closest(`.${styles.messageBubble}`)) {
+        e.preventDefault();
+        e.stopPropagation();
+        handleImageClick(e.target.src);
+      }
+    };
+
+    if (chatContainer) {
+      chatContainer.addEventListener('click', handleClick);
+      
+      // Also ensure all images have pointer cursor
+      const updateImageStyles = () => {
+        const messageImages = chatContainer.querySelectorAll(`.${styles.messageBubble} img`);
+        messageImages.forEach(img => {
+          img.style.cursor = 'pointer';
+        });
+      };
+      
+      updateImageStyles();
+      
+      // Update styles when messages change
+      const observer = new MutationObserver(updateImageStyles);
+      observer.observe(chatContainer, { childList: true, subtree: true });
+      
+      return () => {
+        chatContainer.removeEventListener('click', handleClick);
+        observer.disconnect();
+      };
+    }
+  }, [caseId]); // Depend on caseId instead of messages
+
   useEffect(() => {
     if (caseId) {
       setIsVisible(true);
       loadMessages();
     }
   }, [caseId]);
+
   return (
     <div className={styles.chatContainer}>
       {caseId && isVisible ? (
@@ -60,6 +125,7 @@ function Message() {
               </div>
             </div>
           )}
+          
           <ul className={styles.messageList}>
             {messages.map((msg) => (
               <li key={msg.eactId} className={styles.messageItem}>
@@ -83,8 +149,9 @@ function Message() {
               </li>
             ))}
           </ul>
+          
           <form onSubmit={handleSendMessage} className={styles.messageForm}>
-            <TextEditor value={message} onChange={setMessage} />
+            <TextEditor ref={textEditorRef} value={message} onChange={setMessage} />
             {error && <p style={{ color: "red" }}>{error}</p>}
             <button className={styles.sendButton} type="submit">Send</button>
           </form>
@@ -95,7 +162,15 @@ function Message() {
           <p className={styles.emptyText}>Ingen sak er valgt</p>
         </div>
       )}
+      
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        imageUrl={selectedImage}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
+
 export default Message;
