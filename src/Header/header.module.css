@@ -1,9 +1,17 @@
-/* Felles stiler */
-.logo {
-  height: auto;
+/* Basis stiler */
+.header {
+  background-color: var(--brandColor);
+  width: 100%;
 }
 
-.headerLogo {
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.headerLeft {
   display: flex;
   align-items: center;
 }
@@ -11,25 +19,59 @@
 .headerRight {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
-/* Mobile header styles */
-.mobileHeader {
-  background-color: var(--brandColor);
-  width: 100%;
-}
-
-.mobileHeaderTop {
+.headerLogo {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
-  position: relative;
 }
 
 .logo {
-  width: 80px;
-  padding-left: 5px;
+  height: 25px;
+}
+
+/* Navigasjon */
+.navLinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navLinks a {
+  color: var(--headerTextColor);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  display: block;
+}
+
+/* Desktop spesifikt */
+.desktopHeader .headerContainer {
+  padding: 1rem;
+}
+
+.desktopHeader .logo {
+  height: 40px; /* Mer konsistent enn 10% */
+  padding-left: 10px;
+}
+
+.desktopNavLinks {
+  margin-left: 2rem;
+}
+
+.desktopNavLinks li {
+  margin-right: 1.5rem;
+}
+
+.desktopNavLinks a {
+  color: var(--accentTextColor);
+}
+
+/* Mobile spesifikt */
+.mobileHeader .headerContainer {
+  padding: 0.75rem;
 }
 
 .menuButton {
@@ -47,22 +89,7 @@
   animation: slideDown 0.3s ease;
 }
 
-@keyframes slideDown {
-  from { 
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .mobileNavLinks {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
   flex-direction: column;
 }
 
@@ -76,48 +103,18 @@
 }
 
 .mobileNavLinks a {
-  color: var(--headerTextColor);
-  text-decoration: none;
   font-size: 1.1rem;
-  font-weight: 500;
-  display: block;
   width: 100%;
 }
 
-/* Desktop header styles */
-.desktopHeader {
-  background-color: var(--brandColor);
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  align-items: center;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-}
-
-.desktopHeader .logo {
-  width: 120px;
-  padding-left: 10px;
-}
-
-.desktopNavLinks {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  margin-left: 2rem;
-}
-
-.desktopNavLinks li {
-  margin-right: 1.5rem;
-}
-
-.desktopNavLinks a {
-  color: var(--accentTextColor);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
+/* Animasjoner */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
