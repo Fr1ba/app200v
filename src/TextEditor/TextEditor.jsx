@@ -14,8 +14,7 @@ const imageHandler = (quillInstance) => {
   input.onchange = () => {
     const file = input.files[0];
     if (file) {
-      // Check file size (e.g., max 2MB)
-      const maxSize = 5 * 1024 * 1024; // 2MB in bytes
+      const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('Bildet er for stort. Maksimal størrelse er 5MB.');
         return;
@@ -25,31 +24,26 @@ const imageHandler = (quillInstance) => {
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          // Resize image if too large
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-          
-          // Set maximum dimensions for messaging
+
           const maxWidth = 500;
           const maxHeight = 400;
-          
+
           let { width, height } = img;
-          
-          // Calculate new dimensions maintaining aspect ratio
+
           if (width > maxWidth || height > maxHeight) {
             const ratio = Math.min(maxWidth / width, maxHeight / height);
             width *= ratio;
             height *= ratio;
           }
-          
+
           canvas.width = width;
           canvas.height = height;
           ctx.drawImage(img, 0, 0, width, height);
-          
-          // Convert to base64 with compression
+
           const resizedImageUrl = canvas.toDataURL('image/jpeg', 0.8);
-          
-          // Insert into Quill
+
           const range = quillInstance.getSelection();
           quillInstance.insertEmbed(range.index, 'image', resizedImageUrl);
         };
@@ -109,10 +103,8 @@ const TextEditor = forwardRef(({ value, onChange }, ref) => {
         onChange?.(html);
       });
 
-      // Add event listener to handle pasted images
       quillRef.current.on('selection-change', (range) => {
         if (range) {
-          // Handle image resizing after insertion
           const images = quillRef.current.root.querySelectorAll('img');
           images.forEach(img => {
             if (!img.style.maxWidth) {
@@ -129,8 +121,7 @@ const TextEditor = forwardRef(({ value, onChange }, ref) => {
   useEffect(() => {
     if (quillRef.current && value !== quillRef.current.root.innerHTML) {
       quillRef.current.clipboard.dangerouslyPasteHTML(value);
-      
-      // Apply size constraints to any existing images
+
       const images = quillRef.current.root.querySelectorAll('img');
       images.forEach(img => {
         img.style.maxWidth = '100%';

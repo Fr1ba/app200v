@@ -3,8 +3,7 @@ import { BsEnvelope, BsArrowLeft } from "react-icons/bs";
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
-import MessageDetails from "./MessageDetails.jsx";
-import ImageModal from "../TextEditor/ImageModal.jsx"; // Import the new component
+import MessageDetails from "./MessageDetails.jsx"; // Import the new component
 import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
 
@@ -14,10 +13,6 @@ function Message() {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-  
-  // Image modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
   
   const { caseId, caseSubject } = useContext(CaseContext);
   const textEditorRef = useRef();
@@ -54,49 +49,6 @@ function Message() {
     }
   };
 
-  // Handle image clicks using event delegation
-  const handleImageClick = (imageSrc) => {
-    setSelectedImage(imageSrc);
-    setIsModalOpen(true);
-  };
-
-  // Use event delegation to handle image clicks
-  useEffect(() => {
-    const chatContainer = document.querySelector(`.${styles.chatContainer}`);
-    
-    const handleClick = (e) => {
-      // Check if clicked element is an image inside a message bubble
-      if (e.target.tagName === 'IMG' && e.target.closest(`.${styles.messageBubble}`)) {
-        e.preventDefault();
-        e.stopPropagation();
-        handleImageClick(e.target.src);
-      }
-    };
-
-    if (chatContainer) {
-      chatContainer.addEventListener('click', handleClick);
-      
-      // Also ensure all images have pointer cursor
-      const updateImageStyles = () => {
-        const messageImages = chatContainer.querySelectorAll(`.${styles.messageBubble} img`);
-        messageImages.forEach(img => {
-          img.style.cursor = 'pointer';
-        });
-      };
-      
-      updateImageStyles();
-      
-      // Update styles when messages change
-      const observer = new MutationObserver(updateImageStyles);
-      observer.observe(chatContainer, { childList: true, subtree: true });
-      
-      return () => {
-        chatContainer.removeEventListener('click', handleClick);
-        observer.disconnect();
-      };
-    }
-  }, [caseId]); // Depend on caseId instead of messages
-
   useEffect(() => {
     if (caseId) {
       setIsVisible(true);
@@ -115,7 +67,6 @@ function Message() {
                 onClick={() => setIsVisible(false)}
                 aria-label="Tilbake"
               >
-                <BsArrowLeft />
               </button>
               <h3 className={styles.subjectline}>
                 {messages[0].subject || caseSubject || "(uten tittel)"}
@@ -162,13 +113,7 @@ function Message() {
           <p className={styles.emptyText}>Ingen sak er valgt</p>
         </div>
       )}
-      
-      {/* Image Modal */}
-      <ImageModal
-        isOpen={isModalOpen}
-        imageUrl={selectedImage}
-        onClose={() => setIsModalOpen(false)}
-      />
+    
     </div>
   );
 }
