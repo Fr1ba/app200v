@@ -1,6 +1,10 @@
+import React, { useState, useEffect } from "react";
+import styles from "./ProfilePage.module.css";
+import { FaHome, FaPhone, FaUser } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
+import { fetchEntity, updateProfile } from "../api/profileApi.js";
+
 /**
- * ProfilePage.jsx
- *
  * This component displays the user's profile information, including name, email,
  * phone number, and address. It supports editing and updating of email and address fields.
  *
@@ -12,23 +16,6 @@
  * - Fetch entity data from the backend (name, email, phone, address).
  * - Render the profile form with editable fields (email, address).
  * - Validate and update profile data using the updateProfile API.
- *
- * @module ProfilePage
- * @author Vendela
- * @author Trudy
- */
-
-import React, { useState, useEffect } from "react";
-import styles from "./ProfilePage.module.css";
-import { FaHome, FaPhone, FaUser } from "react-icons/fa";
-import { IoMdMail } from "react-icons/io";
-import { fetchEntity, updateProfile } from "../api/profileApi.js";
-
-
-/**
- * The ProfilePage component displays the user's profile information, including
- * name, email, phone number, and address. It supports editing and updating of
- * email and address fields.
  *
  * @returns {ReactElement} The ProfilePage component.
  * @author Vendela

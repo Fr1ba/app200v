@@ -1,18 +1,3 @@
-/**
- * Header.jsx
- *
- * Implements a responsive navigation header for the application.
- * Renders different components based on screen size:
- * - MobileHeader: A compact header with a hamburger menu for small screens.
- * - DesktopHeader: A full-width navigation bar for larger screens.
- * - Header: Main export that chooses between MobileHeader and DesktopHeader based on screen width.
- *
- * Shared functionality includes logo, navigation links, notification bell, and user actions like logout.
- *
- * @module Header
- * @author Erica
- * @author Trudy
- */
 import styles from './header.module.css';
 import React, { useState, useEffect } from 'react';
 import NotificationBell from './Notification/NotificationBell';
@@ -22,15 +7,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { logoutUser } from '../api/authentication.js';
 
+/**
+ * Responsive navigation header component for the application.
+ * Renders either a mobile or desktop header based on screen width.
+ *
+ * Shared features include:
+ * - Logo
+ * - Navigation links
+ * - Notification bell
+ * - User actions like logout and profile access
+ *
+ * @component
+ * @author Erica
+ * @author Trudy
+ */
 
 /**
- * A navigation header for mobile devices.
- *
- * This component displays a logo, a notification bell and a menu button.
- * When the menu button is clicked, a menu with links to various pages is
- * displayed. The menu is closed when a link is clicked.
- *
- * @returns {React.ReactElement} A nav element with the mobile header.
+ * Mobile version of the navigation header.
+ * Displays a logo, notification bell, and a hamburger menu that toggles navigation links.
+ * 
+ * @returns {JSX.Element} The mobile navigation header.
+ * @component
  * @author Erica
  */
 function MobileHeader() {
@@ -38,26 +35,22 @@ function MobileHeader() {
   const navigate = useNavigate();
 
   /**
-   * Toggles the menu open or closed.
+   * Toggles the visibility of the mobile menu.
    */
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
   
   /**
-   * Closes the menu.
+   * Closes the mobile menu.
    */
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
   /**
-   * Handles the logout button click event.
-   *
-   * Calls the logoutUser API and navigates to the login page
-   * after successful logout. If the logout fails, an error
-   * message is logged to the console.
-   * @author Erica
+   * Logs out the user by calling the API and redirects to login page.
+   * Logs errors if logout fails.
    */
   const handleLogout = async () => {
     try {
@@ -85,16 +78,15 @@ function MobileHeader() {
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
-       
       </div>
      
-      {/* Navigation for mobileview*/}
+      {/* Mobile navigation links, shown when menu is open */}
       {menuOpen && (
         <div className={styles.mobileNav}>
           <ul className={styles.mobileNavLinks}>
             <li><Link to="/" onClick={closeMenu}>Hjem</Link></li>
             <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny Sak</Link></li>
-            <li><Link to="/ProfilePage">Profil</Link></li>
+            <li><Link to="/ProfilePage" onClick={closeMenu}>Profil</Link></li>
             <li>
               <button 
                 onClick={handleLogout}
@@ -111,12 +103,11 @@ function MobileHeader() {
 }
 
 /**
- * A navigation header for desktop devices.
- *
- * This component displays a logo, a navigation menu with links to the home page
- * and create case page, as well as a notification bell and profile icon.
- *
- * @returns {React.ReactElement} A nav element with the desktop header.
+ * Desktop version of the navigation header.
+ * Displays logo, navigation links, notification bell, and profile icon.
+ * 
+ * @returns {JSX.Element} The desktop navigation header.
+ * @component
  * @author Trudy
  */
 function DesktopHeader() {
@@ -142,10 +133,11 @@ function DesktopHeader() {
 }
 
 /**
- * A responsive navigation header that renders a mobile or desktop header
- * depending on the screen width.
- *
- * @returns {React.ReactElement} A nav element with the responsive header.
+ * Responsive Header component that switches between mobile and desktop versions
+ * based on the current window width.
+ * 
+ * @returns {JSX.Element} The appropriate navigation header based on screen size.
+ * @component
  * @author Erica
  */
 function Header() {
@@ -153,10 +145,7 @@ function Header() {
   
   useEffect(() => {
     /**
-     * Handles the window resize event.
-     *
-     * Checks if the window width is less than 768px and updates the
-     * isMobile state accordingly.
+     * Updates isMobile state based on window width.
      */
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);

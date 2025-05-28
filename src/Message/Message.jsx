@@ -1,23 +1,4 @@
-
-/**
- * Message.jsx
- *
- * This component displays a threaded message view for a selected case,
- * including:
- * - Fetching and displaying messages from the server (incoming and outgoing).
- * - A rich text editor for composing and sending new messages.
- * - Conditional rendering when no case is selected.
- *
- * Key functionality includes:
- * - DOM sanitization for safe HTML rendering.
- * - API calls to load and post messages.
- *
- * @module Message
- * @author Trudy
- * @author Oda
- */
-
-import React, { useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsEnvelope, BsSend } from "react-icons/bs";
 
 import DOMPurify from "dompurify";
@@ -28,13 +9,14 @@ import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
 
 /**
- * Displays a list of messages for the current case and allows the user to send a new message.
- * Fetches the message list from the server when the component mounts and when the user sends a new message.
- * If the case ID is not set, the component is hidden.
- * If the API call fails, an error is logged to the console.
- * @function Message
- * @param {Object} props - Component props.
- * @param {string} [props.caseId] - The ID of the case to display messages for.
+ * Displays a threaded message view for a selected case.
+ * Includes message fetching, displaying, and sending functionality.
+ * Sanitizes message content before rendering to prevent XSS.
+ *
+ * @component
+ * @returns {JSX.Element} The message thread UI.
+ * @author Trudy
+ * @author Oda
  */
 function Message() {
   const [message, setMessage] = useState("");
@@ -45,12 +27,12 @@ function Message() {
   const { caseId, caseSubject } = useContext(CaseContext);
 
   /**
-   * Fetches messages for the current case and sets the state with the data.
-   * If the case ID is not set, the function does nothing.
-   * If the API call fails, an error is logged to the console.
-   * @async
-   * @function loadMessages
+   * Loads messages for the current case.
+   * Does nothing if no caseId is provided.
+   * Logs errors to console on failure.
    *
+   * @async
+   * @author Oda
    */
   const loadMessages = async () => {
     if (!caseId) return;
@@ -58,19 +40,19 @@ function Message() {
       const data = await getMessages(caseId);
       setMessages(data);
     } catch (err) {
-      console.error("Feil ved henting av meldinger:", err);
+      console.error("Error fetching messages:", err);
     }
   };
 
   /**
-   * Handles the event when a message is sent.
-   * Prevents the default form submission behavior.
-   * Attempts to send the message using the postMessage API.
-   * Clears the message input and error state upon successful submission.
-   * Reloads the message list to reflect the newly sent message.
-   * If the API call fails, sets an error message state.
+   * Handles sending a new message.
+   * Prevents default form submission, posts the message,
+   * clears input and errors on success, reloads messages,
+   * and sets error state on failure.
+   *
    * @async
-   * @param {Event} event - The form submission event.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   * @author Trudy
    */
   const handleSendMessage = async (event) => {
     event.preventDefault();
@@ -81,7 +63,7 @@ function Message() {
       setError("");
       await loadMessages();
     } catch (err) {
-      setError(err.message || "Feil ved sending av melding");
+      setError(err.message || "Error sending message");
     }
   };
 
@@ -100,8 +82,7 @@ function Message() {
                 className={styles.backButton}
                 onClick={() => setIsVisible(false)}
                 aria-label="Tilbake"
-              >
-              </button>
+              />
               <h3 className={styles.subjectline}>
                 {messages[0].subject || caseSubject || "(uten tittel)"}
               </h3>
@@ -118,13 +99,8 @@ function Message() {
                   className={`${styles.messageBubble} ${
                     msg.direction === 2 ? styles.outgoing : styles.incoming
                   }`}
-                >
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(msg.body),
-                    }}
-                  />
-                </div>
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(msg.body) }}
+                />
                 <div className={styles.timestamp}>
                   {new Date(msg.timestamp).toLocaleString("nb-NO", {
                     dateStyle: "short",

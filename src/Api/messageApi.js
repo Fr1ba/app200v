@@ -1,31 +1,33 @@
+import { endpoint } from "./endpoint";
+
 /**
- * Message API utility functions for interacting with the backend case messaging system.
+ * Utility functions for interacting with the backend messaging API
+ * related to case communication.
  * 
- * - `postMessage`: Validates and sends a new message as form data to the server.
- * - `getMessages`: Fetches all messages for a given case ID and returns them sorted by timestamp.
- * 
- * Includes validation logic to prevent submission of empty messages, and error handling
- * for failed HTTP requests. Designed for use in a client-side messaging interface.
+ * Provides functions to send new messages and retrieve existing messages
+ * associated with a case. Includes input validation and error handling
+ * for HTTP requests.
  * 
  * @module messageApi
  * @author Trudy
  * @author Oda
  */
 
-import { endpoint } from "./endpoint";
-
 /**
- * Sends a message to the specified case endpoint using a POST request.
- * Validates the message content to ensure it is not empty.
- * Constructs a JSON blob with the provided message details and sends it as form data.
+ * Sends a new message to the backend for a specific case.
  * 
+ * Validates that the message contains text or images before submission.
+ * Constructs a JSON payload wrapped inside a FormData object for the POST request.
+ * 
+ * @async
  * @param {Object} params - The parameters for the message.
  * @param {string} params.message - The HTML content of the message.
- * @param {string} params.caseId - The ID of the case the message is associated with.
- * @param {string} params.caseSubject - The subject of the case.
+ * @param {string} params.caseId - The unique identifier of the case.
+ * @param {string} params.caseSubject - The subject/title of the case.
  * @param {string} [params.replyToEactId] - Optional ID of the message being replied to.
- * @throws Will throw an error if the message content is empty or if the HTTP request fails.
- * @returns {Promise<Object>} The response data from the server.
+ * @throws {Error} Throws if message is empty or if the HTTP request fails.
+ * @returns {Promise<Object>} Resolves with the parsed JSON response from the server.
+ * @author Trudy
  */
 export const postMessage = async ({ message, caseId, caseSubject, replyToEactId }) => {
   const temp = document.createElement("div");
@@ -60,16 +62,21 @@ export const postMessage = async ({ message, caseId, caseSubject, replyToEactId 
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  return await response.json();
+  return response.json();
 };
 
 /**
- * Fetches all messages for a given case ID.
- * @param {string} caseId - The ID of the case to fetch messages for.
- * @throws Will throw an error if the HTTP request fails.
- * @returns {Promise<Object[]>} The response data from the server, sorted by timestamp.
+ * Retrieves all messages for a specified case.
+ * 
+ * Sends a POST request with search parameters to fetch messages,
+ * then returns the messages sorted chronologically by their timestamp.
+ * 
+ * @async
+ * @param {string} caseId - The unique identifier of the case to fetch messages for.
+ * @throws {Error} Throws if the HTTP request fails.
+ * @returns {Promise<Object[]>} Resolves with an array of message objects sorted by timestamp.
+ * @author Oda
  */
-
 export const getMessages = async (caseId) => {
   const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
     method: "POST",
