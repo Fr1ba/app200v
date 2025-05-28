@@ -1,6 +1,6 @@
 import { endpoint } from "./endpoint";
 
-export const loginUser = async (username, password) => {
+export const loginUser = async (username, password, rememberMe) => {
   
   const response = await fetch(`${endpoint}/rest/core/login`, {
     method: "POST",
@@ -8,7 +8,7 @@ export const loginUser = async (username, password) => {
     body: JSON.stringify({
       username,
       password,
-      rememberMe: true,
+      rememberMe,
     }),
   });
   return response;
