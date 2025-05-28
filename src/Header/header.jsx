@@ -1,3 +1,18 @@
+/**
+ * Header.jsx
+ *
+ * Implements a responsive navigation header for the application.
+ * Renders different components based on screen size:
+ * - MobileHeader: A compact header with a hamburger menu for small screens.
+ * - DesktopHeader: A full-width navigation bar for larger screens.
+ * - Header: Main export that chooses between MobileHeader and DesktopHeader based on screen width.
+ *
+ * Shared functionality includes logo, navigation links, notification bell, and user actions like logout.
+ *
+ * @module Header
+ * @author Erica
+ * @author Trudy
+ */
 import styles from './header.module.css';
 import React, { useState, useEffect } from 'react';
 import NotificationBell from './Notification/NotificationBell';
@@ -7,28 +22,49 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { logoutUser } from '../api/authentication.js';
 
-// Mobileview of header
+
+/**
+ * A navigation header for mobile devices.
+ *
+ * This component displays a logo, a notification bell and a menu button.
+ * When the menu button is clicked, a menu with links to various pages is
+ * displayed. The menu is closed when a link is clicked.
+ *
+ * @returns {React.ReactElement} A nav element with the mobile header.
+ * @author Erica
+ */
 function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
- 
+
+  /**
+   * Toggles the menu open or closed.
+   */
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
   
-  // Close the menu when the user clicks on a link
+  /**
+   * Closes the menu.
+   */
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
+  /**
+   * Handles the logout button click event.
+   *
+   * Calls the logoutUser API and navigates to the login page
+   * after successful logout. If the logout fails, an error
+   * message is logged to the console.
+   * @author Erica
+   */
   const handleLogout = async () => {
     try {
       await logoutUser();
-      // Navigate to login page after successful logout
       navigate('/Login');
     } catch (error) {
       console.error('Logout failed:', error);
-      // You might want to show an error message to the user
     }
   };
 
@@ -74,7 +110,15 @@ function MobileHeader() {
   );
 }
 
-// Desktopview of header
+/**
+ * A navigation header for desktop devices.
+ *
+ * This component displays a logo, a navigation menu with links to the home page
+ * and create case page, as well as a notification bell and profile icon.
+ *
+ * @returns {React.ReactElement} A nav element with the desktop header.
+ * @author Trudy
+ */
 function DesktopHeader() {
   return (
     <nav className={styles.desktopHeader}>
@@ -97,11 +141,23 @@ function DesktopHeader() {
   );
 }
 
-// Main component that chooses the right header based on screen size
+/**
+ * A responsive navigation header that renders a mobile or desktop header
+ * depending on the screen width.
+ *
+ * @returns {React.ReactElement} A nav element with the responsive header.
+ * @author Erica
+ */
 function Header() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
   useEffect(() => {
+    /**
+     * Handles the window resize event.
+     *
+     * Checks if the window width is less than 768px and updates the
+     * isMobile state accordingly.
+     */
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -114,7 +170,5 @@ function Header() {
   
   return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
-
-
 
 export default Header;

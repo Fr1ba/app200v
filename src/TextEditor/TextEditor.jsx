@@ -1,3 +1,20 @@
+/**
+ * TextEditor.jsx
+ *
+ * A rich text editor component built using Quill.js, with custom image upload support.
+ * This component provides an interface for editing formatted content and inserting images
+ * that are automatically resized for optimal rendering. It exposes imperative methods
+ * for checking content presence and retrieving plain text.
+ *
+ * Features:
+ * - Rich text editing with support for headers, formatting, lists, and colors.
+ * - Custom image upload with client-side resizing (max 500x400px).
+ * - Exposes methods via `ref` for checking content and extracting plain text.
+ *
+ * @module TextEditor
+ * @author Trudy
+ */
+
 import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';

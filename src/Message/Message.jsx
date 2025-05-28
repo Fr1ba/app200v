@@ -1,4 +1,22 @@
 
+/**
+ * Message.jsx
+ *
+ * This component displays a threaded message view for a selected case,
+ * including:
+ * - Fetching and displaying messages from the server (incoming and outgoing).
+ * - A rich text editor for composing and sending new messages.
+ * - Conditional rendering when no case is selected.
+ *
+ * Key functionality includes:
+ * - DOM sanitization for safe HTML rendering.
+ * - API calls to load and post messages.
+ *
+ * @module Message
+ * @author Trudy
+ * @author Oda
+ */
+
 import React, { useContext, useEffect, useState} from "react";
 import { BsEnvelope, BsSend } from "react-icons/bs";
 
@@ -10,12 +28,13 @@ import { CaseContext } from "../SelectedCase.jsx";
 import { postMessage, getMessages } from "../api/messageApi.js";
 
 /**
- * A component for displaying and sending messages related to a case.
- * @example
- * <Message />
- * @returns {ReactElement} The component.
- * @author Trudy
- * @author Oda
+ * Displays a list of messages for the current case and allows the user to send a new message.
+ * Fetches the message list from the server when the component mounts and when the user sends a new message.
+ * If the case ID is not set, the component is hidden.
+ * If the API call fails, an error is logged to the console.
+ * @function Message
+ * @param {Object} props - Component props.
+ * @param {string} [props.caseId] - The ID of the case to display messages for.
  */
 function Message() {
   const [message, setMessage] = useState("");
