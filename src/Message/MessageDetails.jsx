@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { getMessages } from "../api/messageApi.js";
 import { CaseContext } from "../SelectedCase.jsx";
 import styles from "./MessageDetails.module.css";
@@ -16,6 +16,7 @@ function MessageDetails() {
   const [buttonText, setButtonText] = useState("Vis detaljer");
   const [isOpen, setIsOpen] = useState(false);
   const { caseId } = useContext(CaseContext);
+  const detailsRef = useRef(null);
 
   /**
    * Function for toggling the visibility of the case details.
@@ -91,6 +92,29 @@ function MessageDetails() {
     setCaseDetails(details);
   };
 
+  /**
+   * Makes it so when you click outside of the open casedetails dropdown, the dropdown closes. 
+   * @function
+   * @author Erica Laub Varpe
+   */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!isOpen) return;
+
+      const detailsNode = detailsRef.current;
+      if (detailsNode && !detailsNode.contains(event.target)) {
+        setCaseDetails(null);
+        setButtonText("Vis detaljer");
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <div>
       <button className={styles.caseButton} onClick={handleClick}>
@@ -102,7 +126,7 @@ function MessageDetails() {
         ></span>
       </button>
       {caseDetails && (
-        <div className={styles.caseDetails}>
+        <div ref={detailsRef} className={styles.caseDetails}>
           <h4 className={styles.header}>Detaljer</h4>
           <p>
             <strong>Saksbehandler:</strong> {caseDetails.caseWorker}
