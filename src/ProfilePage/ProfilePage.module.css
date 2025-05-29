@@ -114,6 +114,7 @@ form {
   background-color: #f2f2f2 !important;
   color: #888 !important;
   cursor: not-allowed !important;
+  outline: none !important;
 }
 
 /* For highlighting editable fields */

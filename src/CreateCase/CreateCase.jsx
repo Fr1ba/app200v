@@ -3,6 +3,13 @@ import styles from './CreateCase.module.css';
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import { createCase } from '../api/caseApi';
 
+/**
+ * @component
+ * Form page for creating a new case with subject, category, and rich text details.
+ * Handles input changes, form submission, and displays feedback messages.
+ *
+ * @returns The CreateCase component.
+ */
 function CreateCase() {
   const [inputs, setInputs] = useState({
     subject: '',
@@ -13,6 +20,13 @@ function CreateCase() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  /**
+   * Handles input changes for both standard form fields and the custom text editor.
+   *
+   * @param {Event|string} eventOrHtml - Event from input/select or HTML string from the text editor.
+   * @param {string} maybeFieldName - Optional field name used for rich text input.
+   * @author Nikola Deja
+   */
   const handleChange = (eventOrHtml, maybeFieldName) => {
     if (typeof eventOrHtml === 'string' && maybeFieldName) {
       setInputs(values => ({ ...values, [maybeFieldName]: eventOrHtml }));
@@ -22,6 +36,16 @@ function CreateCase() {
     }
   };
 
+  /**
+   * Handles form submission to create a new case via the API.
+   *
+   * Sends the form data, resets input fields on success,
+   * and displays feedback messages based on the result.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   * @returns {Promise<void>}
+   * @author Stine Skroder
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -31,7 +55,7 @@ function CreateCase() {
     try {
       const responseData = await createCase({
         subject: inputs.subject,
-        details: inputs.details
+        details: inputs.details,
       });
       
       console.log("Sak opprettet:", responseData);
@@ -42,6 +66,7 @@ function CreateCase() {
         details: ''
       });
 
+      console.log("Full API response:", responseData);
       setSuccess(true);
     } catch (error) {
       console.error("Feil ved opprettelse av sak:", error);
@@ -49,7 +74,10 @@ function CreateCase() {
     } finally {
       setIsSubmitting(false);
     }
+
   };
+
+
 
   return (
     <div className={styles.pageContainer}>

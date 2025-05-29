@@ -12,7 +12,7 @@ import { CaseContext } from "../SelectedCase.jsx";
  * and renders each case using the `Case` component.
  *
  * @component
- * @returns {JSX.Element} The rendered CaseList component.
+ * @returns The CaseList component.
  * @author Nikola Deja
  */
 function CaseList() {
@@ -57,7 +57,7 @@ function CaseList() {
      */
     function CreateCases(listOfCases) {
         setCaseList(listOfCases.map((caseItem) =>
-            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Return"}
+            <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Retur"}
                   caseStatus={caseItem.eactId}/>))
 
     }
@@ -143,23 +143,23 @@ function CaseList() {
             <div className={`${styles.div} ${shouldHide ? styles.hidden : ''}`}>
             <div className={styles.controls}>
                 <div className={styles.dropdown}>
-                    <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filter</button>
+                    <button onClick={showFilterDropdown} className={styles.dropbtnFilter}> Filtrer</button>
                     <div id="myDropdown" className={styles.dropdown_contentFilter}>
-                        <a onClick={() => setFilter("all")}>Show All</a>
-                        <a onClick={() => setFilter("active")}>Active</a>
-                        <a onClick={() => setFilter("closed")}>Closed</a>
+                        <a onClick={() => setFilter("all")}>Vis alle</a>
+                        <a onClick={() => setFilter("active")}>Aktiv</a>
+                        <a onClick={() => setFilter("closed")}>Avsluttet</a>
                     </div>
                 </div>
 
 
-                <input type="text" placeholder="Search..." className={styles.search} onChange={handleSearch}/>
+                <input type="text" placeholder="Søk..." className={styles.search} onChange={handleSearch}/>
 
 
                 <div className={styles.dropdown}>
-                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> <span>↕</span> Sort</button>
+                    <button onClick={showSortDropdown} className={styles.dropbtnSort}> Sorter</button>
                     <div id="myDropdown2" className={styles.dropdown_contentSort}>
-                        <a onClick={() => setSort("new")}>Newest</a>
-                        <a onClick={() => setSort("old")}>Oldest</a>
+                        <a onClick={() => setSort("new")}>Nyeste</a>
+                        <a onClick={() => setSort("old")}>Eldste</a>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@ function CaseList() {
                     {caseList}
                 </ul>
 
-                <Link to="/CreateCase" className={styles.button}>New thread</Link>
+                <Link to="/CreateCase" className={styles.button}>Opprett ny sak</Link>
 
         </div>
     );

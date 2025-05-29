@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { getMessages } from "../api/messageApi.js";
 import { CaseContext } from "../SelectedCase.jsx";
 import styles from "./MessageDetails.module.css";
 /**
- * Component for viewing and hiding details about messages.
- * @returns the MessageDetails component.
+ * A component for displaying details about the current case.
+ * The component can be toggled on and off by clicking a button.
+ * The details are fetched from the API.
+ * @component
+ * @returns {JSX.Element} The MessageDetails component
  * @author Oda
  * @author Vendela
  */
@@ -15,7 +18,8 @@ function MessageDetails() {
   const { caseId } = useContext(CaseContext);
 
   /**
-   * Function for handling button click
+   * Function for toggling the visibility of the case details.
+   * @function
    * @author Oda
    * @author Vendela
    */
@@ -32,7 +36,12 @@ function MessageDetails() {
   };
 
   /**
-   * Function for fetching details about a case. The details are per now mock data as the API does not have the data.
+   * Fetches the details of the current case using the caseId from context.
+   * Sets default details if no messages are found or the data is invalid.
+   * Updates the caseDetails state with the fetched or default details.
+   *
+   * @function
+   * @returns {Promise<void>} Resolves when the case details have been set.
    * @author Oda
    * @author Vendela
    */

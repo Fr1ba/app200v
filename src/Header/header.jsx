@@ -7,28 +7,57 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { logoutUser } from '../api/authentication.js';
 
-// Mobileview of header
+/**
+ * Responsive navigation header component for the application.
+ * Renders either a mobile or desktop header based on screen width.
+ *
+ * Shared features include:
+ * - Logo
+ * - Navigation links
+ * - Notification bell
+ * - User actions like logout and profile access
+ *
+ * @component
+ * @author Erica
+ * @author Trudy
+ */
+
+/**
+ * Mobile version of the navigation header.
+ * Displays a logo, notification bell, and a hamburger menu that toggles navigation links.
+ * 
+ * @returns {JSX.Element} The mobile navigation header.
+ * @component
+ * @author Erica
+ */
 function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
- 
+
+  /**
+   * Toggles the visibility of the mobile menu.
+   */
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
   
-  // Close the menu when the user clicks on a link
+  /**
+   * Closes the mobile menu.
+   */
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
+  /**
+   * Logs out the user by calling the API and redirects to login page.
+   * Logs errors if logout fails.
+   */
   const handleLogout = async () => {
     try {
       await logoutUser();
-      // Navigate to login page after successful logout
       navigate('/Login');
     } catch (error) {
       console.error('Logout failed:', error);
-      // You might want to show an error message to the user
     }
   };
 
@@ -49,16 +78,15 @@ function MobileHeader() {
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
-       
       </div>
      
-      {/* Navigation for mobileview*/}
+      {/* Mobile navigation links, shown when menu is open */}
       {menuOpen && (
         <div className={styles.mobileNav}>
           <ul className={styles.mobileNavLinks}>
             <li><Link to="/" onClick={closeMenu}>Hjem</Link></li>
             <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny Sak</Link></li>
-            <li><Link to="/ProfilePage">Profil</Link></li>
+            <li><Link to="/ProfilePage" onClick={closeMenu}>Profil</Link></li>
             <li>
               <button 
                 onClick={handleLogout}
@@ -74,7 +102,14 @@ function MobileHeader() {
   );
 }
 
-// Desktopview of header
+/**
+ * Desktop version of the navigation header.
+ * Displays logo, navigation links, notification bell, and profile icon.
+ * 
+ * @returns {JSX.Element} The desktop navigation header.
+ * @component
+ * @author Trudy
+ */
 function DesktopHeader() {
   return (
     <nav className={styles.desktopHeader}>
@@ -97,11 +132,21 @@ function DesktopHeader() {
   );
 }
 
-// Main component that chooses the right header based on screen size
+/**
+ * Responsive Header component that switches between mobile and desktop versions
+ * based on the current window width.
+ * 
+ * @returns {JSX.Element} The appropriate navigation header based on screen size.
+ * @component
+ * @author Erica
+ */
 function Header() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
   useEffect(() => {
+    /**
+     * Updates isMobile state based on window width.
+     */
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -114,7 +159,5 @@ function Header() {
   
   return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }
-
-
 
 export default Header;

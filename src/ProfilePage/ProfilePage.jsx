@@ -1,8 +1,3 @@
-/**
- * A requirement from ITX was to be able to change name and phone number in the future.
- * The code that is commented out is for this purpose.
- */
-
 import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
@@ -10,11 +5,21 @@ import { IoMdMail } from "react-icons/io";
 import { fetchEntity, updateProfile } from "../api/profileApi.js";
 
 /**
- * ProfilePage component. Contains the user's profile information and allows the user to edit this information.
- * @component
+ * This component displays the user's profile information, including name, email,
+ * phone number, and address. It supports editing and updating of email and address fields.
+ *
+ * NOTE: A requirement from ITX was to make it possible to change name and phone number in the future.
+ * Placeholder code for these features has been added, but is currently commented out.
+ * These placeholders have been kept intentionally for the possibility of future development.
+ *
+ * Responsibilities:
+ * - Fetch entity data from the backend (name, email, phone, address).
+ * - Render the profile form with editable fields (email, address).
+ * - Validate and update profile data using the updateProfile API.
+ *
+ * @returns {ReactElement} The ProfilePage component.
  * @author Vendela
  * @author Trudy
- * @returns A ProfilePage component
  */
 function ProfilePage() {
   const [email, setEmail] = useState("");
