@@ -85,7 +85,7 @@ function MobileHeader() {
         <div className={styles.mobileNav}>
           <ul className={styles.mobileNavLinks}>
             <li><Link to="/" onClick={closeMenu}>Mine saker</Link></li>
-            <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny Sak</Link></li>
+            <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny sak</Link></li>
             <li><Link to="/ProfilePage" onClick={closeMenu}>Profil</Link></li>
             <li>
               <button 
