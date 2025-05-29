@@ -27,6 +27,12 @@ function Message() {
 
 
 
+  /**
+   * Handles the back button click event.
+   * Hides the message list, and resets the selected case ID and subject.
+   * @function
+   * @author Stine
+   */
   const handleBackClick = () => {
     setIsVisible(false);
     setCaseId(null);
