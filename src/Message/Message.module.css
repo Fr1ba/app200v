@@ -167,12 +167,36 @@
 .emptyState {
   display: none;
 }
+
+/* Small mobile view (under 420px) */
+@media screen and (max-width: 420px) {
+  .subjectline {
+    font-size: var(--font-size-m);
+  }
+
+  .messageBubble {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Mobile view (under 768px) */
+@media screen and (max-width: 767px) {
+  .subjectline {
+    font-size: var(--font-size-l);
+  }
+
+  .messageBubble {
+    font-size: var(--font-size-s);
+  }
+}
+
 /* Tablet view (768px to 991px) */
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .chatContainer {
     top: 150px; 
     height: calc(100vh - 100px);
   }
+
 }
 /* Desktop view (992px and up) */
 @media screen and (min-width: 992px) {
