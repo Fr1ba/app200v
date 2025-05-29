@@ -4,7 +4,9 @@ import {Link} from "react-router-dom";
 import styles from './profileIcon.module.css';
 
 const endpoint = "https://app06.itxnorge.no"
-
+/**
+ * @author Michal
+ */
 async function Logout() {
     await fetch(`${endpoint}/rest/core/logout`, {
         method: 'POST',
@@ -14,7 +16,7 @@ async function Logout() {
 }
 
 /**
- * 
+ * Implement a profile icon for desktopview.
  * @returns profile icon with a dropdown menu to profile and logout
  * @author Erica Laub Varpe
  */
@@ -24,7 +26,11 @@ function ProfileIcon() {
     
     const handleOpen = () => setOpen(!open);
 
-    // Handle clicks outside the profile component
+    /**
+     * Handle clicks outside the profile component and closes the dropdown if it is open
+     * 
+     * @author Erica Laub Varpe
+     */
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -54,7 +60,7 @@ function ProfileIcon() {
 }
 
 /**
- * 
+ * The dropdown menu for the profile icon
  * @returns dropdown menu with options
  * @author Erica Laub Varpe
  */

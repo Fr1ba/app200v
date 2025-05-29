@@ -7,6 +7,12 @@ import { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
 import styles from './bell.module.css';
 
+
+/**
+ * The notification bell
+ * @returns notification bell
+ * @author Erica Laub Varpe
+ */
 function NotificationBell() {
   const [open, setOpen] = useState(false);
   const notificationRef = useRef(null);
@@ -14,7 +20,10 @@ function NotificationBell() {
   const handleOpen = () => setOpen(!open);
   const notificationCount = notisArray().props.children.length;
 
-    // Handle clicks outside the profile component
+  /**
+   * Handle clicks outside the profile component
+   * @author Erica Laub Varpe
+   */
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
@@ -52,8 +61,13 @@ function NotificationBell() {
   );
 }
 
+/**
+ * Hardcoded notifications to be sent to the notificationbell
+ * @returns array of notifications
+ * @author Erica Laub Varpe
+ */
 function notisArray(){
-  const notisList = ["New message", "Case updated", "Case closed"];
+  const notisList = ["Ny melding", "Case oppdatert", "Case lukket"];
   return (
     <ul className={styles.notificationBox}>
       {notisList.map((noti, index) => (
