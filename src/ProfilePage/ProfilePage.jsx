@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
-import { fetchEntity, updateProfile } from "../api/profileApi.js";
+import { fetchEntity, updateProfile } from "../Api/profileApi.js";
 
 /**
  * ProfilePage component. Contains the user's profile information and allows the user to edit this information.

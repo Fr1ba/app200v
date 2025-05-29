@@ -5,7 +5,7 @@ import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
 import MessageDetails from "./MessageDetails.jsx";
 import { CaseContext } from "../SelectedCase.jsx";
-import { postMessage, getMessages } from "../api/messageApi.js";
+import { postMessage, getMessages } from "../Api/messageApi.js";
 function Message() {
   const [message, setMessage] = useState("");
   const replyToEactId = ""; // eller useState hvis du trenger det senere

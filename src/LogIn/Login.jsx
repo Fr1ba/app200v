@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Logo from "../Logo/Logo";
-import { loginUser } from "../api/authentication";
+import { loginUser } from "../Api/authentication";
 
 function Login() {
   const [username, setUsername] = useState(""); //tracks input fields

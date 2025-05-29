@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./CaseList.module.css";
 import { Link } from 'react-router-dom';
-import { fetchCases } from "../api/caseApi.js";
+import { fetchCases } from "../Api/caseApi.js";
 
 /**
  * Component displaying a list of cases with filter, search, and sort options.

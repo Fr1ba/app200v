@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './CreateCase.module.css';
 import TextEditor from "../TextEditor/TextEditor.jsx";
-import { createCase } from '../api/caseApi';
+import { createCase } from '../Api/caseApi';
 
 function CreateCase() {
   const [inputs, setInputs] = useState({
