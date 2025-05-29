@@ -168,7 +168,7 @@ function CaseList() {
                     {caseList}
                 </ul>
 
-                <Link to="/CreateCase" className={styles.button}>Ny sak</Link>
+                <Link to="/CreateCase" className={styles.button}>Opprett ny sak</Link>
 
         </div>
     );
