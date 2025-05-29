@@ -100,21 +100,20 @@ form {
 .SubmitButton {
   width: 180px;
   height: 40px;
-  background: var(--backgroundColor);
+  background: var(--brandColor);
   border: 1px solid var(--borderColor);
   outline: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: var(--font-size-s);
-  color: var(--textColor);
+  color: var(--accentTextColor);
   font-weight: 500;
   padding: 0 15px;
 }
 
 .SubmitButton:hover {
-  background-color: var(--brandColor, #9de5f9);
-  color: var(--accentTextColor);
+  background-color: #3a89d4;
 }
 
 .errorMessage {

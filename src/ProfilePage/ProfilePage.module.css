@@ -87,14 +87,14 @@ form {
 .editButton, .cancelButton {
   width: 180px;
   height: 40px;
-  background: #fff;
-  border: 1px solid black;
+  background: var(--brandColor);
+  border: 1px solid var(--borderColor);
   outline: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: var(--font-size-s);
-  color: var(--textColor);
+  color: var(--accentTextColor);
   font-weight: 500;
   padding: 0 15px;
 }
@@ -102,7 +102,7 @@ form {
 
 
 .editButton:hover {
-  background-color: var(--brandColor);
+  background-color: #518dc5;
 }
 
 .cancelButton:hover {
@@ -132,14 +132,14 @@ form {
 /* Sml screens/mobil */
 @media (max-width: 768px) {
   .pageContainer {
-    align-items: flex-start; /* Ikke sentrer vertikalt */
+    align-items: flex-start;
     min-height: 100vh;
-    padding: 10px; /* Mindre padding */
+    padding: 10px; 
 }
 
 .wrapper {
-    margin-top: 20px; /* Litt margin fra toppen */
-    padding: 20px 20px 80px 20px; /* Mindre padding, men fortsatt plass til knapp */
+    margin-top: 20px; 
+    padding: 20px 20px 80px 20px; 
 }
   
   .inputField {
