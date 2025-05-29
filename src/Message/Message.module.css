@@ -126,17 +126,15 @@
   gap: 0.5rem; 
   align-items: flex-end;
   position: fixed;
-  background-color: blue;
 }
 .messageForm form {
   max-width: 600px; 
   width: 100%;
-  gap: 1rem;
+  gap: 2rem;
   display: inherit;
   justify-content: center;
   padding-top: 30px;
   bottom:0;
-  background-color: purple;
 
 }
 .sendButton {
@@ -212,10 +210,7 @@
   .messageForm {
     width: 100%;
   }
-  .messageForm form {
-    
   
-  }
 
 }
 /* Desktop view (992px and up) */

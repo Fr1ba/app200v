@@ -4,7 +4,6 @@
 .editorWrapper {
   width: 100%;
   margin: 0;
-  background-color: red;
 }
 
 /* Main editor container */
@@ -18,7 +17,6 @@
   background: #E8E8E8; 
   padding: 8px; 
   overflow: visible;
-  background-color: violet;
 }
 
 /* Quill editor content area styling */
