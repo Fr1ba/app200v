@@ -120,7 +120,7 @@ function DesktopHeader() {
        
         <ul className={styles.desktopNavLinks}>
           <li><Link to="/">Mine saker</Link></li>
-          <li><Link to="/CreateCase">Opprett ny Sak</Link></li>
+          <li><Link to="/CreateCase">Opprett ny sak</Link></li>
         </ul>
       </div>
      
