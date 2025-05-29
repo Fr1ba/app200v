@@ -23,7 +23,16 @@ function Message() {
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(true);
   const bottomRef = useRef(null);
-  const { caseId, caseSubject } = useContext(CaseContext);
+  const { caseId, caseSubject, setCaseId, setCaseSubject } = useContext(CaseContext);
+
+
+
+  const handleBackClick = () => {
+    setIsVisible(false);
+    setCaseId(null);
+    setCaseSubject("");
+  };
+
 
   /**
    * Loads messages for the current case.
@@ -98,7 +107,7 @@ function Message() {
             <div className={styles.headerContainer}>
             <button
               className={styles.backButton}
-              onClick={() => setIsVisible(false)}
+              onClick={handleBackClick}
               aria-label="Tilbake"
             >
               <BsArrowLeft />
