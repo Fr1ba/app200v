@@ -119,23 +119,25 @@
   text-align: right;
 }
 .messageForm {
-  margin: 0;
-  padding: 1rem;
-  width: 100%;
+  margin: 0 ;
+  padding: 0.5rem;
+  width: 65%;
   bottom: 0;
-  gap: 1rem; 
+  gap: 0.5rem; 
   align-items: flex-end;
   position: fixed;
+  background-color: blue;
 }
 .messageForm form {
   max-width: 600px; 
   width: 100%;
-  gap: 2rem;
+  gap: 1rem;
   display: inherit;
   justify-content: center;
   padding-top: 30px;
   bottom:0;
-  background-color: var(--backgroundColor);
+  background-color: purple;
+
 }
 .sendButton {
   color: var(--brandColor);
@@ -177,6 +179,11 @@
   .messageBubble {
     font-size: var(--font-size-xs);
   }
+
+  .messageForm {
+    width: 100%;
+    
+  }
 }
 
 /* Mobile view (under 768px) */
@@ -188,6 +195,11 @@
   .messageBubble {
     font-size: var(--font-size-s);
   }
+
+  .messageForm {
+    width: 100%;
+    
+  }
 }
 
 /* Tablet view (768px to 991px) */
@@ -195,6 +207,14 @@
   .chatContainer {
     top: 150px; 
     height: calc(100vh - 100px);
+  }
+
+  .messageForm {
+    width: 100%;
+  }
+  .messageForm form {
+    
+  
   }
 
 }

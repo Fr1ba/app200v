@@ -4,6 +4,7 @@
 .editorWrapper {
   width: 100%;
   margin: 0;
+  background-color: red;
 }
 
 /* Main editor container */
@@ -17,6 +18,7 @@
   background: #E8E8E8; 
   padding: 8px; 
   overflow: visible;
+  background-color: violet;
 }
 
 /* Quill editor content area styling */
@@ -72,28 +74,105 @@
   content: 'Aa'; 
 }
 
-/* medium size */
-@media (max-width: 768px) {
-  .editorContainer :global(.ql-editor) {
-    min-height: 250px;
+
+
+/* Mobile view (under 768px) */
+@media screen and (max-width: 767px) {
+  .editorContainer {
+    padding: 6px;
+  }
+
+  .editorContainer :global(.ql-container) {
+    min-height: 35px;
+    max-height: 70px;
+    font-size: var(--font-size-s);
   }
 
   .editorContainer :global(.ql-toolbar) {
     flex-wrap: wrap;
-    padding: 5px;
-  }
-}
-
-/* small size */
-@media (max-width: 480px) {
-  .editorContainer :global(.ql-toolbar) {
-    display: flex;
-    flex-wrap: wrap;
+    padding: 4px 6px;
     justify-content: center;
+  }
+
+  .editorContainer :global(.ql-toolbar button) {
+    margin: 1px;
+    padding: 4px;
+    font-size: var(--font-size-s);
   }
 
   .editorContainer :global(.ql-formats) {
     margin-right: 0;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
+  }
+
+  .editorContainer :global(.ql-toolbar .ql-formats .ql-color) {
+    width: 30px;
+    min-width: 30px;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-formats .ql-color .ql-picker-label) {
+    padding: 2px 4px;
+    width: 100%;
+  }
+
+  .editorContainer :global(.ql-toolbar .ql-picker) {
+    width: 70px;
+    min-width: 70px;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-picker-label) {
+    padding: 2px 4px;
+    width: 100%;
+  }
+}
+
+/* Small mobile view (under 420px) */
+@media screen and (max-width: 420px) {
+  .editorContainer {
+    padding: 4px;
+  }
+
+  .editorContainer :global(.ql-container) {
+    min-height: 30px;
+    max-height: 60px;
+    font-size: var(--font-size-xs);
+  }
+
+  .editorContainer :global(.ql-toolbar) {
+    padding: 3px 4px;
+  }
+
+  .editorContainer :global(.ql-toolbar button) {
+    margin: 0.5px;
+    padding: 3px;
+    font-size: var(--font-size-xs);
+  }
+
+  .editorContainer :global(.ql-editor.ql-blank::before) {
+    font-size: var(--font-size-xs);
+  }
+  .editorContainer :global(.ql-toolbar .ql-formats .ql-color) {
+    width: 30px;
+    min-width: 30px;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-formats .ql-color .ql-picker-label) {
+    padding: 1px 3px;
+    width: 100%;
+  }
+
+  .editorContainer :global(.ql-toolbar .ql-picker) {
+    width: 70px;
+    min-width: 70px;
+  }
+  
+  .editorContainer :global(.ql-toolbar .ql-picker-label) {
+    padding: 1px 3px;
+    width: 100%;
+  }
+
+  .editorContainer :global(.ql-toolbar .ql-formats) {
+    margin-right: 0;
+    margin-bottom: 0;
   }
 }
