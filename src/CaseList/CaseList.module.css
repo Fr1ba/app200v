@@ -234,6 +234,17 @@
     .list {
         padding: 8px 0; 
     }
+
+    .searchWrapper {
+        max-width: 140px; /* Sett samme bredde som search */
+    }
+    
+    .clearButton {
+        right: 6px;
+        width: 16px;
+        height: 16px;
+        font-size: 0.9rem;
+    }
 }
 
 
@@ -272,6 +283,17 @@
         background-color: transparent; 
         text-decoration: none;
         margin: 0;
+    }
+
+    .searchWrapper {
+        max-width: 120px;
+    }
+    
+    .clearButton {
+        right: 5px;
+        width: 14px;
+        height: 14px;
+        font-size: 0.8rem;
     }
 }
 
