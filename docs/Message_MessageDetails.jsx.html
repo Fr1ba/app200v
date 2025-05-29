@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Message/MessageDetails.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Message/MessageDetails.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useContext, useEffect, useRef } from "react";
+import { getMessages } from "../api/messageApi.js";
+import { CaseContext } from "../SelectedCase.jsx";
+import styles from "./MessageDetails.module.css";
+/**
+ * A component for displaying details about the current case.
+ * The component can be toggled on and off by clicking a button.
+ * The details are fetched from the API.
+ * @component
+ * @returns {JSX.Element} The MessageDetails component
+ * @author Oda
+ * @author Vendela
+ */
+function MessageDetails() {
+  const [caseDetails, setCaseDetails] = useState(null);
+  const [buttonText, setButtonText] = useState("Vis detaljer");
+  const [isOpen, setIsOpen] = useState(false);
+  const { caseId } = useContext(CaseContext);
+  const detailsRef = useRef(null);
+
+  /**
+   * Function for toggling the visibility of the case details.
+   * @function
+   * @author Oda
+   * @author Vendela
+   */
+  const handleClick = () => {
+    if (buttonText === "Vis detaljer") {
+      fetchCaseDetails();
+      setButtonText("Skjul detaljer");
+      setIsOpen(true);
+    } else if (buttonText === "Skjul detaljer") {
+      setCaseDetails(null);
+      setButtonText("Vis detaljer");
+      setIsOpen(false);
+    }
+  };
+
+  /**
+   * Fetches the details of the current case using the caseId from context.
+   * Sets default details if no messages are found or the data is invalid.
+   * Updates the caseDetails state with the fetched or default details.
+   *
+   * @function
+   * @returns {Promise&lt;void>} Resolves when the case details have been set.
+   * @author Oda
+   * @author Vendela
+   */
+  const fetchCaseDetails = async () => {
+    if (!caseId) return;
+    const data = await getMessages(caseId);
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      setCaseDetails({
+        caseWorker: "Venter på tildeling av saksbehandler",
+        createdDate: "Ingen opprettelsesdato funnet",
+        status: "Aktiv",
+        priority: "Høy",
+        category: "Retur",
+      });
+      return;
+    }
+    let caseWorker = "";
+    let checkElements = Math.min(data.length, 3);
+    for (let i = 0; i &lt;= checkElements; i++) {
+      if (data[i] &amp;&amp; data[i].user) {
+        if (data[i].user.firstName) {
+          caseWorker += data[i].user.firstName;
+          if (data[i].user.lastName) {
+            caseWorker += " " + data[i].user.lastName;
+            break;
+          }
+        }
+      }
+    }
+
+    let date = "";
+    if (data[0] &amp;&amp; data[0].timestamp) {
+      date = new Date(data[0].timestamp).toLocaleString("nb-NO", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    }
+
+    const details = {
+      caseWorker: caseWorker || "Venter på tildeling av saksbehandler",
+      createdDate: date || "Ingen opprettelsesdato funnet",
+      status: data.status || "Aktiv",
+      priority: data.priority || "Høy",
+      category: data.category || "Retur",
+    };
+    setCaseDetails(details);
+  };
+
+  /**
+   * Makes it so when you click outside of the open casedetails dropdown, the dropdown closes. 
+   * @function
+   * @author Erica Laub Varpe
+   */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!isOpen) return;
+
+      const detailsNode = detailsRef.current;
+      if (detailsNode &amp;&amp; !detailsNode.contains(event.target)) {
+        setCaseDetails(null);
+        setButtonText("Vis detaljer");
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  return (
+    &lt;div>
+      &lt;button ref={detailsRef} className={styles.caseButton} onClick={handleClick}>
+        {buttonText}
+        &lt;span
+          className={`${styles.arrow} ${
+            isOpen ? styles.arrowUp : styles.arrowDown
+          }`}
+        >&lt;/span>
+      &lt;/button>
+      {caseDetails &amp;&amp; (
+        &lt;div className={styles.caseDetails}>
+          &lt;h4 className={styles.header}>Detaljer&lt;/h4>
+          &lt;p>
+            &lt;strong>Saksbehandler:&lt;/strong> {caseDetails.caseWorker}
+          &lt;/p>
+          &lt;p>
+            &lt;strong>Opprettet:&lt;/strong> {caseDetails.createdDate}
+          &lt;/p>
+          &lt;p>
+            &lt;strong>Status:&lt;/strong> {caseDetails.status}
+          &lt;/p>
+          &lt;p>
+            &lt;strong>Prioritet:&lt;/strong> {caseDetails.priority}
+          &lt;/p>
+          &lt;p>
+            &lt;strong>Kategori:&lt;/strong> {caseDetails.category}
+          &lt;/p>
+        &lt;/div>
+      )}
+    &lt;/div>
+  );
+}
+export default MessageDetails;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 21:42:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

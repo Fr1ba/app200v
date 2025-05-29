@@ -1,20 +1,22 @@
-import { useState } from 'react';
-import styles from './CreateCase.module.css';
+import { useState } from "react";
+import styles from "./CreateCase.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
-import { createCase } from '../api/caseApi';
+import { createCase } from "../api/caseApi";
 
 /**
  * @component
  * Form page for creating a new case with subject, category, and rich text details.
  * Handles input changes, form submission, and displays feedback messages.
  *
- * @returns The CreateCase component.
+ * @author Nikola Deja
+ * @author Stine
+ * @returns {JSX.Element} The CreateCase component.
  */
 function CreateCase() {
   const [inputs, setInputs] = useState({
-    subject: '',
-    category: '',
-    details: ''
+    subject: "",
+    category: "",
+    details: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -29,11 +31,11 @@ function CreateCase() {
    * @author Nikola Deja
    */
   const handleChange = (eventOrHtml, maybeFieldName) => {
-    if (typeof eventOrHtml === 'string' && maybeFieldName) {
-      setInputs(values => ({ ...values, [maybeFieldName]: eventOrHtml }));
+    if (typeof eventOrHtml === "string" && maybeFieldName) {
+      setInputs((values) => ({ ...values, [maybeFieldName]: eventOrHtml }));
     } else {
       const { name, value } = eventOrHtml.target;
-      setInputs(values => ({ ...values, [name]: value }));
+      setInputs((values) => ({ ...values, [name]: value }));
     }
   };
 
@@ -46,7 +48,7 @@ function CreateCase() {
    * @function
    * @param event - The form submission event.
    * @returns {Promise<void>}
-   * @author Stine Skroder
+   * @author Stine
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -59,27 +61,26 @@ function CreateCase() {
         subject: inputs.subject,
         details: inputs.details,
       });
-      
+
       console.log("Sak opprettet:", responseData);
 
       setInputs({
-        subject: '',
-        category: '',
-        details: ''
+        subject: "",
+        category: "",
+        details: "",
       });
 
       console.log("Full API response:", responseData);
       setSuccess(true);
     } catch (error) {
       console.error("Feil ved opprettelse av sak:", error);
-      setError(error.message || "Kunne ikke opprette sak. Vennligst prøv igjen.");
+      setError(
+        error.message || "Kunne ikke opprette sak. Vennligst prøv igjen."
+      );
     } finally {
       setIsSubmitting(false);
     }
-
   };
-
-
 
   return (
     <div className={styles.pageContainer}>
@@ -87,10 +88,12 @@ function CreateCase() {
         <div className={styles.title}>
           <h1>Opprett ny sak</h1>
         </div>
-        
+
         {error && <div className={styles.errorMessage}>{error}</div>}
-        {success && <div className={styles.successMessage}>Saken din er opprettet!</div>}
-        
+        {success && (
+          <div className={styles.successMessage}>Saken din er opprettet!</div>
+        )}
+
         <div className={styles.contentContainer}>
           <form onSubmit={handleSubmit}>
             <div className={styles.formRow}>
@@ -104,7 +107,7 @@ function CreateCase() {
                   required
                 />
               </div>
-              
+
               <div className={styles.inputField}>
                 <label className={styles.inputLabel}>Kategori:</label>
                 <select
@@ -113,24 +116,26 @@ function CreateCase() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled hidden>Velg kategori...</option>
+                  <option value="" disabled hidden>
+                    Velg kategori...
+                  </option>
                   <option value="Return">Retur</option>
                   <option value="Claim">Reklamasjon</option>
                 </select>
               </div>
             </div>
-            
+
             <div className={styles.inputField}>
               <label className={styles.inputLabel}>Detaljer:</label>
               <TextEditor
                 name="details"
                 value={inputs.details}
-                onChange={(html) => handleChange(html, 'details')}
+                onChange={(html) => handleChange(html, "details")}
                 required
                 className={styles.textareaField}
               />
             </div>
-            
+
             <div className={styles.buttonContainer}>
               <button
                 type="submit"

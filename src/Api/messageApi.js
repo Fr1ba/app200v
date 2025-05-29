@@ -2,21 +2,26 @@ import { endpoint } from "./endpoint";
 
 /**
  * Sends a new message to the backend for a specific case.
- * 
+ *
  * Validates that the message contains text or images before submission.
  * Constructs a JSON payload wrapped inside a FormData object for the POST request.
- * 
+ *
  * @async
  * @param {Object} params - The parameters for the message.
- * @param {string} params.message - The HTML content of the message.
- * @param {string} params.caseId - The unique identifier of the case.
- * @param {string} params.caseSubject - The subject/title of the case.
- * @param {string} [params.replyToEactId] - Optional ID of the message being replied to.
+ * @param {string} message - The HTML content of the message.
+ * @param {string} caseId - The unique identifier of the case.
+ * @param {string} caseSubject - The subject/title of the case.
+ * @param {string} [replyToEactId] - Optional ID of the message being replied to.
  * @throws {Error} Throws if message is empty or if the HTTP request fails.
  * @returns {Promise<Object>} Resolves with the parsed JSON response from the server.
  * @author Trudy
  */
-export const postMessage = async ({ message, caseId, caseSubject, replyToEactId }) => {
+export const postMessage = async ({
+  message,
+  caseId,
+  caseSubject,
+  replyToEactId,
+}) => {
   const temp = document.createElement("div");
   temp.innerHTML = message;
   const plainText = temp.innerText.trim();
@@ -35,7 +40,9 @@ export const postMessage = async ({ message, caseId, caseSubject, replyToEactId 
     ...(replyToEactId && { replyToEactId }),
   };
 
-  const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+  const jsonBlob = new Blob([JSON.stringify(data)], {
+    type: "application/json",
+  });
   const formData = new FormData();
   formData.append("data", jsonBlob);
 
@@ -54,10 +61,10 @@ export const postMessage = async ({ message, caseId, caseSubject, replyToEactId 
 
 /**
  * Retrieves all messages for a specified case.
- * 
+ *
  * Sends a POST request with search parameters to fetch messages,
  * then returns the messages sorted chronologically by their timestamp.
- * 
+ *
  * @async
  * @param {string} caseId - The unique identifier of the case to fetch messages for.
  * @throws {Error} Throws if the HTTP request fails.

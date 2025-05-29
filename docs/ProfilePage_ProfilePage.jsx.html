@@ -1,4 +1,32 @@
-import React, { useState, useEffect } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProfilePage/ProfilePage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProfilePage/ProfilePage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
 import styles from "./ProfilePage.module.css";
 import { FaHome, FaPhone, FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
@@ -58,7 +86,7 @@ function ProfilePage() {
       return null;
     }
     // Extract the email
-    if (entity.emails && entity.emails.length > 0) {
+    if (entity.emails &amp;&amp; entity.emails.length > 0) {
       setEmail(entity.emails[0].email); // Update state with email
     } else {
       setEmail(null); // if no email is found, the value of email is set to null so a placeholder is shown
@@ -66,7 +94,7 @@ function ProfilePage() {
       return null;
     }
 
-    if (entity.corporation && entity.corporation.phoneNumberPrefix) {
+    if (entity.corporation &amp;&amp; entity.corporation.phoneNumberPrefix) {
       setPhonePrefix(entity.corporation.phoneNumberPrefix);
     } else {
       setPhonePrefix(null);
@@ -254,15 +282,15 @@ function ProfilePage() {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.wrapper}>
-        <div className={styles.contentContainer}>
-          <h1 className={styles.title}>Profil</h1>
-          <form>
-            <label className={styles.inputLabel}>
+    &lt;div className={styles.pageContainer}>
+      &lt;div className={styles.wrapper}>
+        &lt;div className={styles.contentContainer}>
+          &lt;h1 className={styles.title}>Profil&lt;/h1>
+          &lt;form>
+            &lt;label className={styles.inputLabel}>
               Navn
-              <div className={styles.inputField}>
-                <input
+              &lt;div className={styles.inputField}>
+                &lt;input
                   type="text"
                   /*                   value= {newName}
                   onChange={(e) => {
@@ -274,13 +302,13 @@ function ProfilePage() {
                   className={styles["disabled-input"]}
                 />
 
-                <FaUser className={styles.icon} />
-              </div>
-            </label>
-            <label className={styles.inputLabel}>
+                &lt;FaUser className={styles.icon} />
+              &lt;/div>
+            &lt;/label>
+            &lt;label className={styles.inputLabel}>
               Epost
-              <div className={styles.inputField}>
-                <input
+              &lt;div className={styles.inputField}>
+                &lt;input
                   type="email"
                   id="email"
                   readOnly={!isEditable}
@@ -296,27 +324,27 @@ function ProfilePage() {
                       : styles["disabled-input"]
                   }
                 />
-                <IoMdMail className={styles.icon} />
-              </div>
-              {emailError && <p style={{ color: "red" }}>{emailError}</p>}
-            </label>
-            <label className={styles.inputLabel}>
+                &lt;IoMdMail className={styles.icon} />
+              &lt;/div>
+              {emailError &amp;&amp; &lt;p style={{ color: "red" }}>{emailError}&lt;/p>}
+            &lt;/label>
+            &lt;label className={styles.inputLabel}>
               Mobil
-              <div className={styles.inputField}>
-                <input
+              &lt;div className={styles.inputField}>
+                &lt;input
                   type="text"
                   readOnly={true}
                   placeholder={phonePrefix ? phonePrefix : "22334455"}
                   className={styles["disabled-input"]}
                 />
 
-                <FaPhone className={styles.icon} />
-              </div>
-            </label>
-            <label className={styles.inputLabel}>
+                &lt;FaPhone className={styles.icon} />
+              &lt;/div>
+            &lt;/label>
+            &lt;label className={styles.inputLabel}>
               Adresse
-              <div className={styles.inputField}>
-                <input
+              &lt;div className={styles.inputField}>
+                &lt;input
                   type="text"
                   readOnly={!isEditable}
                   value={newAddress ?? ""}
@@ -332,32 +360,55 @@ function ProfilePage() {
                   }
                 />
 
-                <FaHome className={styles.icon} />
-              </div>
-              {addressError && <p style={{ color: "red" }}>{addressError}</p>}
-            </label>
-            <div className={styles.buttonContainer}>
-              <button
+                &lt;FaHome className={styles.icon} />
+              &lt;/div>
+              {addressError &amp;&amp; &lt;p style={{ color: "red" }}>{addressError}&lt;/p>}
+            &lt;/label>
+            &lt;div className={styles.buttonContainer}>
+              &lt;button
                 type="submit"
                 onClick={onSave}
                 className={styles.editButton}
               >
                 {isEditable ? "Lagre endringer" : "Rediger"}
-              </button>
-              {isEditable && (
-                <button
+              &lt;/button>
+              {isEditable &amp;&amp; (
+                &lt;button
                   type="button"
                   onClick={onCancel}
                   className={styles.cancelButton}
                 >
                   Avbryt
-                </button>
+                &lt;/button>
               )}
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+            &lt;/div>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 }
 export default ProfilePage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 21:42:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

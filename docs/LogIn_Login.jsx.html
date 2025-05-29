@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: LogIn/Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: LogIn/Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import styles from "./Login.module.css";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import Logo from "../Logo/Logo";
+import { loginUser } from "../api/authentication";
+
+/**
+ * Login component, handles user login. Uses the loginUser function from
+ * authenticationApi.js to make a POST request to the API. If the request is
+ * successful, redirects the user to the front page. If the request fails, shows
+ * an error message. Remember me checkbox is also handled here.
+ * @component
+ * @return {JSX.Element} The login component.
+ * @author Oda
+ */
+function Login() {
+  const [username, setUsername] = useState(""); //tracks input fields
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  /**
+   * Handles the login form submission.
+   *
+   * Prevents the form from doing a full page reload, shows a loading state,
+   * and then tries to log the user in using the loginUser function from
+   * authenticationApi.js. If the request is successful, redirects the user
+   * to the front page. If the request fails, shows an error message
+   * @function
+   * @param {React.FormEvent&lt;HTMLFormElement>} event - The form submission event.
+   * @author Oda
+   */
+  const handleSubmit = async (event) => {
+    event.preventDefault(); //prevents page from refreshing  
+    setIsLoading(true); 
+
+    try {
+      const response = await loginUser(username, password, rememberMe);
+
+      if (response.ok) {
+        window.location.href = "/";
+      } else {
+        const data = await response.json().catch(() => ({}));// If API response can’t be read as JSON => "Login failed"
+        alert(data.errorMsg || "Login failed"); //successful fetch but with error status, f.ex. unauthorised access
+      }
+    } catch (error) {
+      console.error("Login error:", error); //fetch unsuccesful, e.g. problem with network connection. 
+      alert("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * Toggles the type of the password field between "password" and "text",
+   * showing or hiding the password.
+   * 
+   * @function
+   * @author Oda
+   */
+  const showPassword = () => {
+    setType(type === "password" ? "text" : "password");
+  };
+
+  return (
+    &lt;div className={styles.container}>
+      &lt;div>
+        &lt;div className={styles.logoContainer}>
+          &lt;Logo className={styles.logo} />
+        &lt;/div>
+        &lt;div className={styles.wrapper}>
+          &lt;form onSubmit={handleSubmit}>
+            &lt;h1>Velkommen&lt;/h1>
+            &lt;div className={styles.inputBox}>
+              &lt;input
+                type="text"
+                placeholder="Brukernavn"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              &lt;FaUser className={styles.icon} />
+            &lt;/div>
+            &lt;div className={styles.inputBox}>
+              &lt;input
+                type={type}
+                placeholder="Passord"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              &lt;div className={styles.passwordToggle} onClick={showPassword}>
+                {type === "password" ? &lt;FaEye /> : &lt;FaEyeSlash />}
+              &lt;/div>
+            &lt;/div>
+            &lt;div className={styles.rememberForgot}>
+              &lt;label>
+                &lt;input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}/>
+                Husk meg
+              &lt;/label>
+              &lt;a href="#">Glemt passord?&lt;/a>
+            &lt;/div>
+            &lt;div className={styles.buttonContainer}>
+              &lt;button
+                type="submit"
+                className={styles.button}
+                disabled={isLoading}
+              >
+                {isLoading ? "Laster..." : "Logg inn"}
+              &lt;/button>
+            &lt;/div>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 21:42:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

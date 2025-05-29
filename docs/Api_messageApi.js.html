@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Api/messageApi.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Api/messageApi.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { endpoint } from "./endpoint";
+
+/**
+ * Sends a new message to the backend for a specific case.
+ *
+ * Validates that the message contains text or images before submission.
+ * Constructs a JSON payload wrapped inside a FormData object for the POST request.
+ *
+ * @async
+ * @param {Object} params - The parameters for the message.
+ * @param {string} message - The HTML content of the message.
+ * @param {string} caseId - The unique identifier of the case.
+ * @param {string} caseSubject - The subject/title of the case.
+ * @param {string} [replyToEactId] - Optional ID of the message being replied to.
+ * @throws {Error} Throws if message is empty or if the HTTP request fails.
+ * @returns {Promise&lt;Object>} Resolves with the parsed JSON response from the server.
+ * @author Trudy
+ */
+export const postMessage = async ({
+  message,
+  caseId,
+  caseSubject,
+  replyToEactId,
+}) => {
+  const temp = document.createElement("div");
+  temp.innerHTML = message;
+  const plainText = temp.innerText.trim();
+  const hasImage = message.includes("&lt;img");
+
+  if (!plainText &amp;&amp; !hasImage) {
+    throw new Error("Meldingen kan ikke være tom!");
+  }
+
+  const data = {
+    direction: 2,
+    subject: caseSubject,
+    body: message,
+    createCase: false,
+    caseEactId: caseId,
+    ...(replyToEactId &amp;&amp; { replyToEactId }),
+  };
+
+  const jsonBlob = new Blob([JSON.stringify(data)], {
+    type: "application/json",
+  });
+  const formData = new FormData();
+  formData.append("data", jsonBlob);
+
+  const response = await fetch(`${endpoint}/rest/itxems/message`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
+/**
+ * Retrieves all messages for a specified case.
+ *
+ * Sends a POST request with search parameters to fetch messages,
+ * then returns the messages sorted chronologically by their timestamp.
+ *
+ * @async
+ * @param {string} caseId - The unique identifier of the case to fetch messages for.
+ * @throws {Error} Throws if the HTTP request fails.
+ * @returns {Promise&lt;Object[]>} Resolves with an array of message objects sorted by timestamp.
+ * @author Oda
+ */
+export const getMessages = async (caseId) => {
+  const response = await fetch(`${endpoint}/rest/itxems/message/search`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      getConversations: false,
+      getContent: true,
+      draft: false,
+      caseEactId: caseId,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 21:42:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
