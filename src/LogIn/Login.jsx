@@ -4,6 +4,15 @@ import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Logo from "../Logo/Logo";
 import { loginUser } from "../api/authentication";
 
+/**
+ * Login component, handles user login. Uses the loginUser function from
+ * authenticationApi.js to make a POST request to the API. If the request is
+ * successful, redirects the user to the front page. If the request fails, shows
+ * an error message. Remember me checkbox is also handled here.
+ * @component
+ * @return {JSX.Element} The login component.
+ * @author Oda
+ */
 function Login() {
   const [username, setUsername] = useState(""); //tracks input fields
   const [password, setPassword] = useState("");
@@ -11,6 +20,17 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  /**
+   * Handles the login form submission.
+   *
+   * Prevents the form from doing a full page reload, shows a loading state,
+   * and then tries to log the user in using the loginUser function from
+   * authenticationApi.js. If the request is successful, redirects the user
+   * to the front page. If the request fails, shows an error message
+   * @function
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   * @author Oda
+   */
   const handleSubmit = async (event) => {
     event.preventDefault(); //prevents page from refreshing  
     setIsLoading(true); 
@@ -32,6 +52,13 @@ function Login() {
     }
   };
 
+  /**
+   * Toggles the type of the password field between "password" and "text",
+   * showing or hiding the password.
+   * 
+   * @function
+   * @author Oda
+   */
   const showPassword = () => {
     setType(type === "password" ? "text" : "password");
   };
