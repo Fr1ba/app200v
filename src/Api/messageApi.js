@@ -1,19 +1,6 @@
 import { endpoint } from "./endpoint";
 
 /**
- * Utility functions for interacting with the backend messaging API
- * related to case communication.
- * 
- * Provides functions to send new messages and retrieve existing messages
- * associated with a case. Includes input validation and error handling
- * for HTTP requests.
- * 
- * @module messageApi
- * @author Trudy
- * @author Oda
- */
-
-/**
  * Sends a new message to the backend for a specific case.
  * 
  * Validates that the message contains text or images before submission.
