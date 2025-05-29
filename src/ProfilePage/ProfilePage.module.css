@@ -88,7 +88,7 @@ form {
   width: 180px;
   height: 40px;
   background: var(--brandColor);
-  border: 1px solid var(--borderColor);
+  border: transparent;
   outline: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -102,7 +102,7 @@ form {
 
 
 .editButton:hover {
-  background-color: #518dc5;
+  background-color: #3a89d4;
 }
 
 .cancelButton:hover {

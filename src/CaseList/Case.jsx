@@ -37,12 +37,22 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus, casetimestamp }) {
     // added isSelected variable to determine if the case is selected
     return (
       <div className={`${styles.case} ${isSelected ? styles.selected : ''}`} onClick={handleClick}> 
-        <div> 
-        <p className={styles.text}>{caseTitle}</p>
-            <p>Saksnummer: {caseId}</p>
-        <p className={styles.category}>Kategori: {caseCategory}</p>
-            <p>{casetimestamp.split("T")[0]}</p>
+        <div className={styles.content}>
+          <div className={styles.status}>  
+            {caseStatus ? 'Aktiv' : 'Avsluttet'}
+          </div>
+
+        <div className={styles.titleRow}>
+          <p className={styles.text}>{caseTitle} <span className={styles.caseId}>({caseId})</span></p>
+        </div>
+  
+      <div className={styles.category}>{caseCategory}</div>
+  
+      <div className={styles.date}>
+        {casetimestamp.split("T")[0]}
       </div>
+    </div>
+
       <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
       </div>
       </div>
