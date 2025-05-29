@@ -1,8 +1,14 @@
-// SelectedCase.jsx
-import { createContext, useState } from 'react';
+import { createContext, useState } from "react";
 
 export const CaseContext = createContext();
 
+/**
+ * CaseProvider Component
+ *
+ * Provides the CaseContext to its child components, allowing them to access and modify
+ * the selected case's ID and subject.
+ *
+ */
 export const CaseProvider = ({ children }) => {
     const [caseId, setCaseId] = useState(null);
     const [caseSubject, setCaseSubject] = useState("");

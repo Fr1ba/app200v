@@ -98,7 +98,7 @@ function CaseList() {
     /**
      * Handles the search input field change.
      *
-     * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event.
+     * @param event - Input change event.
      */
     function handleSearch(event) {
         setSearch(event.target.value);

@@ -44,7 +44,7 @@ function CreateCase() {
    * and displays feedback messages based on the result.
    *
    * @function
-   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   * @param event - The form submission event.
    * @returns {Promise<void>}
    * @author Stine Skroder
    */
