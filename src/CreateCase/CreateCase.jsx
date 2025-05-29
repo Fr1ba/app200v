@@ -23,6 +23,7 @@ function CreateCase() {
   /**
    * Handles input changes for both standard form fields and the custom text editor.
    *
+   * @function
    * @param {Event|string} eventOrHtml - Event from input/select or HTML string from the text editor.
    * @param {string} maybeFieldName - Optional field name used for rich text input.
    * @author Nikola Deja
@@ -42,6 +43,7 @@ function CreateCase() {
    * Sends the form data, resets input fields on success,
    * and displays feedback messages based on the result.
    *
+   * @function
    * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
    * @returns {Promise<void>}
    * @author Stine Skroder
