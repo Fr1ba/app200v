@@ -3,23 +3,14 @@
 /* Text editor wrapper and label */
 .editorWrapper {
   width: 100%;
-  max-width: 800px;
-  margin-top: 0;
-  margin-bottom: 25px;
-}
-
-.editorLabel {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 8px;
-  padding-bottom: 5px;
+  margin: 0;
 }
 
 /* Main editor container */
 
 .editorContainer {
   width: 100%;
-  margin: 0 0 25px 0;
+  margin: 0;
   border-radius: 20px 0 20px 20px; 
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
