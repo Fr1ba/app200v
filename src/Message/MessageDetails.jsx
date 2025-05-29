@@ -117,7 +117,7 @@ function MessageDetails() {
 
   return (
     <div>
-      <button className={styles.caseButton} onClick={handleClick}>
+      <button ref={detailsRef} className={styles.caseButton} onClick={handleClick}>
         {buttonText}
         <span
           className={`${styles.arrow} ${
@@ -126,7 +126,7 @@ function MessageDetails() {
         ></span>
       </button>
       {caseDetails && (
-        <div ref={detailsRef} className={styles.caseDetails}>
+        <div className={styles.caseDetails}>
           <h4 className={styles.header}>Detaljer</h4>
           <p>
             <strong>Saksbehandler:</strong> {caseDetails.caseWorker}
