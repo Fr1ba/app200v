@@ -44,6 +44,12 @@
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  visibility: visible;
 }
 .backButton:hover {
   color: #333;
@@ -114,7 +120,6 @@
 }
 .messageForm {
   margin: 0;
-  height: 20%;
   padding: 1rem;
   width: 100%;
   bottom: 0;
@@ -128,6 +133,9 @@
   gap: 2rem;
   display: inherit;
   justify-content: center;
+  padding-top: 30px;
+  bottom:0;
+  background-color: var(--backgroundColor);
 }
 .sendButton {
   color: var(--brandColor);
@@ -148,14 +156,16 @@
 .sendButton:active {
   transform: scale(0.95);
 }
+.error{
+  display: flex;
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+}
 .emptyState {
   display: none;
-}
-/* Tablet view (768px to 991px) */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .chatContainer {
-    top: 150px; 
-  }
 }
 /* Tablet view (768px to 991px) */
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -173,6 +183,12 @@
     width: 60%;
     left: auto; 
     height: calc(100vh - 100px); 
+  }
+  .messageForm{
+    height: 150px;
+  }
+  .backButton{
+    visibility: hidden;
   }
   /* Show empty state on desktop */
   .emptyState {
