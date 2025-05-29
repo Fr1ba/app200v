@@ -84,7 +84,7 @@ function MobileHeader() {
       {menuOpen && (
         <div className={styles.mobileNav}>
           <ul className={styles.mobileNavLinks}>
-            <li><Link to="/" onClick={closeMenu}>Hjem</Link></li>
+            <li><Link to="/" onClick={closeMenu}>Mine saker</Link></li>
             <li><Link to="/CreateCase" onClick={closeMenu}>Opprett ny Sak</Link></li>
             <li><Link to="/ProfilePage" onClick={closeMenu}>Profil</Link></li>
             <li>
@@ -119,7 +119,7 @@ function DesktopHeader() {
         </Link>
        
         <ul className={styles.desktopNavLinks}>
-          <li><Link to="/">Hjem</Link></li>
+          <li><Link to="/">Mine saker</Link></li>
           <li><Link to="/CreateCase">Opprett ny Sak</Link></li>
         </ul>
       </div>
