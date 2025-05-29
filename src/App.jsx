@@ -17,6 +17,8 @@ function App() {
 
     // Revalidate when the route changes
     useEffect(() => {
+        console.log("Here")
+
         const validateUserOnNavigation = async () => {
             setLoading(true);
 
