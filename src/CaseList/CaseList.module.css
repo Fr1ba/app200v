@@ -175,7 +175,7 @@
     }
     
     .controls {
-        padding-top: 20px;
+        font-style: italic;
         gap: 10px;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -205,7 +205,7 @@
 
 @media screen and (max-width: 420px) {
     .controls {
-        padding-top: 40px;
+        padding-top: 10px;
         gap: 15px; 
         flex-direction: row; 
         justify-content: center; 
