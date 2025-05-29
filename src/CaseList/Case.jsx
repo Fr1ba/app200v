@@ -17,7 +17,7 @@ import { CaseContext } from "../SelectedCase.jsx";
  * @returns The case component.
  * @author Nikola Deja
  */
-function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
+function Case({ caseId, caseTitle, caseCategory, caseStatus, casetimestamp }) {
   const { caseId: selectedCaseId, setCaseId, setCaseSubject } = useContext(CaseContext); // added caseId: selectedCaseId
 
 
@@ -33,13 +33,15 @@ function Case({ caseId, caseTitle, caseCategory, caseStatus }) {
     // Check if this case is the currently selected one
     const isSelected = selectedCaseId === caseId;
 
+
     // added isSelected variable to determine if the case is selected
     return (
       <div className={`${styles.case} ${isSelected ? styles.selected : ''}`} onClick={handleClick}> 
         <div> 
-        <p className={styles.text}>Emne: {caseTitle}</p>
+        <p className={styles.text}>{caseTitle}</p>
             <p>Saksnummer: {caseId}</p>
         <p className={styles.category}>Kategori: {caseCategory}</p>
+            <p>{casetimestamp.split("T")[0]}</p>
       </div>
       <div className={styles.circle} style={caseStatus ? {backgroundColor: "lightgreen"} : {backgroundColor: "lightgray"}}>
       </div>
