@@ -33,113 +33,119 @@
  * routing, and the conditional rendering of components based on the user's login status.
  */
 
-import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {IsLoggedIn} from "./api/authentication.js";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { IsLoggedIn } from "./api/authentication.js";
 import Login from "./Login/Login.jsx";
 import Header from "./Header/header.jsx";
 import CaseList from "./CaseList/CaseList.jsx";
 import CreateCase from "./CreateCase/CreateCase.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
 import Message from "./Message/Message.jsx";
-import {CaseProvider} from "./SelectedCase.jsx";
+import { CaseProvider } from "./SelectedCase.jsx";
 
 /**
  * App Component
  *
  * Handles user authentication status, manages routing, and conditionally renders components
  * based on whether the user is logged in.
- *
+ * @component
  */
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);
+  const location = useLocation(); // Detect route changes
+  const navigate = useNavigate(); // To redirect user when invalid
 
-    const location = useLocation(); // Detect route changes
-    const navigate = useNavigate(); // To redirect user when invalid
-
+  /**
+   * Effect hook to validate user authentication status whenever the route changes.
+   */
+  useEffect(() => {
     /**
-     * Effect hook to validate user authentication status whenever the route changes.
+     * Validates the user's login status.
+     *
+     * Revalidates the user's authentication state and redirects to the login page if the user
+     * becomes invalid (i.e., not logged in).
+     *
+     * @async
+     * @function validateUserOnNavigation
      */
-    useEffect(() => {
-        /**
-         * Validates the user's login status.
-         *
-         * Revalidates the user's authentication state and redirects to the login page if the user
-         * becomes invalid (i.e., not logged in).
-         *
-         * @async
-         * @function validateUserOnNavigation
-         */
-        const validateUserOnNavigation = async () => {
-            setLoading(true);
+    const validateUserOnNavigation = async () => {
+      setLoading(true);
 
-            try {
-                const loggedIn = await IsLoggedIn();
-                if (loggedIn !== isLoggedIn) {
-                    setIsLoggedIn(loggedIn);
+      try {
+        const loggedIn = await IsLoggedIn();
+        if (loggedIn !== isLoggedIn) {
+          setIsLoggedIn(loggedIn);
 
-                    // Redirect to login if the user becomes invalid
-                    if (!loggedIn) {
-                        navigate("/Login");
-                    }
-                }
-            } catch (error) {
-                console.error("Error validating user:", error);
-                setIsLoggedIn(false);
-                navigate("/Login");
-            } finally {
-                setLoading(false);
-            }
-        };
+          // Redirect to login if the user becomes invalid
+          if (!loggedIn) {
+            navigate("/Login");
+          }
+        }
+      } catch (error) {
+        console.error("Error validating user:", error);
+        setIsLoggedIn(false);
+        navigate("/Login");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        validateUserOnNavigation();
-    }, [location, navigate]); // Runs whenever the route (`location`) changes
+    validateUserOnNavigation();
+  }, [location, navigate]); // Runs whenever the route (`location`) changes
 
-    /**
-     * Renders an empty fragment while loading authentication status.
-     */
-    if (loading) return &lt;>&lt;/>;
+  /**
+   * Renders an empty fragment while loading authentication status.
+   */
+  if (loading) return &lt;>&lt;/>;
 
-    return (
-        &lt;CaseProvider>
-            {isLoggedIn ? (
+  return (
+    &lt;CaseProvider>
+      {isLoggedIn ? (
+        &lt;>
+          {/* Render Header and the main routes if the user is logged in */}
+          &lt;Header />
+          &lt;Routes>
+            {/* Navigate To default if going to Login while already logged in */}
+            &lt;Route path="/Login" element={&lt;Navigate to="/" />} />
+            &lt;Route
+              path="/"
+              element={
                 &lt;>
-                    {/* Render Header and the main routes if the user is logged in */}
-                    &lt;Header/>
-                    &lt;Routes>
-                        {/* Navigate To default if going to Login while already logged in */}
-                        &lt;Route path="/Login" element={&lt;Navigate to="/"/>}/>
-                        &lt;Route
-                            path="/"
-                            element={
-                                &lt;>
-                                    &lt;CaseList/>
-                                    &lt;Message/>
-                                &lt;/>
-                            }
-                        />
-                        &lt;Route path="/CreateCase" element={&lt;CreateCase/>}/>
-                        &lt;Route path="/ProfilePage" element={&lt;ProfilePage/>}/>
-                        &lt;Route path="/Login" element={&lt;Login/>}/>
-                    &lt;/Routes>
+                  &lt;CaseList />
+                  &lt;Message />
                 &lt;/>
-            ) : (
-                // Show only the Login page if not logged in
-                &lt;Routes>
-                    &lt;Route path="/Login" element={&lt;Login/>}/>
-                    &lt;Route
-                        path="*"
-                        element={&lt;Login/>} // Redirect all invalid routes to Login
-                    />
-                &lt;/Routes>
-            )}
-        &lt;/CaseProvider>
-    );
+              }
+            />
+            &lt;Route path="/CreateCase" element={&lt;CreateCase />} />
+            &lt;Route path="/ProfilePage" element={&lt;ProfilePage />} />
+            &lt;Route path="/Login" element={&lt;Login />} />
+          &lt;/Routes>
+        &lt;/>
+      ) : (
+        // Show only the Login page if not logged in
+        &lt;Routes>
+          &lt;Route path="/Login" element={&lt;Login />} />
+          &lt;Route
+            path="*"
+            element={&lt;Login />} // Redirect all invalid routes to Login
+          />
+        &lt;/Routes>
+      )}
+    &lt;/CaseProvider>
+  );
 }
 
-export default App;</code></pre>
+export default App;
+</code></pre>
         </article>
     </section>
 
@@ -149,13 +155,13 @@ export default App;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Case.html">Case</a></li><li><a href="CaseList.html">CaseList</a></li><li><a href="CreateCase.html">CreateCase</a></li><li><a href="DesktopHeader.html">DesktopHeader</a></li><li><a href="Header.html">Header</a></li><li><a href="Login.html">Login</a></li><li><a href="Logo.html">Logo</a></li><li><a href="Message.html">Message</a></li><li><a href="MessageDetails.html">MessageDetails</a></li><li><a href="MobileHeader.html">MobileHeader</a></li><li><a href="ProfilePage.html">ProfilePage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#IsLoggedIn">IsLoggedIn</a></li><li><a href="global.html#Logout">Logout</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#ProfileIcon">ProfileIcon</a></li><li><a href="global.html#endpoint">endpoint</a></li><li><a href="global.html#fetchCases">fetchCases</a></li><li><a href="global.html#fetchEntity">fetchEntity</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#getPlainText">getPlainText</a></li><li><a href="global.html#hasContent">hasContent</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#notisArray">notisArray</a></li><li><a href="global.html#postMessage">postMessage</a></li><li><a href="global.html#profileOptions">profileOptions</a></li><li><a href="global.html#updateProfile">updateProfile</a></li><li><a href="global.html#validateUserOnNavigation">validateUserOnNavigation</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 21:42:24 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu May 29 2025 22:04:29 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
