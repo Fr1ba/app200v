@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { BsEnvelope, BsSend } from "react-icons/bs";
-
+import { BsEnvelope, BsSend, BsArrowLeft } from "react-icons/bs";
 import DOMPurify from "dompurify";
 import styles from "./Message.module.css";
 import TextEditor from "../TextEditor/TextEditor.jsx";
@@ -97,11 +96,13 @@ function Message() {
         <>
           {messages.length > 0 && (
             <div className={styles.headerContainer}>
-              <button
-                className={styles.backButton}
-                onClick={() => setIsVisible(false)}
-                aria-label="Tilbake"
-              />
+            <button
+              className={styles.backButton}
+              onClick={() => setIsVisible(false)}
+              aria-label="Tilbake"
+            >
+              <BsArrowLeft />
+            </button>
               <h3 className={styles.subjectline}>
                 {messages[0].subject || caseSubject || "(uten tittel)"}
               </h3>
@@ -138,7 +139,9 @@ function Message() {
                 <BsSend />
               </button>
             </form>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <div className={styles.error}>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+            </div>
           </div>
         </>
       ) : (
