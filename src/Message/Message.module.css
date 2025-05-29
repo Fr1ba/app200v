@@ -118,14 +118,15 @@
   bottom: 0;
   display: flex;
   gap: 1rem; 
-  align-items: flex-end; 
+  align-items: flex-end;
+  position: fixed;
 }
 
 .messageForm form {
   display: flex;
   max-width: 600px; 
   width: 100%;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
   justify-content: center; 
 }

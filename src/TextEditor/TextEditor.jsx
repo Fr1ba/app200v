@@ -173,8 +173,10 @@ const TextEditor = forwardRef(({ value, onChange }, ref) => {
   }, [value]);
 
   return (
-    <div className={styles.editorContainer}>
-      <div ref={editorRef} />
+    <div className ={styles.editorWrapper}>
+      <div className={styles.editorContainer}>
+        <div ref={editorRef} />
+      </div>
     </div>
   );
 });
