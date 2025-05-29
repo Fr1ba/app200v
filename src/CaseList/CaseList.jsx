@@ -41,6 +41,7 @@ function CaseList() {
         const uniqueCases = Array.from(
           new Map(responseData.map((item) => [item.caseEactId, item])).values()
         );
+        console.log(uniqueCases);
         setList(uniqueCases);
         CreateCases(uniqueCases);
       })
@@ -58,7 +59,7 @@ function CaseList() {
     function CreateCases(listOfCases) {
         setCaseList(listOfCases.map((caseItem) =>
             <Case key={caseItem.eactId} caseId={caseItem.caseEactId} caseTitle={caseItem.subject} caseCategory={caseItem.kategori || "Retur"}
-                  caseStatus={caseItem.eactId}/>))
+                  caseStatus={caseItem.eactId} casetimestamp={caseItem.timestamp} />))
 
     }
 
