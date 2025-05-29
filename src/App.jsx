@@ -1,10 +1,3 @@
-/**
- * App.jsx
- *
- * This component serves as the root of the React application. It manages user authentication,
- * routing, and the conditional rendering of components based on the user's login status.
- */
-
 import {
   Navigate,
   Route,
@@ -28,6 +21,8 @@ import { CaseProvider } from "./SelectedCase.jsx";
  * Handles user authentication status, manages routing, and conditionally renders components
  * based on whether the user is logged in.
  * @component
+ * @returns {JSX.Element} JSX element representing the App component
+ * @author Michal
  */
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +43,7 @@ function App() {
      *
      * @async
      * @function validateUserOnNavigation
+     * @author Michal
      */
     const validateUserOnNavigation = async () => {
       setLoading(true);
