@@ -153,7 +153,11 @@ function CaseList() {
                 </div>
 
 
-                <input type="text" placeholder="Søk..." className={styles.search} onChange={handleSearch}/>
+                <div className={styles.searchWrapper}>
+                    <input type="text" placeholder="Søk..." className={styles.search} value={search} onChange={handleSearch}/>
+                    <button type="button" className={styles.clearButton} onClick={() => setSearch("")}>×</button>
+                </div>
+
 
 
                 <div className={styles.dropdown}>
