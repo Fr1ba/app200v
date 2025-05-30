@@ -41,7 +41,6 @@ function CaseList() {
         const uniqueCases = Array.from(
           new Map(responseData.map((item) => [item.caseEactId, item])).values()
         );
-        console.log(uniqueCases);
         setList(uniqueCases);
         CreateCases(uniqueCases);
       })
@@ -181,19 +180,3 @@ function CaseList() {
 }
 
 export default CaseList;
-
-/*
-function Filter(action){
-caseList = list.filter(action).map((caseItem) =>
-    <Case caseTitle={caseItem.caseTitle} caseCategory={caseItem.caseCategory}
-          caseStatus={caseItem.caseStatus}/>)
-//return (list.map(caseItem.caseCategory :true => <cas))
-}
-
-return(
-<div>
-    <select>
-        <option onClick={() => Filter(item => item.caseStatus || !item.caseStatus)}>Filters</option>
-        <option onClick={() => Filter(item => item.caseStatus)}>Active</option>
-        <option onClick={() => Filter(item => !item.caseStatus)}>Passive</option>
-    </select>*/
