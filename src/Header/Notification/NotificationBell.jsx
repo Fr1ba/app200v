@@ -72,7 +72,7 @@ function notisArray(){
     <ul className={styles.notificationBox}>
       {notisList.map((noti, index) => (
       <li className={styles.notifications} key={index}>
-          <strong>Case {index}:</strong> {noti}
+          <strong>Sak {index}:</strong> {noti}
       </li>))
       }
     </ul>
