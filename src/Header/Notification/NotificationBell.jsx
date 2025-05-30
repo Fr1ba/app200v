@@ -67,7 +67,7 @@ function NotificationBell() {
  * @author Erica Laub Varpe
  */
 function notisArray(){
-  const notisList = ["Ny melding", "Case oppdatert", "Case lukket"];
+  const notisList = ["Ny melding", "Sak oppdatert", "Sak lukket"];
   return (
     <ul className={styles.notificationBox}>
       {notisList.map((noti, index) => (
