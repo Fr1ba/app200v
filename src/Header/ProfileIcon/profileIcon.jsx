@@ -2,18 +2,7 @@ import {useState, useEffect, useRef} from "react";
 import {CircleUser} from "lucide-react";
 import {Link} from "react-router-dom"; 
 import styles from './profileIcon.module.css';
-
-const endpoint = "https://app06.itxnorge.no"
-/**
- * @author Michal
- */
-async function Logout() {
-    await fetch(`${endpoint}/rest/core/logout`, {
-        method: 'POST',
-        credentials: 'include'
-    });
-    window.location.href = '/Login';
-}
+import { logoutUser } from "../../api/authentication";
 
 /**
  * Implement a profile icon for desktopview.
@@ -67,8 +56,18 @@ function ProfileIcon() {
 function profileOptions() {
     return (
         <ul className={styles.dropDown}>
-            <li className={styles.dropDownItems}><Link to="/ProfilePage">Profil</Link></li>
-            <li className={styles.dropDownItems} onClick={Logout}>Logg ut</li>
+            <li className={styles.dropDownItems}>
+                <Link to="/ProfilePage">Profil</Link>
+            </li>
+            <li
+                className={styles.dropDownItems}
+                onClick={async () => {
+                    await logoutUser();
+                    window.location.href = '/Login';
+                }}
+            >
+                Logg ut
+            </li>
         </ul>
     );
 }
