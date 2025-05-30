@@ -55,7 +55,7 @@ function MessageDetails() {
         caseWorker: "Venter på tildeling av saksbehandler",
         createdDate: "Ingen opprettelsesdato funnet",
         status: "Aktiv",
-        priority: "Høy",
+        caseNumber: "Ikke tilgjengelig",
         category: "Retur",
       });
       return;
@@ -86,14 +86,14 @@ function MessageDetails() {
       caseWorker: caseWorker || "Venter på tildeling av saksbehandler",
       createdDate: date || "Ingen opprettelsesdato funnet",
       status: data.status || "Aktiv",
-      priority: data.priority || "Høy",
+      caseNumber: caseId || "Høy",
       category: data.category || "Retur",
     };
     setCaseDetails(details);
   };
 
   /**
-   * Makes it so when you click outside of the open casedetails dropdown, the dropdown closes. 
+   * Makes it so when you click outside of the open casedetails dropdown, the dropdown closes.
    * @function
    * @author Erica Laub Varpe
    */
@@ -117,7 +117,11 @@ function MessageDetails() {
 
   return (
     <div>
-      <button ref={detailsRef} className={styles.caseButton} onClick={handleClick}>
+      <button
+        ref={detailsRef}
+        className={styles.caseButton}
+        onClick={handleClick}
+      >
         {buttonText}
         <span
           className={`${styles.arrow} ${
@@ -138,7 +142,7 @@ function MessageDetails() {
             <strong>Status:</strong> {caseDetails.status}
           </p>
           <p>
-            <strong>Prioritet:</strong> {caseDetails.priority}
+            <strong>Saksnummer:</strong> {caseDetails.caseNumber}
           </p>
           <p>
             <strong>Kategori:</strong> {caseDetails.category}
