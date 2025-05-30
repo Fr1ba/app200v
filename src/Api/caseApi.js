@@ -25,7 +25,7 @@ export const fetchCases = async () => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch cases");
+    throw new Error("Feil ved henting av saker");
   }
 
   return await response.json();

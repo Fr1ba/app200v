@@ -53,7 +53,7 @@ export const postMessage = async ({
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`Feil ved sending av melding: ${response.status}`);
   }
 
   return response.json();
@@ -85,7 +85,7 @@ export const getMessages = async (caseId) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`Feil ved henting av meldinger: ${response.status}`);
   }
 
   const data = await response.json();

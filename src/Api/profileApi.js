@@ -14,7 +14,7 @@ import { endpoint } from "./endpoint";
           });
           console.log(`${endpoint}/rest/itxems/entity`);
           if (!response.ok)
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`Feil ved henting av bruker: ${response.status}`);
     
           const entity = await response.json();
           return entity;
@@ -42,7 +42,7 @@ import { endpoint } from "./endpoint";
 
     return response.json();
   } catch (error) {
-    console.error("En feil skjedde ved oppdatering av profil:", error);
+    console.error("Feil ved oppdatering av profil:", error);
     throw error; 
   }
   };
